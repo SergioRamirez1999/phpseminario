@@ -1,0 +1,817 @@
+body {
+    margin: inherit;
+    padding: inherit;
+    background-color: rgb(21, 32, 43);
+    font-family: sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    margin: inherit;
+    padding: inherit;
+}
+
+
+/*######################
+#####GENERAL CONFIG#####
+#######################*/
+
+.box-icon-example {
+    width: 30px;
+    height: 30px;
+    background-color: #eee;
+    border-radius: 4px;
+}
+
+.box-user-logo-example {
+    width: 63px;
+    height: 63px;
+    background-color: grey;
+    border-radius: 36px;
+}
+
+.center-container {
+    flex-basis: 1300px;
+    margin-top: 25px;
+}
+
+/*### LEFT CONTENT ###*/
+
+.left-content {
+    border-radius: 15px;
+}
+
+.lk-logo-web {
+    align-self: flex-start;
+}
+
+.sidebar-container {
+    width: 210px;
+    height: 250px;
+    background-color: #fff;
+    border-radius: 15px;
+    margin-top: 23px;
+}
+
+.navigator-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: baseline;
+
+}
+
+.option-title {
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.comment-button-content {
+    width: 145px;
+    height: 50px;
+    margin-top: 30px;
+    background-color: white;
+    border-radius: 15px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.between-content {
+    width: 670px;
+    height: 100%;
+    margin-top: 20px;
+}
+
+/*#### ESTILOS ESPECIFICOS HOME PAGE *CREAR COMENTARIO* ####*/
+
+.commentary-content {
+    width: 100%;
+    height: 130px;
+    background-color: white;
+    border-radius: 17px;
+}
+
+.comment-center {
+    width: 94%;
+    height: 100px;
+}
+
+.user-commentary-content {
+    width: 100%;
+    height: 100%;
+    margin-left: 10px;
+}
+
+
+.input-commentary {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+    outline-style: none;
+    overflow: hidden;
+}
+
+.menu-comment-content {
+    width: 13%;
+    height: 30px;
+    margin-left: 80px;
+    margin-top: 20px;
+}
+
+
+/*#### ESTILOS ESPECIFICOS PROFILE PAGE *SECCION PERFIL DE USUARIO* ####*/
+
+.user-profile-content {
+    height: 350px;
+    width: 100%;
+    background-color: white;
+}
+
+.top-content-profile {
+    width: 100%;
+    height: 60%;
+    background-color: #D9E6E6;
+}
+
+.mid-content-profile {
+    width: 100%;
+    height: 10%;
+}
+
+.profile-center-content {
+    width: 95%;
+    height: 100%;
+}
+
+.profile-user-image {
+    position: relative;
+    top: -70px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    background-color: grey;
+}
+
+.button-edit {
+    width: 80px;
+    height: 35px;
+    border-radius: 18px;
+    border: 1.3px solid rgb(29, 161, 242);
+    color: rgb(29, 161, 242);
+    margin-top: 8px;
+}
+
+.button-edit:hover {
+    background-color: #E6FFFF;
+}
+
+.bottom-content-profile {
+    width: 100%;
+    height: 30%;
+}
+
+.user-info-content {
+    height: 100%;
+    padding: 0px 8px 0px 8px;
+}
+
+
+/*### POST ###*/
+
+.post-layout-content {
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 18px;
+}
+
+.left-layout-content {
+    width: 10%;
+    flex-shrink: 0;
+}
+
+.user-logo-content {
+    margin-top: 10px;
+}
+
+.user-username-content {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.user-username {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.edit-post {
+    margin-right: 10px;
+}
+
+.between-content-post {
+    width: 90%;
+}
+
+.bottom-content-post {
+    border: 1px solid grey;
+    border-radius: 13px;
+    width: 90%;
+    height: 30px;
+    margin-top: 13px;
+    margin-bottom: 13px;
+}
+
+.menu-option {
+    width: 75px;
+    margin-left: 8px;
+}
+
+.menu-option span {
+    margin-left: 4px;
+    font-size: 13px;
+}
+
+/*### RIGHT CONTENT ###*/
+
+.right-content {
+    width: 240px;
+    height: 800px;
+}
+
+.browser-content {
+    width: 230px;
+    height: 40px;
+    background-color: white;
+    border-radius: 17px;
+}
+
+.browser-center-content {
+    margin-left: 14px;
+}
+
+.input-search-brw {
+    border: none;
+    outline-style: none;
+    margin-left: 3px;
+}
+
+.trending-comments-content {
+    height: 400px;
+    margin-top: 13px;
+    background-color: white;
+    border-radius: 15px;
+
+}
+
+.comments-center-content {
+    height: 100%;
+}
+
+.trending-title {
+    text-align: center;
+    color: rgb(0, 0, 0, 0.5);
+    padding: 5px 0px 5px 0px;
+}
+
+.comments-content {
+    height: 70%;
+}
+
+.cmt-ctn {
+    height: 60px;
+    width: 80%;
+    text-align: center;
+    margin: auto;
+    padding: 5px;
+    border: 1px solid rgb(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.comment {
+    font-size: 14px;
+    color: rgb(0, 0, 0, 0.7);
+}
+
+.trending-users-content {
+    height: 300px;
+    border-radius: 17px;
+    margin-top: 30px;
+    background-color: white;
+}
+
+.user-trend-cnt {
+    height: 210px;
+    width: 80%;
+}
+
+
+.user-trend-username {
+    margin-left: 10px;
+    color: rgb(0, 0, 0, 0.7);
+}
+
+/*######### FIN GENERAL CONFIG ##########*/
+
+
+/*#####################
+#### DEFAULT CONFIG #####
+#######################*/
+
+/*## BOTONES ##*/
+
+
+.btn {
+    border: none;
+    height: 1.7rem;
+    min-width: 90px;
+    padding: 3px 5px 3px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    transition: background 130ms ease-in-out, transform 150ms ease;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background-color: rgb(29, 161, 242);
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #EB4D43;
+    color: #fff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: RGB(59, 181, 255, 0.7);
+}
+
+.btn-danger:hover,
+.btn-danger:focus {
+    background-color: #C24138;
+}
+
+/*### CAJAS FLEXIBLES ###*/
+
+.fx {
+    display: flex;
+}
+
+.fx-column {
+    flex-direction: column;
+}
+
+.fx-jc-ctr {
+    justify-content: center;
+}
+
+.fx-jc-btw {
+    justify-content: space-between;
+}
+
+.fx-jc-sa {
+    justify-content: space-around;
+}
+
+.fx-jc-fs {
+    justify-content: flex-start;
+}
+
+.fx-jc-fe {
+    justify-content: flex-end;
+}
+
+.fx-ai-ctr {
+    align-items: center;
+}
+
+
+/*### LOGO WEB ###*/
+
+.logo-web {
+    width: 40px;
+    height: 40px;
+}
+
+
+/*### NAVIGATOR ###*/
+
+.navigator-menu {
+    height: 35px;
+    width: 100%;
+    background-color: #fff;
+}
+
+.nav-menu-opt {
+    cursor: pointer;
+    flex-grow: 1;
+    padding: 8px 0px 8px 0px;
+}
+
+.nav-menu-opt:hover {
+    background-color: #E6FFFF;
+    color: rgb(29, 161, 242);
+}
+
+.opt-selected {
+    border-bottom: 2px solid rgb(29, 161, 242);
+    color: rgb(29, 161, 242);
+}
+
+/*### ICONS ###*/
+
+.icon-sidebar {
+    font-size: 28px;
+}
+
+/*################ FIN DEFAULT CONFIG ##############*/
+
+
+/*##################
+#####INDEX PAGE#####
+####################*/
+
+
+/* SECCION HEADER */
+
+.header-container {
+    margin-top: 20px;
+}
+
+
+.buttons-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 205px;
+}
+
+
+/*###### SECCION BODY CONTAINER #####*/
+
+.body-container {
+    margin-top: 20px;
+}
+
+/* LEFT CONTENT */
+
+.center-container-idx {
+    flex-wrap: wrap;
+    flex-basis: 950px;
+}
+
+.explore-container {
+    flex-basis: 520px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.title-content {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+.displayer-content {
+    margin-top: 15px;
+}
+
+.post-displayed-content {
+    margin-bottom: 15px;
+}
+
+.post-displayed-content img {
+    width: 100%;
+    max-height: 250px;
+}
+
+
+/* SIDE CONTAINER */
+
+.side-container {
+    flex-basis: 300px;
+}
+
+.welcome-content {
+    height: 250px;
+    border-radius: 15px;
+}
+
+.welcome-content img {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+.footer-container {
+    height: 370px;
+    width: 100%;
+    margin-top: 50px;
+    background-color: #4A4A4A;
+    border-radius: 15px;
+    color: #fff;
+}
+
+.ctr-foot-container {
+    width: 92%;
+    height: 92%;
+    border-top: 1px solid #CFCFCF;
+    border-bottom: 1px solid #CFCFCF;
+}
+
+.social-network-container {
+    color: #fff;
+    font-size: 24px;
+    height: 60%;
+}
+
+.footer-text {
+    color: #fff;
+}
+
+
+
+/*###################
+########MODALS#######
+##################### */
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.main-container {
+    width: 400px;
+    height: 550px;
+    background-color: #21212E;
+    border-radius: 15px;
+    margin-top: 50px;
+}
+
+.top-content {
+    width: 94%;
+    height: 12%;
+    align-self: center;
+}
+
+.padding-top {
+    width: 33%;
+}
+
+.signup-step {
+    width: 33%;
+    color: rgb(29, 161, 242);
+}
+
+
+.form-container {
+    width: 80%;
+    height: 450px;
+}
+
+.form-title {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.label-input {
+    color: white;
+    font-size: 17px;
+}
+
+.row-input-content {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.input-content input {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+}
+
+.btn-content {
+    align-self: flex-end;
+}
+
+.up-img-container {
+    margin-bottom: 30px;
+}
+
+.up-user-img {
+    width: 120px;
+    height: 120px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.center-content h3 {
+    color: #FFFFFF;
+}
+
+.prev-step-container {
+    width: 55%;
+    cursor: pointer;
+}
+
+.prev-step-img {
+    width: 24px;
+    height: 24px;
+}
+
+.prev-step-span {
+    color: white;
+    font-size: 13px;
+    margin-left: 4px;
+}
+
+.edit-container {
+    margin-top: 30px;
+}
+
+.edit-row-content {
+    text-align: center;
+    color: #fff;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #fefefe;
+}
+
+.edit-opt {
+    cursor: pointer;
+}
+
+.edit-opt:hover {
+    color: rgb(29, 161, 242);
+}
+
+
+/*############## FIN MODALS ###############*/
+
+
+/*############
+### EXTRAS ###
+#############*/
+
+.warning-message {
+    margin-top: 5px;
+    color: rgb(224, 168, 0);
+    font-size: 14px;
+}
+
+.error-message {
+    margin-top: 5px;
+    color: rgb(200, 35, 51);
+    font-size: 14px;
+}
+
+.success-message {
+    margin-top: 5px;
+    color: rgb(33, 136, 56);
+    font-size: 14px;
+}
+
+.flicker-message {
+  animation: flicker 0.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;  
+}
+@keyframes flicker { to { opacity: 0; } }
+
+
+
+/*###################
+########MEDIAS#######
+##################### */
+
+/*######## INDEX PAGE ##########*/
+
+@media(max-width: 940px) {
+    .center-content {
+        justify-content: center;
+    }
+
+    .welcome-content {
+        display: none;
+    }
+
+    .side-container {
+        flex-direction: row;
+        align-content: center;
+        flex-basis: 580px;
+        margin-left: 0px;
+    }
+
+    .footer-container {
+        height: 150px;
+        margin-top: 10px;
+    }
+    
+    .social-network-container {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        height: auto;
+        width: 30%;
+    }
+
+}
+
+
+/*######## HOME, PROFILE PAGE ##########*/
+
+/*### CAMBIOS SIDEBAR ###*/
+/*SE TRANSFORMA EN BOTONERA*/
+
+
+@media(max-width: 1350px) {
+
+    .center-container {
+        justify-content: space-around;
+        width: auto;
+    }
+
+    .icon-sidebar {
+        color: #fff
+    }
+
+    .left-content {
+        align-content: center;
+    }
+
+    .lk-logo-web {
+        align-self: center;
+    }
+
+    .sidebar-container {
+        background-color: inherit;
+        width: 80px;
+    }
+
+    .option-title {
+        display: none;
+    }
+
+    .comment-button-content {
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+    }
+
+
+    .btn-title {
+        display: none;
+    }
+}
+
+
+/*### RIGHT CONTENT DESAPARECE ###*/
+/*### SE ACOMODA EL BETWEEN-CONTENT Y EL LEFT-CONTENT AL CENTRO ###*/
+
+
+@media(max-width: 1160px) {
+    .center-container {
+        justify-content: center;
+        width: auto;
+    }
+
+
+    .right-content {
+        display: none;
+    }
+}
+
+/*### PERMITIR LA COMPRESION DEL BETWEEN-CONTENT ###*/
+
+@media(max-width: 770px) {
+    .between-content {
+        width: auto;
+    }
+
+    body {
+        padding: 0px 7px 0px 0px;
+    }
+
+
+    .menu-comment-content {
+        width: 110px;
+    }
+}
+
+
+/*############## FIN MEDIAS ###############*/
