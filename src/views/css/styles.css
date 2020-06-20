@@ -195,7 +195,10 @@ h4 {
 
 .left-layout-content {
     width: 10%;
-    flex-shrink: 0;
+}
+
+.right-layout-content {
+    width: 90%;
 }
 
 .user-logo-content {
@@ -207,9 +210,14 @@ h4 {
     margin-bottom: 5px;
 }
 
-.user-username {
-    font-size: 15px;
+.user-name {
+    font-size: 18px;
     font-weight: bold;
+}
+
+.user-username {
+    font-size: 16px;
+    color: grey;
 }
 
 .edit-post {
@@ -540,6 +548,20 @@ h4 {
 
 .footer-text {
     color: #fff;
+}
+
+/*###################
+########FOLLOWS PAGE#######
+##################### */
+
+
+.follows-layout-content {
+    background-color: #fff;
+    border-top: 1px solid rgba(106, 105, 110, 0.3);
+}
+
+.follows-button {
+    margin-right: 13px;
 }
 
 

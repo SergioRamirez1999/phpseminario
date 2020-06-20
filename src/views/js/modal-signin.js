@@ -7,6 +7,7 @@ import {
     printMessage
 } from './modal-helper.js';
 
+
 const signinContent =
     `<div class="main-container fx fx-column">
         <div class="top-content fx fx-ai-ctr fx-jc-btw">
@@ -14,7 +15,7 @@ const signinContent =
             <div class="padding-top"></div>
 
             <div class="web-logo-content">
-                <img src="./img/logo-white.png" class="logo-web" alt="">
+                <img src="views/img/logo-white.png" class="logo-web" alt="">
             </div>
             <div class="padding-top">
             </div>
@@ -53,37 +54,33 @@ const signinContent =
     </div>`;
 
 
-
-
-
-const signinModal = createModal(signinContent);
-signinModal.printModal();
-
-signinModal.container.style = 'display: none';
-signinModal.content.style = 'display: none';
-
-
 const btnSignin = document.getElementById('btn-signin');
 
 btnSignin.addEventListener('click', () => {
 
-    const btnEnter = document.getElementById('btn-enter');
-    const inputEmail = document.getElementById('input-signin-email');
-    const inputPassword = document.getElementById('input-signin-password');
+    const signinModal = createModal(signinContent);
+    signinModal.printModal();
+    signinModal.container.style = 'background-color: rgba(255,255,255,0.3)'
+
+    const btnEnter = signinModal.content.querySelector('#btn-enter');
+    const inputEmail = signinModal.content.querySelector('#input-signin-email');
+    const inputPassword = signinModal.content.querySelector('#input-signin-password');
 
 
     btnEnter.addEventListener('click', () => {
         let emailValue = inputEmail.value;
         let passwordValue = inputPassword.value;
         
-        const emailContainerEl = document.getElementById('email-signin-container');
-        const passwordContainerEl = document.getElementById('password-signin-container');
+        const emailContainerEl = signinModal.content.querySelector('#email-signin-container');
+        const passwordContainerEl = signinModal.content.querySelector('#password-signin-container');
         if (validateEmail(emailValue)) {
             if(emailContainerEl.getElementsByClassName('error-message')[0] != undefined)
                 emailContainerEl.removeChild(emailContainerEl.getElementsByClassName('error-message')[0])
             if(validatePassword(passwordValue)){
                 if(passwordContainerEl.getElementsByClassName('error-message')[0] != undefined)
                     passwordContainerEl.removeChild(passwordContainerEl.getElementsByClassName('error-message')[0])
+
+                document.location.href = 'http://localhost/phpseminario/src?page=home';
                 //intentar sigin
             }else {
                 let errorMsgEl = passwordContainerEl.getElementsByClassName('error-message')[0];
@@ -105,18 +102,9 @@ btnSignin.addEventListener('click', () => {
 
     });
 
-    signinModal.container.style = 'background-color: rgba(255,255,255,0.3); display: flex';
-    signinModal.content.style = 'display: block';
     signinModal.container.addEventListener('click', (e) => {
         if (e.target == signinModal.container) {
-            signinModal.container.style = 'display: none';
-            signinModal.content.style = 'display: none';
-            inputEmail.value = "";
-            inputPassword.value = "";
-            const emailContainerEl = document.getElementById('email-signin-container');
-            let errorMsgEl = emailContainerEl.querySelector('.error-message');
-            if (errorMsgEl != undefined)
-                emailContainerEl.removeChild(errorMsgEl);
+            signinModal.removeModal();
         }
     });
 });

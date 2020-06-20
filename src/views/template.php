@@ -6,24 +6,42 @@
     <title>Seminario</title>
     <link rel="stylesheet" href="views/css/fontello.css">
     <link rel="stylesheet" href="views/css/styles.css">
-    <script type="module" src="views/js/main.js"></script>
+    
 </head>
 <body>
-<div class="fx fx-jc-ctr">
-    <!-- UTILIZADO PARA EL RESPONSIVE-->
-    <div class="center-container fx fx-jc-btw">
-        <?php
-            include 'pages/modules/sidebar.php';
-        ?>
 
-        <section class="between-content" id="between-content"></section>
-        <?php
-            include 'pages/modules/trending.php';
-        ?>
 
-    </div>
+<?php
 
-</div>
+    if(isset($_GET["page"])){
+        echo '<div class="fx fx-jc-ctr">
+        <!-- UTILIZADO PARA EL RESPONSIVE-->
+            <div class="center-container fx fx-jc-btw">';
+        switch($_GET["page"]){
+            case "home": 
+                include 'pages/home.php';
+            break;
+            case "profile":
+                include 'pages/profile.php';
+            break;
+            case "follows":
+                include 'pages/follows.php';
+            break;
+        }
+
+        echo '    </div>
+
+        </div>';
+
+    }else {
+        include 'pages/init.php';
+    }
+    
+    
+?>
+
+
+
     
 </body>
 </html>

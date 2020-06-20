@@ -6,11 +6,10 @@
     <div class="sidebar-container fx fx-jc-ctr">
 
         <nav class="navigator-container">
-            <a href="#">
+            <a href="http://localhost/phpseminario/src?page=home">
 
 
                 <div class="fx fx-jc-sa fx-ai-ctr">
-                    <!--                       <img src="/img/logo-home-option.png" alt="home">-->
                     <div class="icon-sidebar icon-home"></div>
                     <span class="option-title">Inicio</span>
                 </div>
@@ -28,7 +27,7 @@
                     <span class="option-title">Mis likes</span>
                 </div>
             </a>
-            <a href="profile.html">
+            <a href="http://localhost/phpseminario/src?page=profile">
                 <div class="fx fx-jc-sa fx-ai-ctr">
                     <div class="icon-sidebar icon icon-user"></div>
                     <span class="option-title">Perfil</span>
@@ -36,7 +35,6 @@
             </a>
 
         </nav>
-
 
 
     </div>

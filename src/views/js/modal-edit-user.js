@@ -17,7 +17,7 @@ const editMenuTemplate =
             <div class="padding-top"></div>
 
             <div class="web-logo-content">
-                <img src="../img/logo-white.png" class="logo-web" alt="">
+                <img src="views/img/logo-white.png" class="logo-web" alt="">
             </div>
 
             <div class="padding-top"></div>
@@ -52,13 +52,13 @@ const editNameTemplate =
 
             <div class="padding-top">
                 <div class="prev-step-container fx fx-ai-ctr">
-                    <img src="../img/previous-step.png" alt="previous step" class="prev-step-img">
+                    <img src="views/img/previous-step.png" alt="previous step" class="prev-step-img">
                     <span class="prev-step-span" id="btn-prev-1">Atras</span>
                 </div>
             </div>
 
             <div class="web-logo-content">
-                <img src="../img/logo-white.png" class="logo-web" alt="">
+                <img src="views/img/logo-white.png" class="logo-web" alt="">
             </div>
             
             <div class="padding-top"></div>
@@ -94,13 +94,13 @@ const editLastnameTemplate =
 
             <div class="padding-top">
                 <div class="prev-step-container fx fx-ai-ctr">
-                    <img src="../img/previous-step.png" alt="previous step" class="prev-step-img">
+                    <img src="views/img/previous-step.png" alt="previous step" class="prev-step-img">
                     <span class="prev-step-span" id="btn-prev-2">Atras</span>
                 </div>
             </div>
 
             <div class="web-logo-content">
-                <img src="../img/logo-white.png" class="logo-web" alt="">
+                <img src="views/img/logo-white.png" class="logo-web" alt="">
             </div>
             
             <div class="padding-top"></div>
@@ -136,13 +136,13 @@ const editEmailTemplate =
 
             <div class="padding-top">
                 <div class="prev-step-container fx fx-ai-ctr">
-                    <img src="../img/previous-step.png" alt="previous step" class="prev-step-img">
+                    <img src="views/img/previous-step.png" alt="previous step" class="prev-step-img">
                     <span class="prev-step-span" id="btn-prev-3">Atras</span>
                 </div>
             </div>
 
             <div class="web-logo-content">
-                <img src="../img/logo-white.png" class="logo-web" alt="">
+                <img src="views/img/logo-white.png" class="logo-web" alt="">
             </div>
             
             <div class="padding-top"></div>
@@ -178,13 +178,13 @@ const editPictureTemplate =
 
             <div class="padding-top">
                 <div class="prev-step-container fx fx-ai-ctr">
-                    <img src="../img/previous-step.png" alt="previous step" class="prev-step-img">
+                    <img src="views/img/previous-step.png" alt="previous step" class="prev-step-img">
                     <span class="prev-step-span" id="btn-prev-4">Atras</span>
                 </div>
             </div>
 
             <div class="web-logo-content">
-                <img src="../img/logo-white.png" class="logo-web" alt="">
+                <img src="views/img/logo-white.png" class="logo-web" alt="">
             </div>
             
             <div class="padding-top"></div>
@@ -201,7 +201,7 @@ const editPictureTemplate =
                     <h3 class="form-title">Elige tu foto de perfil</h3>
 
                     <div class="upload-img-content">
-                        <img src="../img/upload-user-image.png" class="up-user-img" alt="upload user image">
+                        <img src="views/img/upload-user-image.png" class="up-user-img" alt="upload user image">
                     </div>
 
                     <div>
@@ -226,13 +226,13 @@ const editPasswordTemplate =
 
             <div class="padding-top">
                 <div class="prev-step-container fx fx-ai-ctr">
-                    <img src="../img/previous-step.png" alt="previous step" class="prev-step-img">
+                    <img src="views/img/previous-step.png" alt="previous step" class="prev-step-img">
                     <span class="prev-step-span" id="btn-prev-5">Atras</span>
                 </div>
             </div>
 
             <div class="web-logo-content">
-                <img src="../img/logo-white.png" class="logo-web" alt="">
+                <img src="views/img/logo-white.png" class="logo-web" alt="">
             </div>
             
             <div class="padding-top"></div>

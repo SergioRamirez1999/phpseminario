@@ -41,6 +41,9 @@ export function createModal(content) {
         container: modalContainer,
         printModal: () => {
             document.body.appendChild(modalContainer)
+        },
+        removeModal: () => {
+            modalContainer.remove();
         }
     }
 }

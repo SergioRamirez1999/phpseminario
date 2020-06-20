@@ -1,0 +1,15 @@
+src?page=[pagename] -> src/pagename -> pagename.php
+
+src?menu=[optmenu] -> src/optmenu -> init.php
+
+src?username=SERGIOD32123 -> src/SERGIOD32123 -> profile.php
+src?username=SERGIOD32123&menu=[optmenu] -> src/SERGIOD32123/optmenu -> profile.php
+
+src?username=SERGIOD32123&profile=[optprofile] -> src/SERGIOD32123/optprofile -> profile.php
+
+src?search=query -> src/search/query -> search.php
+
+
+optprofile = [photo, followings, followers]
+optmenu = [comentarios, imagenes, likes]
+pagename = [home, profile, likes, search, trending]
