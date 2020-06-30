@@ -276,228 +276,244 @@ const editPasswordTemplate =
         </div>
     </div>`
 
-
-const modalEditMenu = createModal(editMenuTemplate);
-const modalEditName = createModal(editNameTemplate);
-const modalEditLastname = createModal(editLastnameTemplate);
-const modalEditEmail = createModal(editEmailTemplate);
-const modalEditPassword = createModal(editPasswordTemplate);
-const modalEditPicture = createModal(editPictureTemplate);
-
-const modals = [];
-modals.push(modalEditMenu);
-modals.push(modalEditName);
-modals.push(modalEditLastname);
-modals.push(modalEditEmail);
-modals.push(modalEditPicture);
-modals.push(modalEditPassword);
-
-
-modals.forEach((e, i) => {
-
-    e.printModal();
-    e.container.style = 'display: none';
-    e.content.style = 'display: none';
-
-    if (i == 0) {
-
-        e.container.addEventListener('click', (ev) => {
-            if (ev.target == e.container) {
-                e.container.style = 'display: none';
-                e.content.style = 'display: none';
-
-                formsContainersEl.forEach((containerEl) => {
-
-                    let errorMessages = containerEl.querySelectorAll('.error-message');
-
-                    errorMessages.forEach((errorEl) => {
-
-                        errorEl.parentNode.removeChild(errorEl);
-
-                    })
-
-                });
-
-                //clean fields
-                inputName.value = "";
-                inputLastname.value = "";
-                inputEmail.value = "";
-                inputActualPassword.value = "";
-                inputNewPassword.value = "";
-                inputRepetedPassword.value = "";
-            }
-        });
-
-
-    }
-
-    if (i > 0) {
-        const btnPrev = document.getElementById('btn-prev-' + i);
-
-        if (btnPrev != undefined) {
-            btnPrev.addEventListener('click', () => {
-                e.container.style = 'display: none';
-                e.content.style = 'display: none';
-
-                //clean fields
-                inputName.value = "";
-                inputLastname.value = "";
-                inputEmail.value = "";
-                inputActualPassword.value = "";
-                inputNewPassword.value = "";
-                inputRepetedPassword.value = "";
-            });
-        }
-    }
-
-});
-
 const btnEditUser = document.getElementById('btn-edit-user');
-const btnNameOption = document.getElementById('btn-edit-name');
-const btnLastnameOption = document.getElementById('btn-edit-lastname');
-const btnEmailOption = document.getElementById('btn-edit-email');
-const btnPictureOption = document.getElementById('btn-edit-picture');
-const btnPasswordOption = document.getElementById('btn-edit-password');
 
-const formsContainersEl = document.querySelectorAll('.form-container');
+if(btnEditUser != undefined){
 
-const nameContainerEl = document.getElementById('name-edit-container');
-const lastnameContainerEl = document.getElementById('lastname-edit-container');
-const emailContainerEl = document.getElementById('email-edit-container');
-const actualPasswordContainerEl = document.getElementById('password-actual-edit-container');
-const newPasswordContainerEl = document.getElementById('password-new-edit-container');
-const repetedPasswordContainerEl = document.getElementById('password-repeted-edit-container');
+    const modalEditMenu = createModal(editMenuTemplate);
+    const modalEditName = createModal(editNameTemplate);
+    const modalEditLastname = createModal(editLastnameTemplate);
+    const modalEditEmail = createModal(editEmailTemplate);
+    const modalEditPassword = createModal(editPasswordTemplate);
+    const modalEditPicture = createModal(editPictureTemplate);
 
-const inputName = document.getElementById('input-edit-name');
-const inputLastname = document.getElementById('input-edit-lastname');
-const inputEmail = document.getElementById('input-edit-email');
-const inputActualPassword = document.getElementById('input-edit-password-actual');
-const inputNewPassword = document.getElementById('input-edit-password-new');
-const inputRepetedPassword = document.getElementById('input-edit-password-repeted');
+    const modals = [];
+    modals.push(modalEditMenu);
+    modals.push(modalEditName);
+    modals.push(modalEditLastname);
+    modals.push(modalEditEmail);
+    modals.push(modalEditPicture);
+    modals.push(modalEditPassword);
 
 
-const btnSaveName = document.getElementById('btn-name-save');
-const btnSaveLastname = document.getElementById('btn-lastname-save');
-const btnSaveEmail = document.getElementById('btn-email-save');
-const btnSavePicture = document.getElementById('btn-picture-save');
-const btnSavePassword = document.getElementById('btn-password-save');
+    modals.forEach((e, i) => {
+
+        e.printModal();
+        e.container.style = 'display: none';
+        e.content.style = 'display: none';
+
+        if (i == 0) {
+
+            e.container.addEventListener('click', (ev) => {
+                if (ev.target == e.container) {
+                    e.container.style = 'display: none';
+                    e.content.style = 'display: none';
+
+                    formsContainersEl.forEach((containerEl) => {
+
+                        let errorMessages = containerEl.querySelectorAll('.error-message');
+
+                        errorMessages.forEach((errorEl) => {
+
+                            errorEl.parentNode.removeChild(errorEl);
+
+                        })
+
+                    });
+
+                    //clean fields
+                    inputName.value = "";
+                    inputLastname.value = "";
+                    inputEmail.value = "";
+                    inputActualPassword.value = "";
+                    inputNewPassword.value = "";
+                    inputRepetedPassword.value = "";
+                }
+            });
 
 
-btnEditUser.addEventListener('click', () => {
-    modalEditMenu.container.style = 'background-color: rgba(255,255,255,0.3); display: flex';
-    modalEditMenu.content.style = 'display: block';
-});
-
-btnNameOption.addEventListener('click', () => {
-    modalEditName.container.style = 'display: flex';
-    modalEditName.content.style = 'display: block';
-});
-
-btnLastnameOption.addEventListener('click', () => {
-    modalEditLastname.container.style = 'display: flex';
-    modalEditLastname.content.style = 'display: block';
-});
-
-btnEmailOption.addEventListener('click', () => {
-    modalEditEmail.container.style = 'display: flex';
-    modalEditEmail.content.style = 'display: block';
-});
-
-btnPictureOption.addEventListener('click', () => {
-    modalEditPicture.container.style = 'display: flex';
-    modalEditPicture.content.style = 'display: block';
-});
-
-btnPasswordOption.addEventListener('click', () => {
-    modalEditPassword.container.style = 'display: flex';
-    modalEditPassword.content.style = 'display: block';
-});
-
-
-
-btnSaveName.addEventListener('click', () => {
-
-    if (validateName(inputName.value)) {
-        if (nameContainerEl.querySelector('.error-message') != undefined)
-            nameContainerEl.removeChild(nameContainerEl.querySelector('.error-message'));
-        
-        //guardar nombre
-        
-    } else {
-        let errorMessageEl = nameContainerEl.querySelector('.error-message');
-        if (errorMessageEl == undefined) {
-            printMessage('name-edit-container', 'Al menos 6 caracteres alfanumericos', 'error');
-        } else {
-            setFlickingMessage(errorMessageEl)
         }
-    }
 
-});
+        if (i > 0) {
+            const btnPrev = document.getElementById('btn-prev-' + i);
 
-btnSaveLastname.addEventListener('click', () => {
+            if (btnPrev != undefined) {
+                btnPrev.addEventListener('click', () => {
+                    e.container.style = 'display: none';
+                    e.content.style = 'display: none';
 
-    if (validateLastname(inputLastname.value)) {
-        if (lastnameContainerEl.querySelector('.error-message') != undefined)
-            lastnameContainerEl.removeChild(lastnameContainerEl.querySelector('.error-message'));
-        
-        //guardar apellido
-        
-    } else {
-        let errorMessageEl = lastnameContainerEl.querySelector('.error-message');
-        if (errorMessageEl == undefined) {
-            printMessage('lastname-edit-container', 'Al menos 6 caracteres alfanumericos', 'error');
-        } else {
-            setFlickingMessage(errorMessageEl)
+                    //clean fields
+                    inputName.value = "";
+                    inputLastname.value = "";
+                    inputEmail.value = "";
+                    inputActualPassword.value = "";
+                    inputNewPassword.value = "";
+                    inputRepetedPassword.value = "";
+                });
+            }
         }
-    }
 
-});
+    });
 
-btnSaveEmail.addEventListener('click', () => {
 
-    if (validateEmail(inputEmail.value)) {
-        if (emailContainerEl.querySelector('.error-message') != undefined)
-            emailContainerEl.removeChild(emailContainerEl.querySelector('.error-message'));
-        
-        //guardar email
-        
-    } else {
-        let errorMessageEl = emailContainerEl.querySelector('.error-message');
-        if (errorMessageEl == undefined) {
-            printMessage('email-edit-container', 'Ingrese un correo electronico valido', 'error');
-        } else {
-            setFlickingMessage(errorMessageEl)
-        }
-    }
+    const btnNameOption = document.getElementById('btn-edit-name');
+    const btnLastnameOption = document.getElementById('btn-edit-lastname');
+    const btnEmailOption = document.getElementById('btn-edit-email');
+    const btnPictureOption = document.getElementById('btn-edit-picture');
+    const btnPasswordOption = document.getElementById('btn-edit-password');
 
-});
+    const formsContainersEl = document.querySelectorAll('.form-container');
 
-btnSavePassword.addEventListener('click', () => {
-    
-    //validar formato password actual
-    if (validatePassword(inputActualPassword.value)) {
-        if (actualPasswordContainerEl.querySelector('.error-message') != undefined)
-            actualPasswordContainerEl.removeChild(actualPasswordContainerEl.querySelector('.error-message'));
-        
-        //validar formato password nueva
-        if(validatePassword(inputNewPassword.value)){
+    const nameContainerEl = document.getElementById('name-edit-container');
+    const lastnameContainerEl = document.getElementById('lastname-edit-container');
+    const emailContainerEl = document.getElementById('email-edit-container');
+    const actualPasswordContainerEl = document.getElementById('password-actual-edit-container');
+    const newPasswordContainerEl = document.getElementById('password-new-edit-container');
+    const repetedPasswordContainerEl = document.getElementById('password-repeted-edit-container');
+
+    const inputName = document.getElementById('input-edit-name');
+    const inputLastname = document.getElementById('input-edit-lastname');
+    const inputEmail = document.getElementById('input-edit-email');
+    const inputActualPassword = document.getElementById('input-edit-password-actual');
+    const inputNewPassword = document.getElementById('input-edit-password-new');
+    const inputRepetedPassword = document.getElementById('input-edit-password-repeted');
+
+
+    const btnSaveName = document.getElementById('btn-name-save');
+    const btnSaveLastname = document.getElementById('btn-lastname-save');
+    const btnSaveEmail = document.getElementById('btn-email-save');
+    const btnSavePicture = document.getElementById('btn-picture-save');
+    const btnSavePassword = document.getElementById('btn-password-save');
+
+
+    btnEditUser.addEventListener('click', () => {
+        modalEditMenu.container.style = 'background-color: rgba(255,255,255,0.3); display: flex';
+        modalEditMenu.content.style = 'display: block';
+    });
+
+    btnNameOption.addEventListener('click', () => {
+        modalEditName.container.style = 'display: flex';
+        modalEditName.content.style = 'display: block';
+    });
+
+    btnLastnameOption.addEventListener('click', () => {
+        modalEditLastname.container.style = 'display: flex';
+        modalEditLastname.content.style = 'display: block';
+    });
+
+    btnEmailOption.addEventListener('click', () => {
+        modalEditEmail.container.style = 'display: flex';
+        modalEditEmail.content.style = 'display: block';
+    });
+
+    btnPictureOption.addEventListener('click', () => {
+        modalEditPicture.container.style = 'display: flex';
+        modalEditPicture.content.style = 'display: block';
+    });
+
+    btnPasswordOption.addEventListener('click', () => {
+        modalEditPassword.container.style = 'display: flex';
+        modalEditPassword.content.style = 'display: block';
+    });
+
+
+
+    btnSaveName.addEventListener('click', () => {
+
+        if (validateName(inputName.value)) {
+            if (nameContainerEl.querySelector('.error-message') != undefined)
+                nameContainerEl.removeChild(nameContainerEl.querySelector('.error-message'));
             
-            if (newPasswordContainerEl.querySelector('.error-message') != undefined)
-                newPasswordContainerEl.removeChild(newPasswordContainerEl.querySelector('.error-message'));
+            //guardar nombre
             
-            //validar igualdad password nueva - password repetida
-            if(inputNewPassword.value === inputRepetedPassword.value){
-                if (repetedPasswordContainerEl.querySelector('.error-message') != undefined)
-                    repetedPasswordContainerEl.removeChild(repetedPasswordContainerEl.querySelector('.error-message'));
-                
-                
-                //hacer peticion para comprobar la contrasenia actual con la de la bbdd
-                
-                
+        } else {
+            let errorMessageEl = nameContainerEl.querySelector('.error-message');
+            if (errorMessageEl == undefined) {
+                printMessage('name-edit-container', 'Al menos 6 caracteres alfanumericos', 'error');
             } else {
-                let errorMessageEl = repetedPasswordContainerEl.querySelector('.error-message');
+                setFlickingMessage(errorMessageEl)
+            }
+        }
+
+    });
+
+    btnSaveLastname.addEventListener('click', () => {
+
+        if (validateLastname(inputLastname.value)) {
+            if (lastnameContainerEl.querySelector('.error-message') != undefined)
+                lastnameContainerEl.removeChild(lastnameContainerEl.querySelector('.error-message'));
+            
+            //guardar apellido
+            
+        } else {
+            let errorMessageEl = lastnameContainerEl.querySelector('.error-message');
+            if (errorMessageEl == undefined) {
+                printMessage('lastname-edit-container', 'Al menos 6 caracteres alfanumericos', 'error');
+            } else {
+                setFlickingMessage(errorMessageEl)
+            }
+        }
+
+    });
+
+    btnSaveEmail.addEventListener('click', () => {
+
+        if (validateEmail(inputEmail.value)) {
+            if (emailContainerEl.querySelector('.error-message') != undefined)
+                emailContainerEl.removeChild(emailContainerEl.querySelector('.error-message'));
+            
+            //guardar email
+            
+        } else {
+            let errorMessageEl = emailContainerEl.querySelector('.error-message');
+            if (errorMessageEl == undefined) {
+                printMessage('email-edit-container', 'Ingrese un correo electronico valido', 'error');
+            } else {
+                setFlickingMessage(errorMessageEl)
+            }
+        }
+
+    });
+
+    btnSavePassword.addEventListener('click', () => {
+        
+        //validar formato password actual
+        if (validatePassword(inputActualPassword.value)) {
+            if (actualPasswordContainerEl.querySelector('.error-message') != undefined)
+                actualPasswordContainerEl.removeChild(actualPasswordContainerEl.querySelector('.error-message'));
+            
+            //validar formato password nueva
+            if(validatePassword(inputNewPassword.value)){
+                
+                if (newPasswordContainerEl.querySelector('.error-message') != undefined)
+                    newPasswordContainerEl.removeChild(newPasswordContainerEl.querySelector('.error-message'));
+                
+                //validar igualdad password nueva - password repetida
+                if(inputNewPassword.value === inputRepetedPassword.value){
+                    if (repetedPasswordContainerEl.querySelector('.error-message') != undefined)
+                        repetedPasswordContainerEl.removeChild(repetedPasswordContainerEl.querySelector('.error-message'));
+                    
+                    
+                    //hacer peticion para comprobar la contrasenia actual con la de la bbdd
+                    
+                    
+                } else {
+                    let errorMessageEl = repetedPasswordContainerEl.querySelector('.error-message');
+                    if (errorMessageEl == undefined) {
+                        printMessage('password-repeted-edit-container', 'Las contraseñias no coinciden', 'error');
+                    } else {
+                        setFlickingMessage(errorMessageEl)
+                    }
+                    
+                }
+                
+                
+                
+            }else {
+                
+                let errorMessageEl = newPasswordContainerEl.querySelector('.error-message');
                 if (errorMessageEl == undefined) {
-                    printMessage('password-repeted-edit-container', 'Las contraseñias no coinciden', 'error');
+                    printMessage('password-new-edit-container', 'Al menos 6 caracteres alfanumericos', 'error');
                 } else {
                     setFlickingMessage(errorMessageEl)
                 }
@@ -505,28 +521,17 @@ btnSavePassword.addEventListener('click', () => {
             }
             
             
-            
-        }else {
-            
-            let errorMessageEl = newPasswordContainerEl.querySelector('.error-message');
+        } else {
+            let errorMessageEl = actualPasswordContainerEl.querySelector('.error-message');
             if (errorMessageEl == undefined) {
-                printMessage('password-new-edit-container', 'Al menos 6 caracteres alfanumericos', 'error');
+                printMessage('password-actual-edit-container', 'Al menos 6 caracteres alfanumericos, un caracter en mayuscula y un simbolo', 'error');
             } else {
                 setFlickingMessage(errorMessageEl)
             }
-            
         }
-        
-        
-    } else {
-        let errorMessageEl = actualPasswordContainerEl.querySelector('.error-message');
-        if (errorMessageEl == undefined) {
-            printMessage('password-actual-edit-container', 'Al menos 6 caracteres alfanumericos, un caracter en mayuscula y un simbolo', 'error');
-        } else {
-            setFlickingMessage(errorMessageEl)
-        }
-    }
 
-});
+    });
 
 
+
+}

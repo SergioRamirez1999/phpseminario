@@ -1,5 +1,8 @@
 src?page=[pagename] -> src/pagename -> pagename.php
 
+IF SESSION ACTIVED
+src?page=home -> src/home -> home.php
+
 src?menu=[optmenu] -> src/optmenu -> init.php
 
 src?username=SERGIOD32123 -> src/SERGIOD32123 -> profile.php

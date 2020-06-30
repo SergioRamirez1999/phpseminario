@@ -4,9 +4,12 @@
             <div class="icon-search">
 
             </div>
-            <input class="input-search-brw" type="text" placeholder="personas, keywords">
+            <input class="input-search-brw input-search"  type="text" placeholder="personas, keywords">
         </div>
     </div>
+
+    <script type="module" src="views/js/search.js"></script>
+
     <section class="trending-comments-content">
         <div class="comments-center-content">
 
@@ -46,7 +49,6 @@
 
 
                     <div class="user-logo">
-                        <!--                            <img src="/img/user-logo.png" alt="user logo">-->
                         <div class="box-icon-example"></div>
                     </div>
                     <div class="user-trend-username">
@@ -59,7 +61,6 @@
 
 
                     <div class="user-logo">
-                        <!--                            <img src="/img/user-logo.png" alt="user logo">-->
                         <div class="box-icon-example"></div>
                     </div>
                     <div class="user-trend-username">
@@ -73,7 +74,6 @@
 
 
                     <div class="user-logo">
-                        <!--                            <img src="/img/user-logo.png" alt="user logo">-->
                         <div class="box-icon-example"></div>
                     </div>
                     <div class="user-trend-username">

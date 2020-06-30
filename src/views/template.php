@@ -15,7 +15,6 @@
 
     if(isset($_GET["page"])){
         echo '<div class="fx fx-jc-ctr">
-        <!-- UTILIZADO PARA EL RESPONSIVE-->
             <div class="center-container fx fx-jc-btw">';
         switch($_GET["page"]){
             case "home": 
@@ -26,6 +25,9 @@
             break;
             case "follows":
                 include 'pages/follows.php';
+            break;
+            case "search":
+                include 'pages/search.php';
             break;
         }
 

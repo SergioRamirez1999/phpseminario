@@ -101,7 +101,6 @@ h4 {
 
 .comment-center {
     width: 94%;
-    height: 100px;
 }
 
 .user-commentary-content {
@@ -121,10 +120,46 @@ h4 {
 }
 
 .menu-comment-content {
-    width: 13%;
-    height: 30px;
-    margin-left: 80px;
+    width: 100%;
     margin-top: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.menu-comment-left-buttons {
+    width: 60%;
+}
+
+.menu-comment-right-buttons {
+    width: 40%;
+}
+
+.file-to-upload {
+    padding: 3px;
+    border: 1px solid grey;
+    background-color:rgb(29, 161, 242);
+}
+
+.file-remove-btn {
+    border: 1px solid grey;
+    margin-left: 5px;
+    padding: 1px;
+    cursor: pointer;
+}
+
+.file-name {
+    font-size: 13px;
+}
+
+.commentary-characters {
+    padding: 0px 5px 0px 5px;
+    font-size: 14px;
+    color: grey;
+}
+
+
+.upload-file>input{
+    display: none;
 }
 
 
@@ -158,20 +193,31 @@ h4 {
     width: 100px;
     height: 100px;
     border-radius: 50px;
-    background-color: grey;
 }
 
 .button-edit {
-    width: 80px;
+    padding: 0px 8px 0px 8px;
     height: 35px;
     border-radius: 18px;
     border: 1.3px solid rgb(29, 161, 242);
     color: rgb(29, 161, 242);
     margin-top: 8px;
+    cursor: pointer;
 }
 
 .button-edit:hover {
     background-color: #E6FFFF;
+}
+
+
+.button-follow {
+    padding: 0px 8px 0px 8px;
+    height: 35px;
+    background-color: #00acee;
+    border-radius: 18px;
+    color: #FFFFFF;
+    margin-top: 8px;
+    cursor: pointer;
 }
 
 .bottom-content-profile {
@@ -187,6 +233,7 @@ h4 {
 
 /*### POST ###*/
 
+
 .post-layout-content {
     margin-top: 20px;
     background-color: #fff;
@@ -197,12 +244,19 @@ h4 {
     width: 10%;
 }
 
-.right-layout-content {
-    width: 90%;
+.user-logo-container {
+    margin-top: 10px;
 }
 
-.user-logo-content {
-    margin-top: 10px;
+.user-logo-container>img {
+    max-width: 100%;
+    max-height: 50px;
+    border-radius: 100%;
+}
+
+
+.right-layout-content{
+    width: 90%;
 }
 
 .user-username-content {
@@ -215,13 +269,29 @@ h4 {
     font-weight: bold;
 }
 
-.user-username {
+.post-user-name {
     font-size: 16px;
+    font-weight: bold;
+}
+
+.post-user-username {
+    font-size: 14px;
+    color: grey;
+}
+
+.post-fecha {
+    padding-left: 4px;
+    font-size: 13px;
     color: grey;
 }
 
 .edit-post {
     margin-right: 10px;
+}
+
+.image-post-container>img {
+    max-width: 100%;
+    max-height: 400px;
 }
 
 .between-content-post {
@@ -256,6 +326,13 @@ h4 {
 
 .browser-content {
     width: 230px;
+    height: 40px;
+    background-color: white;
+    border-radius: 17px;
+}
+
+.browser-content-large {
+    width: 330px;
     height: 40px;
     background-color: white;
     border-radius: 17px;
@@ -550,11 +627,9 @@ h4 {
     color: #fff;
 }
 
-/*###################
-########FOLLOWS PAGE#######
-##################### */
-
-
+/*##################
+#####FOLLOWS PAGE#####
+####################*/
 .follows-layout-content {
     background-color: #fff;
     border-top: 1px solid rgba(106, 105, 110, 0.3);
@@ -592,6 +667,8 @@ h4 {
     height: 12%;
     align-self: center;
 }
+
+
 
 .padding-top {
     width: 33%;
@@ -643,6 +720,7 @@ h4 {
     height: 120px;
     color: #fff;
     margin-bottom: 5px;
+    border-radius: 100%;
 }
 
 .center-content h3 {
@@ -790,6 +868,7 @@ h4 {
     }
 
     .comment-button-content {
+        cursor: pointer;
         width: 50px;
         height: 50px;
         border-radius: 100%;
@@ -829,11 +908,41 @@ h4 {
         padding: 0px 7px 0px 0px;
     }
 
-
-    .menu-comment-content {
-        width: 110px;
-    }
 }
 
 
 /*############## FIN MEDIAS ###############*/
+
+.top-layout-container {
+    margin-bottom: 20px;
+}
+
+.top-content-cmt {
+    width: 94%;
+    height: 55px;
+    align-self: center;
+}
+
+.main-container-cmt {
+    width: 400px;
+    height: 390px;
+    background-color: #21212E;
+    border-radius: 15px;
+    margin-top: 50px;
+}
+
+.commentary-content-large {
+    margin-top: 30px;
+    width: 90%;
+    height: 130px;
+    background-color: white;
+    border-radius: 17px;
+}
+
+.btn-send-commentary {
+    width: 100px;
+    margin-top: 20px;
+    margin-right: 20px;
+    align-self: flex-end;
+}
+

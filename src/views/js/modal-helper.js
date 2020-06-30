@@ -91,9 +91,9 @@ export function printMessage(nodeId, message, level) {
 
 }
 
-const REGEX_NAME = /^[a-zA-Z ]{6,}$/;
-const REGEX_LASTNAME = /^[a-zA-Z ]{6,}$/;
+const REGEX_NAME = /^[a-zA-Z ]+$/;
+const REGEX_LASTNAME = /^[a-zA-Z ]+$/;
 const REGEX_USERNAME = /^[a-zA-Z0-9]{6,}$/;
-const REGEX_EMAIL = /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/;
-const REGEX_PASSWORD = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{6,}$/;
+const REGEX_EMAIL = /^([a-zA-Z0-9]+)([\.a-z0-9]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/;
+const REGEX_PASSWORD = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9#?!@$%^&*-]).{6,}$/;
 

@@ -1,7 +1,7 @@
 import {
     createModal,
     createCustomElement,
-    validateEmail,
+    validateUsername,
     validatePassword,
     setFlickingMessage,
     printMessage
@@ -22,17 +22,17 @@ const signinContent =
 
         </div>
         <div class="fx fx-jc-ctr">
-            <div class="form-container fx fx-column">
+            <div class="form-container fx fx-column" id="form-signin">
 
                 <div class="form-title">
                     <h2>Iniciar sesion</h2>
                 </div>
                 
 
-                <div class="row-input-content" id="email-signin-container">
-                    <label for="user-email" class="label-input">Correo electronico</label>
+                <div class="row-input-content" id="username-signin-container">
+                    <label for="user-username" class="label-input">Nombre de usuario</label>
                     <div class="input-content">
-                        <input id="input-signin-email" type="email" name="user-email">
+                        <input id="input-signin-username" type="text" name="user-username">
                     </div>
                 </div>
 
@@ -63,25 +63,58 @@ btnSignin.addEventListener('click', () => {
     signinModal.container.style = 'background-color: rgba(255,255,255,0.3)'
 
     const btnEnter = signinModal.content.querySelector('#btn-enter');
-    const inputEmail = signinModal.content.querySelector('#input-signin-email');
+    const inputUsername = signinModal.content.querySelector('#input-signin-username');
     const inputPassword = signinModal.content.querySelector('#input-signin-password');
 
-
-    btnEnter.addEventListener('click', () => {
-        let emailValue = inputEmail.value;
+    
+    btnEnter.addEventListener('click', (e) => {
+        let usernameValue = inputUsername.value;
         let passwordValue = inputPassword.value;
         
-        const emailContainerEl = signinModal.content.querySelector('#email-signin-container');
+        const formSigninEl = signinModal.content.querySelector('#form-signin');
+        const usernameContainerEl = signinModal.content.querySelector('#username-signin-container');
         const passwordContainerEl = signinModal.content.querySelector('#password-signin-container');
-        if (validateEmail(emailValue)) {
-            if(emailContainerEl.getElementsByClassName('error-message')[0] != undefined)
-                emailContainerEl.removeChild(emailContainerEl.getElementsByClassName('error-message')[0])
+
+        if (validateUsername(usernameValue)) {
+            if(usernameContainerEl.getElementsByClassName('error-message')[0] != undefined)
+                usernameContainerEl.removeChild(usernameContainerEl.getElementsByClassName('error-message')[0])
             if(validatePassword(passwordValue)){
                 if(passwordContainerEl.getElementsByClassName('error-message')[0] != undefined)
                     passwordContainerEl.removeChild(passwordContainerEl.getElementsByClassName('error-message')[0])
 
-                document.location.href = 'http://localhost/phpseminario/src?page=home';
-                //intentar sigin
+
+                let xhr = new XMLHttpRequest;
+                let fdata = new FormData();
+                fdata.append('username', usernameValue);
+                fdata.append('password', passwordValue);
+                xhr.onreadystatechange = function() {
+                    if(xhr.readyState == 4){
+                        if(xhr.status == 200){
+                            let response = JSON.parse(xhr.responseText);
+                            if(response.status == 200){
+                                printMessage('form-signin', response.message, 'success')
+                                setFlickingMessage(formSigninEl.getElementsByClassName('success-message')[0]);
+                                setTimeout(() => {
+                                    window.location.href = 'http://localhost/phpseminario/src?page=home';
+                                }, 3500);
+                            }else {
+                                if(formSigninEl.getElementsByClassName('error-message')[0] == undefined){
+                                    printMessage('form-signin', response.message, 'error');
+                                    
+                                    setFlickingMessage(formSigninEl.getElementsByClassName('error-message')[0]);
+                                    
+                                    setTimeout(() => {
+                                        formSigninEl.removeChild(formSigninEl.getElementsByClassName('error-message')[0]);
+                                    }, 3500);
+                                }
+                            }
+                        }
+                    }
+                }
+                xhr.open('POST', 'controllers/auth/signin.authorization.php');
+                xhr.send(fdata);
+
+
             }else {
                 let errorMsgEl = passwordContainerEl.getElementsByClassName('error-message')[0];
                 if (errorMsgEl == undefined) {
@@ -91,9 +124,9 @@ btnSignin.addEventListener('click', () => {
                 }
             }
         } else {
-            let errorMsgEl = emailContainerEl.getElementsByClassName('error-message')[0];
+            let errorMsgEl = usernameContainerEl.getElementsByClassName('error-message')[0];
             if (errorMsgEl == undefined) {
-                printMessage('email-signin-container', 'Ingrese un correo electronico valido', 'error');
+                printMessage('username-signin-container', 'Ingrese un nombre de usuario valido', 'error');
             } else {
                 setFlickingMessage(errorMsgEl);
             }

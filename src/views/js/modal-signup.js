@@ -117,18 +117,24 @@ const signupModal3 =
                 <div class="form-title">
                     <h2>Crea tu cuenta</h2>
                 </div>
-                <div class="up-img-container fx fx-column fx-ai-ctr fx-jc-btw">
-                    <h3 class="form-title">Elige tu foto de perfil</h3>
-                    <div class="upload-img-content">
-                        <img src="views/img/upload-user-image.png" class="up-user-img" alt="upload user image">
+                <form method="POST" enctype="multipart/form-data" class="fx fx-column" id="form-signup">
+                    <div class="up-img-container fx fx-column fx-ai-ctr fx-jc-btw">
+                        <h3 class="form-title">Elige tu foto de perfil</h3>
+                        <div class="upload-img-content">
+                            <img src="views/img/upload-user-image.png" class="up-user-img" alt="upload user image">
+                        </div>
+                        <div>
+                            <input type="file" name="user-image" id="input-user-image" style="display: none;">
+                            <input type="hidden" id="image-value">
+                            <label for="input-user-image">
+                                <div class="btn btn-primary">Subir</div>
+                            </label>
+                        </div>
                     </div>
-                    <div>
-                        <button type="submit" class="btn btn-primary">Subir</button>
+                    <div class="btn-content">
+                        <button type="submit" id="btn-signup-submit" class="btn btn-primary">Crear</button>
                     </div>
-                </div>
-                <div class="btn-content">
-                    <button type="submit" class="btn btn-primary">Crear</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>`
@@ -147,8 +153,10 @@ const inputEmailEl = document.getElementById('input-email');
 const inputPasswordEl = document.getElementById('input-password');
 const inputNameEl = document.getElementById('input-name');
 const inputLastnameEl = document.getElementById('input-lastname');
+const inputImageEl = document.getElementById('input-user-image');
 
 const formsContainersEl = document.querySelectorAll('#form-container');
+const formSignupEl = document.querySelector('#form-signup');
 
 const usernameContainerEl = document.getElementById('username-signup-container');
 const emailContainerEl = document.getElementById('email-signup-container');
@@ -197,7 +205,7 @@ modals.forEach((m, i) => {
         
     }
     
-    let nextBtn = document.getElementById('btn-next-' + i);
+    let nextBtn = m.content.querySelector('#btn-next-' + i);
     
     if(nextBtn != undefined){
         nextBtn.addEventListener('click', () => {
@@ -213,12 +221,27 @@ modals.forEach((m, i) => {
         });
     }
     
-    let previousBtn = document.getElementById('btn-prev-' + i);
+    let previousBtn = m.content.querySelector('#btn-prev-' + i);
     
     if(previousBtn != undefined){
         previousBtn.addEventListener('click', () => {
             showModal(i-1);
         });
+    }
+
+    let uploadImage = m.content.querySelector("#input-user-image");
+
+    if(uploadImage != undefined){
+        uploadImage.addEventListener("change", (files) => {
+
+            let reader = new FileReader;
+            reader.readAsDataURL(files.srcElement.files[0]);
+            
+            reader.addEventListener('load', (e) => {
+                let path = e.target.result;
+                m.content.querySelector(".up-user-img").setAttribute("src", path);
+            });
+        })
     }
     
 })
@@ -332,3 +355,47 @@ function validateSecondStep(){
     
     return false;
 }
+
+
+let btnSignupSubmit = document.querySelector("#btn-signup-submit");
+
+btnSignupSubmit.addEventListener('click', (e) => {
+
+    e.preventDefault();
+
+    let xhr = new XMLHttpRequest;
+    let fdata = new FormData();
+    fdata.append('user-username', inputUsernameEl.value);
+    fdata.append('user-email', inputEmailEl.value);
+    fdata.append('user-password', inputPasswordEl.value);
+    fdata.append('user-name', inputNameEl.value);
+    fdata.append('user-lastname', inputLastnameEl.value);
+    fdata.append('user-image', inputImageEl.files[0]);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4){
+            if(xhr.status == 200){
+                let response = JSON.parse(xhr.responseText);
+                if(response.status == '200'){
+                    printMessage('form-signup', response.message, 'success')
+                    setFlickingMessage(formSignupEl.getElementsByClassName('success-message')[0]);
+                    setTimeout(() => {
+                        window.location.href = 'http://localhost/phpseminario/src?page=home&username='+JSON.parse(response.body).username;
+                    }, 3500);
+                }else{
+                    if(formSignupEl.getElementsByClassName('error-message')[0] == undefined){
+                        printMessage('form-signup', response.message, 'error');
+                        
+                        setFlickingMessage(formSignupEl.getElementsByClassName('error-message')[0]);
+                        
+                        setTimeout(() => {
+                            formSignupEl.removeChild(formSignupEl.getElementsByClassName('error-message')[0]);
+                        }, 3500);
+                    }
+                }
+            }
+        }
+    }
+    xhr.open('POST', 'controllers/auth/signup.authorization.php');
+    xhr.send(fdata);
+})
+
