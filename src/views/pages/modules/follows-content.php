@@ -124,5 +124,4 @@
         
     </div>
 
-    <script src="views/js/follows.js"></script>
 </section>

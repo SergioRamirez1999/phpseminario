@@ -10,10 +10,10 @@
             $user_id = $_POST["user_id"];
             $post_id = $_POST["post_id"];
             $is_liked = $_POST["is_liked"];
-            if($is_liked == "true"){
+            if($is_liked == "liked"){
                 //deslikear
                 UserController::removeLike($_POST["user_id"], $_POST["post_id"]);
-            }else if($is_liked == "false"){
+            }else if($is_liked == "unliked"){
                 //likear
                 UserController::saveLike($_POST["user_id"], $_POST["post_id"]);
             }
@@ -24,7 +24,7 @@
 
         }else {
 
-            $response = array("status" => 404, 
+            $response = array("status" => 400, 
             "body" => "", 
             "message" => "La operacion no ha sido exitosa: por favor intente mas tarde.");
 

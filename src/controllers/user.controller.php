@@ -18,8 +18,8 @@ class UserController {
         return $response;
     }
 
-    static public function getFollowingsPosts($id){
-        $response = UserModel::findFollowingsPostsById($id);
+    static public function getFollowingsPosts($id, $origin=0, $rows=10){
+        $response = UserModel::findFollowingsPostsById($id, $origin, $rows);
         return $response;
     }
 
@@ -43,8 +43,8 @@ class UserController {
         return $response;
     }
 
-    static public function getPostsById($id){
-        $response = UserModel::findPostsById($id);
+    static public function getPostsById($id, $origin=0, $rows=10){
+        $response = UserModel::findPostsById($id, $origin, $rows);
         return $response;
     }
 
@@ -91,6 +91,11 @@ class UserController {
 
     static public function removeLike($id_user, $id_post){
         $response = UserModel::deleteLike($id_user, $id_post);
+        return $response;
+    }
+
+    static public function removeAllLikes($id_post){
+        $response = UserModel::deleteAllLikes($id_post);
         return $response;
     }
 }

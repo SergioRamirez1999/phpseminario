@@ -33,7 +33,7 @@ class UserModel {
         
         $stmt = DatabaseConnection::getConnection()->prepare("SELECT * FROM ".USERS_TABLENAME." `u` WHERE `u`.`id` = :id ");
 
-        $stmt -> bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt -> bindParam(":id", $id, PDO::PARAM_STR);
 
 
         if(!$stmt -> execute()) {
@@ -67,11 +67,13 @@ class UserModel {
         $stmt = null;
     }
 
-    static public function findFollowingsPostsById($id){
+    static public function findFollowingsPostsById($id, $origin, $rows){
         $stmt = DatabaseConnection::getConnection()->prepare(
-            "SELECT * FROM (SELECT `u`.`id` AS `id_user`, `u`.`nombreusuario` AS `nombreusuario_user`, `u`.`nombre` AS `nombre_user`, `u`.`apellido` AS `apellido_user`, `u`.`foto_contenido` AS `foto_contenido_user`, `u`.`foto_tipo` AS `foto_tipo_user`,`m`.`id` AS `id_mensaje`, `m`.`texto` AS `texto_mensaje`, `m`.`imagen_contenido` AS `imagen_contenido_mensaje`, `m`.`imagen_tipo` AS `imagen_tipo_mensaje`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y') AS `fechayhora_mensaje` FROM ".USERS_TABLENAME." `u` INNER JOIN ".MESSAGES_TABLENAME." `m` ON(`u`.`id` = `m`.`usuarios_id`) WHERE `u`.`id` IN (SELECT `fl`.`usuarioseguido_id` FROM ".FOLLOWINGS_TABLENAME." `fl` WHERE `fl`.`usuarios_id` = :userid)) `data` ORDER BY `data`.`fechayhora_mensaje` ASC");
+            "SELECT * FROM (SELECT `u`.`id` AS `id_user`, `u`.`nombreusuario` AS `nombreusuario_user`, `u`.`nombre` AS `nombre_user`, `u`.`apellido` AS `apellido_user`, `u`.`foto_contenido` AS `foto_contenido_user`, `u`.`foto_tipo` AS `foto_tipo_user`,`m`.`id` AS `id_mensaje`, `m`.`texto` AS `texto_mensaje`, `m`.`imagen_contenido` AS `imagen_contenido_mensaje`, `m`.`imagen_tipo` AS `imagen_tipo_mensaje`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%m') AS `fechayhora_mensaje` FROM ".USERS_TABLENAME." `u` INNER JOIN ".MESSAGES_TABLENAME." `m` ON(`u`.`id` = `m`.`usuarios_id`) WHERE `u`.`id` IN (SELECT `fl`.`usuarioseguido_id` FROM ".FOLLOWINGS_TABLENAME." `fl` WHERE `fl`.`usuarios_id` = :userid)) `data` ORDER BY `data`.`fechayhora_mensaje` DESC LIMIT :origin, :rows");
 
-        $stmt -> bindParam(":userid", $id, PDO::PARAM_INT);
+        $stmt -> bindParam(":userid", $id, PDO::PARAM_STR);
+        $stmt -> bindParam(":origin", $origin, PDO::PARAM_INT);
+        $stmt -> bindParam(":rows", $rows, PDO::PARAM_INT);
 
         if(!$stmt -> execute()) {
             print_r(DatabaseConnection::getConnection()->errorInfo());
@@ -180,12 +182,14 @@ class UserModel {
 
     }
 
-    static public function findPostsById($id){
+    static public function findPostsById($id, $origin, $rows){
 
         $stmt = DatabaseConnection::getConnection()->prepare(
-            "SELECT `m`.`id`, `m`.`texto`, `m`.`imagen_contenido`, `m`.`imagen_tipo`, `m`.`usuarios_id`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%m') AS `fechayhora` FROM `mensaje` `m` WHERE `m`.`usuarios_id` = :userId ORDER BY `m`.`fechayhora` ASC");
+            "SELECT `m`.`id`, `m`.`texto`, `m`.`imagen_contenido`, `m`.`imagen_tipo`, `m`.`usuarios_id`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%m') AS `fechayhora` FROM `mensaje` `m` WHERE `m`.`usuarios_id` = :userId ORDER BY `m`.`fechayhora` DESC LIMIT :origin, :rows");
 
-        $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
+        $stmt -> bindParam(":userId", $id, PDO::PARAM_STR);
+        $stmt -> bindParam(":origin", $origin, PDO::PARAM_INT);
+        $stmt -> bindParam(":rows", $rows, PDO::PARAM_INT);
 
         if(!$stmt -> execute()) {
             print_r(DatabaseConnection::getConnection()->errorInfo());
@@ -364,6 +368,24 @@ class UserModel {
         }
 
         return $id_user;
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    static public function deleteAllLikes($id_post){
+        $stmt = DatabaseConnection::getConnection()->prepare(
+            "DELETE FROM ".LIKES_TABLENAME." WHERE `mensaje_id` = :idPost");
+
+        $stmt -> bindParam(":idPost", $id_post, PDO::PARAM_INT);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        return $id_post;
 
         $stmt -> close();
 

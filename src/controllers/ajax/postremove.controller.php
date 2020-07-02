@@ -8,6 +8,8 @@
     if(isset($_SESSION["user_data"])){
 
         if(isset($_POST["id_message"])){
+            
+            UserController::removeAllLikes($_POST["id_message"]);
 
             UserController::removePostById($_POST["id_message"]);
 
@@ -21,8 +23,12 @@
             "message" => "Eliminacion de post erroneo: por favor intente mas tarde.");
         }
         
-        echo json_encode($response);
+    }else {
+        $response = array("status" => 401, 
+        "body" => "", 
+        "message" => "Eliminacion de post: usted no esta autorizado.");
     }
+    echo json_encode($response);
 
 
 ?>

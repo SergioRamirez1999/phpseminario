@@ -136,119 +136,18 @@
 
     </nav>
 
-    <div class="post-general-content">
+    <div class="post-general-content" id="posts-container">
 
 
         <!-- ####### POST 1 EXAMPLE #######-->
 
-       <?php foreach($postsUserProfile as $key=>$element): ?>
-            <div class="post-layout-content fx">
+       
 
-                <div class="left-layout-content fx fx-jc-ctr">
-
-                    <!--LOGO DE USUARIO-->
-                    <div class="user-logo-container">
-                        <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $user["id"] ?>" alt="user image">
-                    </div>
-
-                </div>
-
-
-                <div class="right-layout-content">
-
-                    <div class="top-content-post">
-
-                        <div class="user-username-content fx fx-jc-btw fx-ai-ctr">
-
-                            <div class="lft-ct fx fx-ai-ctr">
-                                <!--NOMBRE DE USUARIO -->
-                                <div class="post-user-name">
-                                    <span><?php echo $user["nombre"].' '.$user["apellido"]?>&nbsp;</span>
-                                </div>
-                                
-                                <!--USERNAME DE USUARIO -->
-                                <div class="post-user-username">
-                                    <span><?php echo '@'.$user["nombreusuario"]?></span>
-                                </div>
-                                <!--FECHA MENSAJE -->
-                                <div class="post-fecha">
-                                    <span><?php echo '~'.$element["fechayhora"] ?></span>
-                                </div>
-                            </div>
-
-                            <!--EDITAR MENSAJE -->
-                            <div class="edit-post remove-message" message_id="<?php echo $element["id"]?>">
-                                <div class="icon-down-open"></div>
-                            </div>
-
-                        </div>
-
-                        <script type="module" src="views/js/removepost.js"></script>
-
-                    </div>
-
-                    <div class="between-content-post">
-
-                        <div class="commentary-content-post">
-                            <div class="commentary-content-msg">
-                                <!--POST TEXTO-->
-                                <span><?php echo $element["texto"]?></span>
-                            </div>
-
-                            <br>
-
-                        </div>
-
-                        <?php if(isset($element["imagen_contenido"]) && $element["imagen_contenido"] != null):?>
-                                <!--POST IMAGEN-->
-                            <div class="image-post-container fx fx-jc-ctr">
-                                <img src="controllers/ajax/imagepreview.controller.php?image_type=message&id_message=<?php echo $element["id"] ?>" alt="post image">
-                            </div>
-
-                        <?php endif; ?>
-
-                    </div>
-
-                    <?php
-                        $likes = UserController::getLikesByPostId($element["id"]);
-                        $c_likes = count($likes);
-
-                        $id_likes = array_map(function($like){
-                            return $like["usuarios_id"];
-                        }, $likes);
-
-                        $liked = in_array($user["id"], $id_likes);
-
-                    ?>
-
-                    <!--LIKES/RETWEETS-->
-                    <div class="bottom-content-post fx">
-                        <div class="menu-option fx fx-ai-ctr">
-                            <?php if(isset($liked) && $liked):?>
-                                <div class="liked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user["id"]?>" post_id="<?php echo $element["id"]?>" is_liked="true">
-                                    <div class="icon-heart likes-counter-icon"></div>
-                                    <span class="likes-counter"><?php echo $c_likes?></span>
-                                </div>
-                            <?php else:?>
-                                <div class="unliked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user["id"]?>" post_id="<?php echo $element["id"]?>" is_liked="false">
-                                    <div class="icon-heart likes-counter-icon"></div>
-                                    <span class="likes-counter"><?php echo $c_likes?></span>
-                                </div>
-                            <?php endif;?>
-                        </div>
-                        <div class="menu-option fx fx-ai-ctr">
-                            <div class="icon-retweet"></div>
-                            <span>0</span>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        <?php endforeach; ?>
-
-        <script type="module" src="views/js/likes.js"> </script>
     </div>
-
+    
+    <script type="module" src="views/js/pagination.js"> </script>
+    <script type="module" src="views/js/removepost.js"></script>
+    <input type="hidden" value="profile" id="page_input">
+    <input type="hidden" value="<?php echo $user["id"]?>" id="user_id_input">
 
 </section>
