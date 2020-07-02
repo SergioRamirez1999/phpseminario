@@ -28,29 +28,30 @@ const signupModal1 =
                 <div class="form-title">
                     <h2>Crea tu cuenta</h2>
                 </div>
-                
-                <div class="row-input-content" id="username-signup-container">
-                    <label for="user-username" class="label-input">Nombre de usuario</label>
-                    <div class="input-content">
-                        <input id="input-username" type="text" name="user-username">
+                <form method="POST" class="fx fx-column" id="form-signup-st1">
+                    <div class="row-input-content" id="username-signup-container">
+                        <label for="user-username" class="label-input">Nombre de usuario</label>
+                        <div class="input-content">
+                            <input id="input-username" type="text" name="user-username">
+                        </div>
                     </div>
-                </div>
-                <div class="row-input-content" id="email-signup-container">
-                    <label for="user-email" class="label-input">Email</label>
-                    <div class="input-content">
-                        <input id="input-email" type="email" name="user-email">
+                    <div class="row-input-content" id="email-signup-container">
+                        <label for="user-email" class="label-input">Email</label>
+                        <div class="input-content">
+                            <input id="input-email" type="email" name="user-email">
+                        </div>
                     </div>
-                </div>
-                <div class="row-input-content" id="password-signup-container">
-                    <label for="user-password" class="label-input">Contraseña</label>
-                    <div class="input-content">
-                        <input id="input-password" type="password" name="password" name="user-password">
+                    <div class="row-input-content" id="password-signup-container">
+                        <label for="user-password" class="label-input">Contraseña</label>
+                        <div class="input-content">
+                            <input id="input-password" type="password" name="password" name="user-password">
+                        </div>
                     </div>
-                </div>
-                
-                <div class="btn-content">
-                    <button id="btn-next-0" type="submit" class="btn btn-primary">Siguiente</button>
-                </div>
+                    
+                    <div class="btn-content">
+                        <button id="btn-next-0" type="submit" class="btn btn-primary">Siguiente</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>`
@@ -76,7 +77,7 @@ const signupModal2 =
                 <div class="form-title">
                     <h2>Crea tu cuenta</h2>
                 </div>
-                
+            <form method="POST" class="fx fx-column" id="form-signup-st2">
                 <div class="row-input-content" id="name-signup-container">
                     <label for="user-name" class="label-input">Nombre</label>
                     <div class="input-content">
@@ -92,6 +93,7 @@ const signupModal2 =
                 <div class="btn-content">
                     <button type="submit" id="btn-next-1" class="btn btn-primary">Siguiente</button>
                 </div>
+            </form>
             </div>
         </div>
     </div>`
@@ -117,7 +119,7 @@ const signupModal3 =
                 <div class="form-title">
                     <h2>Crea tu cuenta</h2>
                 </div>
-                <form method="POST" enctype="multipart/form-data" class="fx fx-column" id="form-signup">
+                <form method="POST" enctype="multipart/form-data" class="fx fx-column" id="form-signup-st3">
                     <div class="up-img-container fx fx-column fx-ai-ctr fx-jc-btw">
                         <h3 class="form-title">Elige tu foto de perfil</h3>
                         <div class="upload-img-content">
@@ -125,7 +127,6 @@ const signupModal3 =
                         </div>
                         <div>
                             <input type="file" name="user-image" id="input-user-image" style="display: none;">
-                            <input type="hidden" id="image-value">
                             <label for="input-user-image">
                                 <div class="btn btn-primary">Subir</div>
                             </label>
@@ -156,7 +157,7 @@ const inputLastnameEl = document.getElementById('input-lastname');
 const inputImageEl = document.getElementById('input-user-image');
 
 const formsContainersEl = document.querySelectorAll('#form-container');
-const formSignupEl = document.querySelector('#form-signup');
+const formSignupEl = document.querySelector('#form-signup-st3');
 
 const usernameContainerEl = document.getElementById('username-signup-container');
 const emailContainerEl = document.getElementById('email-signup-container');
@@ -208,7 +209,8 @@ modals.forEach((m, i) => {
     let nextBtn = m.content.querySelector('#btn-next-' + i);
     
     if(nextBtn != undefined){
-        nextBtn.addEventListener('click', () => {
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             if(i == 0){
                 if(validateFirstStep()){
                     showModal(i+1);
@@ -376,14 +378,14 @@ btnSignupSubmit.addEventListener('click', (e) => {
             if(xhr.status == 200){
                 let response = JSON.parse(xhr.responseText);
                 if(response.status == '200'){
-                    printMessage('form-signup', response.message, 'success')
+                    printMessage('form-signup-st3', response.message, 'success')
                     setFlickingMessage(formSignupEl.getElementsByClassName('success-message')[0]);
                     setTimeout(() => {
                         window.location.href = 'http://localhost/phpseminario/src?page=home&username='+JSON.parse(response.body).username;
                     }, 3500);
                 }else{
                     if(formSignupEl.getElementsByClassName('error-message')[0] == undefined){
-                        printMessage('form-signup', response.message, 'error');
+                        printMessage('form-signup-st3', response.message, 'error');
                         
                         setFlickingMessage(formSignupEl.getElementsByClassName('error-message')[0]);
                         

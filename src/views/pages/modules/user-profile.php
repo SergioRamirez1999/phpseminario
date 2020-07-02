@@ -3,31 +3,37 @@
     if(session_status() == PHP_SESSION_NONE)
         session_start();
 
-    if(isset($_GET["username"]) && isset($_SESSION["user_data"])){
+    if(isset($_SESSION["user_data"])){
 
-        if($_SESSION["user_data"]["nombreusuario"] == $_GET["username"]){
-            $user = $_SESSION["user_data"];
-        }else {
-            $user = UserController::getUserByUsername($_GET["username"]);
-        }
+        if(isset($_GET["username"])){
 
-        if($user){
-            $followingsUserProfile = UserController::getFollowingsById($user["id"]);
-        
-            $followersUserProfile = UserController::getFollowersById($user["id"]);
-
-            foreach($followersUserProfile as $key => $element){
-                if(in_array($_SESSION["user_data"]["id"], $element)){
-                    $isFollowing = true;
-                    break;
-                }
+            if($_SESSION["user_data"]["nombreusuario"] == $_GET["username"]){
+                $user = $_SESSION["user_data"];
+            }else {
+                $user = UserController::getUserByUsername($_GET["username"]);
             }
-
-            $postsUserProfile = UserController::getPostsById($user["id"]);
-
+    
+            if($user){
+                $followingsUserProfile = UserController::getFollowingsById($user["id"]);
+            
+                $followersUserProfile = UserController::getFollowersById($user["id"]);
+    
+                foreach($followersUserProfile as $key => $element){
+                    if(in_array($_SESSION["user_data"]["id"], $element)){
+                        $isFollowing = true;
+                        break;
+                    }
+                }
+    
+                $postsUserProfile = UserController::getPostsById($user["id"]);
+    
+            }else {
+                echo '<script> window.location.href = "http://localhost/phpseminario/src?page=home" </script>';
+            }
         }else {
             echo '<script> window.location.href = "http://localhost/phpseminario/src" </script>';
         }
+
     }else {
         echo '<script> window.location.href = "http://localhost/phpseminario/src" </script>';
     }
@@ -49,7 +55,7 @@
 
             <div class="profile-center-content fx fx-jc-btw">
 
-                <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $user["id"]?>" alt="user image" class="profile-user-image">
+                <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $user["id"]?>" alt="user image" class="profile-user-image" id="user-image-profile">
 
 
                 <?php if($_SESSION["user_data"]["nombreusuario"] == $_GET["username"]):?>
@@ -57,6 +63,11 @@
                     <div class="button-edit fx fx-jc-ctr fx-ai-ctr" id="btn-edit-user">
                         <span>Editar</span>
                     </div>
+
+                    <input type="hidden" value="<?php echo $user["id"]?>" id="user_data_id">
+                    <input type="hidden" value="<?php echo $user["nombre"]?>" id="user_data_name">
+                    <input type="hidden" value="<?php echo $user["apellido"]?>" id="user_data_lastname">
+                    <input type="hidden" value="<?php echo $user["email"]?>" id="user_data_email">
 
                 <?php else: ?>
 
@@ -84,7 +95,7 @@
         <div class="bottom-content-profile">
             <div class="user-info-content fx fx-column fx-jc-sa">
                 <div class="row-user-info">
-                    <h2 class="name-user-profile"><?php echo $user["nombre"].' '.$user["apellido"]?></h2>
+                    <h2 class="name-user-profile" id="user-name-profile"><?php echo $user["nombre"].' '.$user["apellido"]?></h2>
                 </div>
                 <div class="row-user-info">
                     <span class="username-user-profile"><?php echo '@'.$user["nombreusuario"] ?></span>
@@ -166,11 +177,13 @@
                             </div>
 
                             <!--EDITAR MENSAJE -->
-                            <div class="edit-post">
+                            <div class="edit-post remove-message" message_id="<?php echo $element["id"]?>">
                                 <div class="icon-down-open"></div>
                             </div>
 
                         </div>
+
+                        <script type="module" src="views/js/removepost.js"></script>
 
                     </div>
 
@@ -196,15 +209,36 @@
 
                     </div>
 
+                    <?php
+                        $likes = UserController::getLikesByPostId($element["id"]);
+                        $c_likes = count($likes);
+
+                        $id_likes = array_map(function($like){
+                            return $like["usuarios_id"];
+                        }, $likes);
+
+                        $liked = in_array($user["id"], $id_likes);
+
+                    ?>
+
                     <!--LIKES/RETWEETS-->
                     <div class="bottom-content-post fx">
                         <div class="menu-option fx fx-ai-ctr">
-                            <div class="icon-heart"></div>
-                            <span>128</span>
+                            <?php if(isset($liked) && $liked):?>
+                                <div class="liked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user["id"]?>" post_id="<?php echo $element["id"]?>" is_liked="true">
+                                    <div class="icon-heart likes-counter-icon"></div>
+                                    <span class="likes-counter"><?php echo $c_likes?></span>
+                                </div>
+                            <?php else:?>
+                                <div class="unliked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user["id"]?>" post_id="<?php echo $element["id"]?>" is_liked="false">
+                                    <div class="icon-heart likes-counter-icon"></div>
+                                    <span class="likes-counter"><?php echo $c_likes?></span>
+                                </div>
+                            <?php endif;?>
                         </div>
                         <div class="menu-option fx fx-ai-ctr">
                             <div class="icon-retweet"></div>
-                            <span>5</span>
+                            <span>0</span>
                         </div>
                     </div>
 
@@ -213,11 +247,7 @@
             </div>
         <?php endforeach; ?>
 
-
-
-       
-
-
+        <script type="module" src="views/js/likes.js"> </script>
     </div>
 
 

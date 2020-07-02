@@ -52,7 +52,7 @@
 
         </div>
 
-        <script src="views/js/post.js"></script>
+        <script type="module" src="views/js/post.js"></script>
     </div>
 
     <div class="post-general-content">
@@ -130,15 +130,36 @@
 
                     </div>
 
+                    <?php
+                        $likes = UserController::getLikesByPostId($postsUser[0]["id"]);
+                        $c_likes = count($likes);
+
+                        $id_likes = array_map(function($like){
+                            return $like["usuarios_id"];
+                        }, $likes);
+
+                        $liked = in_array($user["id"], $id_likes);
+
+                    ?>
+
                     <!--LIKES/RETWEETS-->
                     <div class="bottom-content-post fx">
                         <div class="menu-option fx fx-ai-ctr">
-                            <div class="icon-heart"></div>
-                            <span>128</span>
+                            <?php if(isset($liked) && $liked):?>
+                                <div class="liked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user["id"]?>" post_id="<?php echo $postsUser[0]["id"]?>" is_liked="true">
+                                    <div class="icon-heart likes-counter-icon"></div>
+                                    <span class="likes-counter"><?php echo $c_likes?></span>
+                                </div>
+                            <?php else:?>
+                                <div class="unliked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user["id"]?>" post_id="<?php echo $postsUser[0]["id"]?>" is_liked="false">
+                                    <div class="icon-heart likes-counter-icon"></div>
+                                    <span class="likes-counter"><?php echo $c_likes?></span>
+                                </div>
+                            <?php endif;?>
                         </div>
                         <div class="menu-option fx fx-ai-ctr">
                             <div class="icon-retweet"></div>
-                            <span>5</span>
+                            <span>0</span>
                         </div>
                     </div>
 
@@ -220,15 +241,36 @@
 
                     </div>
 
+                    <?php
+                        $likes = UserController::getLikesByPostId($element["id_mensaje"]);
+                        $c_likes = count($likes);
+
+                        $id_likes = array_map(function($like){
+                            return $like["usuarios_id"];
+                        }, $likes);
+
+                        $liked = in_array($user["id"], $id_likes);
+
+                    ?>
+
                     <!--LIKES/RETWEETS-->
                     <div class="bottom-content-post fx">
                         <div class="menu-option fx fx-ai-ctr">
-                            <div class="icon-heart"></div>
-                            <span>128</span>
+                            <?php if(isset($liked) && $liked):?>
+                                <div class="liked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user["id"]?>" post_id="<?php echo $element["id_mensaje"]?>" is_liked="true">
+                                    <div class="icon-heart likes-counter-icon"></div>
+                                    <span class="likes-counter"><?php echo $c_likes?></span>
+                                </div>
+                            <?php else:?>
+                                <div class="unliked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user["id"]?>" post_id="<?php echo $element["id_mensaje"]?>" is_liked="false">
+                                    <div class="icon-heart likes-counter-icon"></div>
+                                    <span class="likes-counter"><?php echo $c_likes?></span>
+                                </div>
+                            <?php endif;?>
                         </div>
                         <div class="menu-option fx fx-ai-ctr">
                             <div class="icon-retweet"></div>
-                            <span>5</span>
+                            <span>0</span>
                         </div>
                     </div>
 
@@ -237,7 +279,7 @@
             </div>
         <?php endforeach; ?>
 
-
+        <script type="module" src="views/js/likes.js"> </script>
 
     </div>
 

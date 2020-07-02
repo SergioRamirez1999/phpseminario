@@ -2,8 +2,8 @@ import {
     createModal,
     validateName,
     validateLastname,
-    validateUsername,
     validateEmail,
+    sendAjaxRequest,
     validatePassword,
     setFlickingMessage,
     printMessage
@@ -71,17 +71,19 @@ const editNameTemplate =
                     <h2>Cambiar nombre</h2>
                 </div>
                 
-                <div class="row-input-content" id="name-edit-container">
-                    <label for="username-input" class="label-input">Nombre</label>
-                    <div class="input-content">
-                        <input type="text" name="username-input" id="input-edit-name">
+                <form method="POST" class="fx fx-column" id="form-edit-name">
+                    <div class="row-input-content" id="name-edit-container">
+                        <label for="username-input" class="label-input">Nombre</label>
+                        <div class="input-content">
+                            <input type="text" name="username-input" id="input-edit-name">
+                        </div>
                     </div>
-                </div>
 
-                
-                <div class="btn-content">
-                    <button type="submit" class="btn btn-primary" id="btn-name-save">Guardar</button>
-                </div>
+                    
+                    <div class="btn-content">
+                        <button type="submit" class="btn btn-primary" id="btn-name-save">Guardar</button>
+                    </div>
+                </form>
 
             </div>
 
@@ -112,18 +114,22 @@ const editLastnameTemplate =
                 <div class="form-title">
                     <h2>Cambiar apellido</h2>
                 </div>
-                
-                <div class="row-input-content" id="lastname-edit-container">
-                    <label for="lastname-input" class="label-input">Cambiar apellido</label>
-                    <div class="input-content">
-                        <input type="text" name="lastname-input" id="input-edit-lastname">
-                    </div>
-                </div>
 
-                
-                <div class="btn-content">
-                    <button type="submit" class="btn btn-primary" id="btn-lastname-save">Guardar</button>
-                </div>
+                <form method="POST" class="fx fx-column" id="form-edit-lastname">
+                    
+                    <div class="row-input-content" id="lastname-edit-container">
+                        <label for="lastname-input" class="label-input">Cambiar apellido</label>
+                        <div class="input-content">
+                            <input type="text" name="lastname-input" id="input-edit-lastname">
+                        </div>
+                    </div>
+
+                    
+                    <div class="btn-content">
+                        <button type="submit" class="btn btn-primary" id="btn-lastname-save">Guardar</button>
+                    </div>
+
+                </form>
 
             </div>
 
@@ -155,17 +161,19 @@ const editEmailTemplate =
                     <h2>Cambiar correo electronico</h2>
                 </div>
                 
-                <div class="row-input-content" id="email-edit-container">
-                    <label for="email-input" class="label-input">Correo electronico</label>
-                    <div class="input-content">
-                        <input type="email" name="email-input" id="input-edit-email">
+                <form method="POST" class="fx fx-column" id="form-edit-email">
+                    <div class="row-input-content" id="email-edit-container">
+                        <label for="email-input" class="label-input">Correo electronico</label>
+                        <div class="input-content">
+                            <input type="email" name="email-input" id="input-edit-email">
+                        </div>
                     </div>
-                </div>
 
-                
-                <div class="btn-content">
-                    <button type="submit" class="btn btn-primary" id="btn-email-save">Guardar</button>
-                </div>
+                    
+                    <div class="btn-content">
+                        <button type="submit" class="btn btn-primary" id="btn-email-save">Guardar</button>
+                    </div>
+                </form>
 
             </div>
 
@@ -197,23 +205,28 @@ const editPictureTemplate =
                     <h2>Cambiar foto de perfil</h2>
                 </div>
                 
-                <div class="up-img-container fx fx-column fx-ai-ctr fx-jc-btw">
-                    <h3 class="form-title">Elige tu foto de perfil</h3>
+                <form method="POST" enctype="multipart/form-data" class="fx fx-column" id="form-edit-picture">
+                    <div class="up-img-container fx fx-column fx-ai-ctr fx-jc-btw">
+                        <h3 class="form-title">Elige tu foto de perfil</h3>
 
-                    <div class="upload-img-content">
-                        <img src="views/img/upload-user-image.png" class="up-user-img" alt="upload user image">
+                        <div class="upload-img-content">
+                            <img src="#" id="actual_image_user" class="up-user-img" alt="upload user image">
+                        </div>
+
+                        <div>
+                            <input type="file" name="user-image" id="input-user-image" style="display: none;">
+                            <label for="input-user-image">
+                                <div class="btn btn-primary">Subir</div>
+                            </label>
+                        </div>
+
                     </div>
 
-                    <div>
-                        <button type="submit" class="btn btn-primary" id="btn-upload-picture">Subir</button>
+                    
+                    <div class="btn-content">
+                        <button type="submit" class="btn btn-primary" id="btn-picture-save">Guardar</button>
                     </div>
-
-                </div>
-
-                
-                <div class="btn-content">
-                    <button type="submit" class="btn btn-primary" id="btn-picture-save">Guardar</button>
-                </div>
+                </form>
 
             </div>
 
@@ -244,32 +257,35 @@ const editPasswordTemplate =
                 <div class="form-title">
                     <h2>Cambiar contraseña</h2>
                 </div>
-                
-                <div class="row-input-content" id="password-actual-edit-container">
-                    <label for="actual-password-input" class="label-input">Contraseña actual</label>
-                    <div class="input-content">
-                        <input type="password" name="actual-password-input" id="input-edit-password-actual">
-                    </div>
-                </div>
-                
-                <div class="row-input-content" id="password-new-edit-container">
-                    <label for="new-password-input" class="label-input">Nueva contraseña</label>
-                    <div class="input-content">
-                        <input type="password" name="new-password-input" id="input-edit-password-new">
-                    </div>
-                </div>
-                
-                <div class="row-input-content" id="password-repeted-edit-container">
-                    <label for="repeted-password-input" class="label-input">Repetir contraseña</label>
-                    <div class="input-content">
-                        <input type="password" name="repeted-password-input" id="input-edit-password-repeted">
-                    </div>
-                </div>
 
+                <form method="POST" class="fx fx-column" id="form-edit-password">
                 
-                <div class="btn-content">
-                    <button type="submit" class="btn btn-primary" id="btn-password-save">Guardar</button>
-                </div>
+                    <div class="row-input-content" id="password-actual-edit-container">
+                        <label for="actual-password-input" class="label-input">Contraseña actual</label>
+                        <div class="input-content">
+                            <input type="password" name="actual-password-input" id="input-edit-password-actual">
+                        </div>
+                    </div>
+                    
+                    <div class="row-input-content" id="password-new-edit-container">
+                        <label for="new-password-input" class="label-input">Nueva contraseña</label>
+                        <div class="input-content">
+                            <input type="password" name="new-password-input" id="input-edit-password-new">
+                        </div>
+                    </div>
+                    
+                    <div class="row-input-content" id="password-repeted-edit-container">
+                        <label for="repeted-password-input" class="label-input">Repetir contraseña</label>
+                        <div class="input-content">
+                            <input type="password" name="repeted-password-input" id="input-edit-password-repeted">
+                        </div>
+                    </div>
+
+                    
+                    <div class="btn-content">
+                        <button type="submit" class="btn btn-primary" id="btn-password-save">Guardar</button>
+                    </div>
+                </form>
 
             </div>
 
@@ -341,14 +357,6 @@ if(btnEditUser != undefined){
                 btnPrev.addEventListener('click', () => {
                     e.container.style = 'display: none';
                     e.content.style = 'display: none';
-
-                    //clean fields
-                    inputName.value = "";
-                    inputLastname.value = "";
-                    inputEmail.value = "";
-                    inputActualPassword.value = "";
-                    inputNewPassword.value = "";
-                    inputRepetedPassword.value = "";
                 });
             }
         }
@@ -378,13 +386,20 @@ if(btnEditUser != undefined){
     const inputNewPassword = document.getElementById('input-edit-password-new');
     const inputRepetedPassword = document.getElementById('input-edit-password-repeted');
 
-
     const btnSaveName = document.getElementById('btn-name-save');
     const btnSaveLastname = document.getElementById('btn-lastname-save');
     const btnSaveEmail = document.getElementById('btn-email-save');
     const btnSavePicture = document.getElementById('btn-picture-save');
     const btnSavePassword = document.getElementById('btn-password-save');
 
+
+    let user_data = 
+    {
+        "id": document.querySelector('#user_data_id').value,
+        "name": document.querySelector('#user_data_name').value,
+        "email": document.querySelector('#user_data_email').value,
+        "lastname": document.querySelector('#user_data_lastname').value,
+    }
 
     btnEditUser.addEventListener('click', () => {
         modalEditMenu.container.style = 'background-color: rgba(255,255,255,0.3); display: flex';
@@ -394,21 +409,44 @@ if(btnEditUser != undefined){
     btnNameOption.addEventListener('click', () => {
         modalEditName.container.style = 'display: flex';
         modalEditName.content.style = 'display: block';
+
+        inputName.value = user_data.name;
     });
 
     btnLastnameOption.addEventListener('click', () => {
         modalEditLastname.container.style = 'display: flex';
         modalEditLastname.content.style = 'display: block';
+
+        inputLastname.value = user_data.lastname;
     });
 
     btnEmailOption.addEventListener('click', () => {
         modalEditEmail.container.style = 'display: flex';
         modalEditEmail.content.style = 'display: block';
+
+        inputEmail.value = user_data.email;
     });
 
     btnPictureOption.addEventListener('click', () => {
         modalEditPicture.container.style = 'display: flex';
         modalEditPicture.content.style = 'display: block';
+
+        let imgEl = document.querySelector("#actual_image_user");
+
+        imgEl.setAttribute("src", "controllers/ajax/imagepreview.controller.php?image_type=user&id_user=" + user_data.id);
+
+        let uploadImage = document.querySelector("#input-user-image");
+
+        uploadImage.addEventListener("change", (files) => {
+
+            let reader = new FileReader;
+            reader.readAsDataURL(files.srcElement.files[0]);
+            
+            reader.addEventListener('load', (e) => {
+                let path = e.target.result;
+                imgEl.setAttribute("src", path);
+            });
+        })
     });
 
     btnPasswordOption.addEventListener('click', () => {
@@ -418,13 +456,45 @@ if(btnEditUser != undefined){
 
 
 
-    btnSaveName.addEventListener('click', () => {
+    btnSaveName.addEventListener('click', (e) => {
+
+        e.preventDefault();
 
         if (validateName(inputName.value)) {
             if (nameContainerEl.querySelector('.error-message') != undefined)
                 nameContainerEl.removeChild(nameContainerEl.querySelector('.error-message'));
             
-            //guardar nombre
+            let fdata = new FormData();
+            fdata.append('user_id', user_data.id);
+            fdata.append('field', 'nombre');
+            fdata.append('value', inputName.value);
+            sendAjaxRequest('controllers/ajax/useredit.controller.php', 'POST', fdata, (response) => {
+                if(response.status == 200){
+                    if(document.querySelector('#form-edit-name').getElementsByClassName('success-message')[0] == undefined){
+                        printMessage('form-edit-name', response.message, 'success')
+                        setFlickingMessage(document.querySelector('#form-edit-name').getElementsByClassName('success-message')[0]);
+                        setTimeout(() => {
+                            document.querySelector('#form-edit-name').removeChild(document.querySelector('#form-edit-name').getElementsByClassName('success-message')[0]);
+                        }, 3500);
+                    }
+
+                    let name = document.querySelector('#user-name-profile').innerText.split(' ');
+                    document.querySelector('#user-name-profile').innerText = inputName.value+' '+name[1];
+
+                    user_data.name = inputName.value;
+
+                }else {
+                    if(document.querySelector('#form-edit-name').getElementsByClassName('error-message')[0] == undefined){
+                        printMessage('form-edit-name', response.message, 'error');
+                        
+                        setFlickingMessage(document.querySelector('#form-edit-name').getElementsByClassName('error-message')[0]);
+                        
+                        setTimeout(() => {
+                            document.querySelector('#form-edit-name').removeChild(document.querySelector('#form-edit-name').getElementsByClassName('error-message')[0]);
+                        }, 3500);
+                    }
+                }
+            });
             
         } else {
             let errorMessageEl = nameContainerEl.querySelector('.error-message');
@@ -437,13 +507,45 @@ if(btnEditUser != undefined){
 
     });
 
-    btnSaveLastname.addEventListener('click', () => {
+    btnSaveLastname.addEventListener('click', (e) => {
+
+        e.preventDefault();
 
         if (validateLastname(inputLastname.value)) {
             if (lastnameContainerEl.querySelector('.error-message') != undefined)
                 lastnameContainerEl.removeChild(lastnameContainerEl.querySelector('.error-message'));
             
-            //guardar apellido
+            let fdata = new FormData();
+            fdata.append('user_id', user_data.id);
+            fdata.append('field', 'apellido');
+            fdata.append('value', inputLastname.value);
+            sendAjaxRequest('controllers/ajax/useredit.controller.php', 'POST', fdata, (response) => {
+                if(response.status == 200){
+                    if(document.querySelector('#form-edit-lastname').getElementsByClassName('success-message')[0] == undefined){
+                        printMessage('form-edit-lastname', response.message, 'success')
+                        setFlickingMessage(document.querySelector('#form-edit-lastname').getElementsByClassName('success-message')[0]);
+                        setTimeout(() => {
+                            document.querySelector('#form-edit-lastname').removeChild(document.querySelector('#form-edit-lastname').getElementsByClassName('success-message')[0]);
+                        }, 3500);
+                    }
+
+                    let name = document.querySelector('#user-name-profile').innerText.split(' ');
+                    document.querySelector('#user-name-profile').innerText = name[0]+' '+inputLastname.value;
+
+                    user_data.lastname = inputLastname.value;
+
+                }else {
+                    if(document.querySelector('#form-edit-lastname').getElementsByClassName('error-message')[0] == undefined){
+                        printMessage('form-edit-lastname', response.message, 'error');
+                        
+                        setFlickingMessage(document.querySelector('#form-edit-lastname').getElementsByClassName('error-message')[0]);
+                        
+                        setTimeout(() => {
+                            document.querySelector('#form-edit-lastname').removeChild(document.querySelector('#form-edit-lastname').getElementsByClassName('error-message')[0]);
+                        }, 3500);
+                    }
+                }
+            });
             
         } else {
             let errorMessageEl = lastnameContainerEl.querySelector('.error-message');
@@ -456,13 +558,41 @@ if(btnEditUser != undefined){
 
     });
 
-    btnSaveEmail.addEventListener('click', () => {
+    btnSaveEmail.addEventListener('click', (e) => {
+
+        e.preventDefault();
 
         if (validateEmail(inputEmail.value)) {
             if (emailContainerEl.querySelector('.error-message') != undefined)
                 emailContainerEl.removeChild(emailContainerEl.querySelector('.error-message'));
             
-            //guardar email
+            let fdata = new FormData();
+            fdata.append('user_id', user_data.id);
+            fdata.append('field', 'email');
+            fdata.append('value', inputEmail.value);
+            sendAjaxRequest('controllers/ajax/useredit.controller.php', 'POST', fdata, (response) => {
+                if(response.status == 200){
+                    if(document.querySelector('#form-edit-email').getElementsByClassName('success-message')[0] == undefined){
+                        printMessage('form-edit-email', response.message, 'success')
+                        setFlickingMessage(document.querySelector('#form-edit-email').getElementsByClassName('success-message')[0]);
+                        setTimeout(() => {
+                            document.querySelector('#form-edit-email').removeChild(document.querySelector('#form-edit-email').getElementsByClassName('success-message')[0]);
+                        }, 3500);
+                    }
+
+                    user_data.emial = inputEmail.value;
+                }else {
+                    if(document.querySelector('#form-edit-email').getElementsByClassName('error-message')[0] == undefined){
+                        printMessage('form-edit-email', response.message, 'error');
+                        
+                        setFlickingMessage(document.querySelector('#form-edit-email').getElementsByClassName('error-message')[0]);
+                        
+                        setTimeout(() => {
+                            document.querySelector('#form-edit-email').removeChild(document.querySelector('#form-edit-email').getElementsByClassName('error-message')[0]);
+                        }, 3500);
+                    }
+                }
+            });
             
         } else {
             let errorMessageEl = emailContainerEl.querySelector('.error-message');
@@ -475,8 +605,10 @@ if(btnEditUser != undefined){
 
     });
 
-    btnSavePassword.addEventListener('click', () => {
+    btnSavePassword.addEventListener('click', (e) => {
         
+        e.preventDefault();
+
         //validar formato password actual
         if (validatePassword(inputActualPassword.value)) {
             if (actualPasswordContainerEl.querySelector('.error-message') != undefined)
@@ -493,9 +625,36 @@ if(btnEditUser != undefined){
                     if (repetedPasswordContainerEl.querySelector('.error-message') != undefined)
                         repetedPasswordContainerEl.removeChild(repetedPasswordContainerEl.querySelector('.error-message'));
                     
-                    
-                    //hacer peticion para comprobar la contrasenia actual con la de la bbdd
-                    
+                    let fdata = new FormData();
+                    fdata.append('user_id', user_data.id);
+                    fdata.append('field', 'contrasenia');
+                    fdata.append('value', inputNewPassword.value);
+                    fdata.append('actual_password', inputActualPassword.value);
+                    sendAjaxRequest('controllers/ajax/useredit.controller.php', 'POST', fdata, (response) => {
+                        if(response.status == 200){
+                            if(document.querySelector('#form-edit-password').getElementsByClassName('success-message')[0] == undefined){
+                                printMessage('form-edit-password', response.message, 'success')
+                                setFlickingMessage(document.querySelector('#form-edit-password').getElementsByClassName('success-message')[0]);
+                                setTimeout(() => {
+                                    document.querySelector('#form-edit-password').removeChild(document.querySelector('#form-edit-password').getElementsByClassName('success-message')[0]);
+                                }, 3500);
+                            }
+
+                            inputActualPassword.value = "";
+                            inputNewPassword.value = "";
+                            inputRepetedPassword.value = "";
+                        }else {
+                            if(document.querySelector('#form-edit-password').getElementsByClassName('error-message')[0] == undefined){
+                                printMessage('form-edit-password', response.message, 'error');
+                                
+                                setFlickingMessage(document.querySelector('#form-edit-password').getElementsByClassName('error-message')[0]);
+                                
+                                setTimeout(() => {
+                                    document.querySelector('#form-edit-password').removeChild(document.querySelector('#form-edit-password').getElementsByClassName('error-message')[0]);
+                                }, 3500);
+                            }
+                        }
+                    });
                     
                 } else {
                     let errorMessageEl = repetedPasswordContainerEl.querySelector('.error-message');
@@ -506,8 +665,6 @@ if(btnEditUser != undefined){
                     }
                     
                 }
-                
-                
                 
             }else {
                 
@@ -520,7 +677,6 @@ if(btnEditUser != undefined){
                 
             }
             
-            
         } else {
             let errorMessageEl = actualPasswordContainerEl.querySelector('.error-message');
             if (errorMessageEl == undefined) {
@@ -532,6 +688,46 @@ if(btnEditUser != undefined){
 
     });
 
+    btnSavePicture.addEventListener('click', (e) => {
+        e.preventDefault();
 
+        let upFile = document.querySelector("#input-user-image");
 
+        if(upFile.files.length > 0 && upFile.value != ""){
+            
+            let fdata = new FormData();
+            fdata.append('user_id', user_data.id);
+            fdata.append('field', 'imagen_contenido');
+            fdata.append('value', upFile.files[0]);
+            sendAjaxRequest('controllers/ajax/useredit.controller.php', 'POST', fdata, (response) => {
+                if(response.status == 200){
+                    if(document.querySelector('#form-edit-picture').getElementsByClassName('success-message')[0] == undefined){
+                        printMessage('form-edit-picture', response.message, 'success')
+                        setFlickingMessage(document.querySelector('#form-edit-picture').getElementsByClassName('success-message')[0]);
+                        setTimeout(() => {
+                            document.querySelector('#form-edit-picture').removeChild(document.querySelector('#form-edit-picture').getElementsByClassName('success-message')[0]);
+                        }, 3500);
+                    }
+
+                    document.querySelector("#user-image-profile").setAttribute("src", "controllers/ajax/imagepreview.controller.php?image_type=user&id_user=" + user_data.id + "&t=" + new Date().getTime());
+
+                }else {
+                    if(document.querySelector('#form-edit-picture').getElementsByClassName('error-message')[0] == undefined){
+                        printMessage('form-edit-picture', response.message, 'error');
+                        
+                        setFlickingMessage(document.querySelector('#form-edit-picture').getElementsByClassName('error-message')[0]);
+                        
+                        setTimeout(() => {
+                            document.querySelector('#form-edit-picture').removeChild(document.querySelector('#form-edit-picture').getElementsByClassName('error-message')[0]);
+                        }, 3500);
+                    }
+                }
+
+            });
+        
+        }
+
+    });
 }
+
+

@@ -1,5 +1,4 @@
 <?php
-    
     require_once "../user.controller.php";
     require_once "../../models/user.model.php";
 
@@ -33,7 +32,6 @@
         "body" => "", 
         "message" => "Inicio de sesion erroneo: por favor intente mas tarde.");
     }
-
     
     echo json_encode($response);
 ?>

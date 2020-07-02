@@ -63,5 +63,35 @@ class UserController {
         $response = UserModel::findUsersByCriteria($keyword);
         return $response;
     }
+
+    static public function removePostById($id){
+        $response = UserModel::deletePostById($id);
+        return $response;
+    }
+
+    static public function editUserById($id, $field, $value){
+        $response = UserModel::updateUserById($id, $field, $value);
+        return $response;
+    }
+
+    static public function editUserImage($id, $image_content, $image_type){
+        $response = UserModel::uploadUserImage($id, $image_content, $image_type);
+        return $response;
+    }
+
+    static public function getLikesByPostId($id){
+        $response = UserModel::findLikesByPostId($id);
+        return $response;
+    }
+
+    static public function saveLike($id_user, $id_post){
+        $response = UserModel::putLike($id_user, $id_post);
+        return $response;
+    }
+
+    static public function removeLike($id_user, $id_post){
+        $response = UserModel::deleteLike($id_user, $id_post);
+        return $response;
+    }
 }
 ?>

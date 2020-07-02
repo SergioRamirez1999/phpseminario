@@ -91,6 +91,17 @@ export function printMessage(nodeId, message, level) {
 
 }
 
+export function sendAjaxRequest(resource, method, fdata, callback){
+    let xhr = new XMLHttpRequest;
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState == 4 && xhr.status == 200)
+            callback(JSON.parse(xhr.responseText));
+    }
+    xhr.open(method, resource);
+    xhr.send(fdata);
+    return xhr;
+}
+
 const REGEX_NAME = /^[a-zA-Z ]+$/;
 const REGEX_LASTNAME = /^[a-zA-Z ]+$/;
 const REGEX_USERNAME = /^[a-zA-Z0-9]{6,}$/;

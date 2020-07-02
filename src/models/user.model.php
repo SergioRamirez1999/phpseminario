@@ -5,7 +5,7 @@ require_once "connection.php";
 define("USERS_TABLENAME", "usuarios");
 define("MESSAGES_TABLENAME", "mensaje");
 define("FOLLOWINGS_TABLENAME", "siguiendo");
-define("LIKES_TABLENAME", "likes");
+define("LIKES_TABLENAME", "me_gusta");
 
 
 class UserModel {
@@ -69,7 +69,7 @@ class UserModel {
 
     static public function findFollowingsPostsById($id){
         $stmt = DatabaseConnection::getConnection()->prepare(
-            "SELECT * FROM (SELECT `u`.`id` AS `id_user`, `u`.`nombreusuario` AS `nombreusuario_user`, `u`.`nombre` AS `nombre_user`, `u`.`apellido` AS `apellido_user`, `u`.`foto_contenido` AS `foto_contenido_user`, `u`.`foto_tipo` AS `foto_tipo_user`,`m`.`id` AS `id_mensaje`, `m`.`texto` AS `texto_mensaje`, `m`.`imagen_contenido` AS `imagen_contenido_mensaje`, `m`.`imagen_tipo` AS `imagen_tipo_mensaje`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y') AS `fechayhora_mensaje` FROM ".USERS_TABLENAME." `u` INNER JOIN ".MESSAGES_TABLENAME." `m` ON(`u`.`id` = `m`.`usuarios_id`) WHERE `u`.`id` IN (SELECT `fl`.`usuarioseguido_id` FROM ".FOLLOWINGS_TABLENAME." `fl` WHERE `fl`.`usuarios_id` = :userid)) `data` ORDER BY `data`.`fechayhora_mensaje` DESC");
+            "SELECT * FROM (SELECT `u`.`id` AS `id_user`, `u`.`nombreusuario` AS `nombreusuario_user`, `u`.`nombre` AS `nombre_user`, `u`.`apellido` AS `apellido_user`, `u`.`foto_contenido` AS `foto_contenido_user`, `u`.`foto_tipo` AS `foto_tipo_user`,`m`.`id` AS `id_mensaje`, `m`.`texto` AS `texto_mensaje`, `m`.`imagen_contenido` AS `imagen_contenido_mensaje`, `m`.`imagen_tipo` AS `imagen_tipo_mensaje`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y') AS `fechayhora_mensaje` FROM ".USERS_TABLENAME." `u` INNER JOIN ".MESSAGES_TABLENAME." `m` ON(`u`.`id` = `m`.`usuarios_id`) WHERE `u`.`id` IN (SELECT `fl`.`usuarioseguido_id` FROM ".FOLLOWINGS_TABLENAME." `fl` WHERE `fl`.`usuarios_id` = :userid)) `data` ORDER BY `data`.`fechayhora_mensaje` ASC");
 
         $stmt -> bindParam(":userid", $id, PDO::PARAM_INT);
 
@@ -183,7 +183,7 @@ class UserModel {
     static public function findPostsById($id){
 
         $stmt = DatabaseConnection::getConnection()->prepare(
-            "SELECT `m`.`id`, `m`.`texto`, `m`.`imagen_contenido`, `m`.`imagen_tipo`, `m`.`usuarios_id`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%m') AS `fechayhora` FROM `mensaje` `m` WHERE `m`.`usuarios_id` = :userId ORDER BY `m`.`fechayhora` DESC");
+            "SELECT `m`.`id`, `m`.`texto`, `m`.`imagen_contenido`, `m`.`imagen_tipo`, `m`.`usuarios_id`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%m') AS `fechayhora` FROM `mensaje` `m` WHERE `m`.`usuarios_id` = :userId ORDER BY `m`.`fechayhora` ASC");
 
         $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
 
@@ -257,11 +257,120 @@ class UserModel {
         $stmt = null;
     }
 
-    
+    static public function deletePostById($id){
+        $stmt = DatabaseConnection::getConnection()->prepare(
+            "DELETE FROM ".MESSAGES_TABLENAME." WHERE id = :messageId");
+
+        $stmt -> bindParam(":messageId", $id, PDO::PARAM_INT);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        return $id;
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    static public function updateUserById($id, $field, $value){
+        $stmt = DatabaseConnection::getConnection()->prepare(
+            "UPDATE ".USERS_TABLENAME." SET `".$field."`=:value WHERE `id` = :userId");
+
+        $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
+        $stmt -> bindParam(":value", $value, PDO::PARAM_STR);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        return $id;
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    static public function uploadUserImage($id, $image_content, $image_type){
+        $stmt = DatabaseConnection::getConnection()->prepare(
+            "UPDATE ".USERS_TABLENAME." SET `foto_contenido` = :imageContent, `foto_tipo` = :imageType WHERE `id` = :userId");
+
+        $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
+        $stmt -> bindParam(":imageContent", $image_content, PDO::PARAM_STR);
+        $stmt -> bindParam(":imageType", $image_type, PDO::PARAM_STR);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        return $id;
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    static public function findLikesByPostId($id){
+        $stmt = DatabaseConnection::getConnection()->prepare(
+            "SELECT `mg`.`id`, `mg`.`usuarios_id`, `mg`.`mensaje_id` FROM ".LIKES_TABLENAME." `mg` WHERE `mg`.`mensaje_id` = :idMensaje");
+
+        $stmt -> bindParam(":idMensaje", $id, PDO::PARAM_INT);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    static public function putLike($id_user, $id_post){
+        $stmt = DatabaseConnection::getConnection()->prepare(
+            "INSERT INTO ".LIKES_TABLENAME." (`usuarios_id`, `mensaje_id`) VALUES (:idUser, :idPost)");
+
+        $stmt -> bindParam(":idUser", $id_user, PDO::PARAM_INT);
+        $stmt -> bindParam(":idPost", $id_post, PDO::PARAM_INT);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        return $id_user;
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    static public function deleteLike($id_user, $id_post){
+        $stmt = DatabaseConnection::getConnection()->prepare(
+            "DELETE FROM ".LIKES_TABLENAME." WHERE `usuarios_id` = :idUser AND `mensaje_id` = :idPost");
+
+        $stmt -> bindParam(":idUser", $id_user, PDO::PARAM_INT);
+        $stmt -> bindParam(":idPost", $id_post, PDO::PARAM_INT);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        return $id_user;
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
 
 }
-
-
-
 
 ?>

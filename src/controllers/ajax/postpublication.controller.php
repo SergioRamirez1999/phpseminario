@@ -53,12 +53,9 @@
             "body" => "", 
             "message" => "Guardado de post erroneo: por favor intente mas tarde.");
         }
+        
+        echo json_encode($response);
 
-    }else {
-        $response = array("status" => 400, 
-            "body" => "", 
-            "message" => "Guardado de post erroneo: por favor intente mas tarde.");
     }
 
-    echo json_encode($response);
 ?>

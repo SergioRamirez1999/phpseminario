@@ -1,8 +1,19 @@
+<?php
+
+    if(session_status() == PHP_SESSION_NONE)
+        session_start();
+
+    if(isset($_SESSION["user_data"])){
+        echo '<script> window.location.href = "http://localhost/phpseminario/src?page=home" </script>';
+    }
+
+?>
+
 <header class="header-container">
     <nav class="nav-content fx fx-jc-sa">
 
 
-        <a href="index.html">
+        <a href="http://localhost/phpseminario/src">
 
             <img src="views/img/logo-white.png" class="logo-web" alt="world logo">
 

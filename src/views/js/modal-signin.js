@@ -27,26 +27,27 @@ const signinContent =
                 <div class="form-title">
                     <h2>Iniciar sesion</h2>
                 </div>
-                
+                <form method="POST" class="fx fx-column" id="form-signin">
 
-                <div class="row-input-content" id="username-signin-container">
-                    <label for="user-username" class="label-input">Nombre de usuario</label>
-                    <div class="input-content">
-                        <input id="input-signin-username" type="text" name="user-username">
+                    <div class="row-input-content" id="username-signin-container">
+                        <label for="user-username" class="label-input">Nombre de usuario</label>
+                        <div class="input-content">
+                            <input id="input-signin-username" type="text" name="user-username">
+                        </div>
                     </div>
-                </div>
 
-                <div class="row-input-content" id="password-signin-container">
-                    <label for="user-password" class="label-input">Contraseña</label>
-                    <div class="input-content">
+                    <div class="row-input-content" id="password-signin-container">
+                        <label for="user-password" class="label-input">Contraseña</label>
+                        <div class="input-content">
 
-                        <input id="input-signin-password" type="password" name="user-password">
+                            <input id="input-signin-password" type="password" name="user-password">
+                        </div>
                     </div>
-                </div>
-                
-                <div class="btn-content">
-                    <button type="submit" id="btn-enter" class="btn btn-primary">Ingresar</button>
-                </div>
+                    
+                    <div class="btn-content">
+                        <button type="submit" id="btn-enter" class="btn btn-primary">Ingresar</button>
+                    </div>
+                </form>
 
             </div>
 
@@ -56,7 +57,7 @@ const signinContent =
 
 const btnSignin = document.getElementById('btn-signin');
 
-btnSignin.addEventListener('click', () => {
+btnSignin.addEventListener('click', (e) => {
 
     const signinModal = createModal(signinContent);
     signinModal.printModal();
@@ -68,6 +69,9 @@ btnSignin.addEventListener('click', () => {
 
     
     btnEnter.addEventListener('click', (e) => {
+
+        e.preventDefault();
+
         let usernameValue = inputUsername.value;
         let passwordValue = inputPassword.value;
         

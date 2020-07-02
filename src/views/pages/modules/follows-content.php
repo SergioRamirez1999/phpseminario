@@ -3,24 +3,30 @@
     if(session_status() == PHP_SESSION_NONE)
         session_start();
     
-    if(isset($_SESSION["user_data"]) && isset($_GET["username"]) && isset($_GET["profile"])){
-        $user = $_SESSION["user_data"];
-        $profile = $_GET["profile"];
-        $username = $_GET["username"];
+    if(isset($_SESSION["user_data"])){
 
-        //FOLLOWS DE USUARIO DISTINTO AL DE SESION
-        if($username != $user["nombreusuario"])
-            $user = UserController::getUserByUsername($username);
-        
-        if($user){
-            if($profile == "followers"){
-                $userFollows = UserController::getFollowersById($user["id"]);
-                $followings = UserController::getFollowingsById($user["id"]);
-            }else if($profile == "followings"){
-                $userFollows = UserController::getFollowingsById($user["id"]);
+        if(isset($_GET["username"]) && isset($_GET["profile"])){
+
+            $user = $_SESSION["user_data"];
+            $profile = $_GET["profile"];
+            $username = $_GET["username"];
+    
+            //FOLLOWS DE USUARIO DISTINTO AL DE SESION
+            if($username != $user["nombreusuario"])
+                $user = UserController::getUserByUsername($username);
+            
+            if($user){
+                if($profile == "followers"){
+                    $userFollows = UserController::getFollowersById($user["id"]);
+                    $followings = UserController::getFollowingsById($user["id"]);
+                }else if($profile == "followings"){
+                    $userFollows = UserController::getFollowingsById($user["id"]);
+                }
+            }else {
+                echo '<script> window.location.href = "http://localhost/phpseminario/src?page=home"</script>';    
             }
         }else {
-            echo '<script> window.location.href = "http://localhost/phpseminario/src?page=home"</script>';    
+            echo '<script> window.location.href = "http://localhost/phpseminario/src"</script>';
         }
 
     }else {

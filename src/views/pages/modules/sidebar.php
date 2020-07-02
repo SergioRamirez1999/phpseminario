@@ -9,7 +9,7 @@
 ?>
 
 <section class="left-content fx fx-column fx-ai-ctr">
-    <a href="home.html" class="lk-logo-web">
+    <a href="http://localhost/phpseminario/src?page=home" class="lk-logo-web">
         <img src="views/img/logo-white.png" class="logo-web" alt="world logo">
     </a>
 
