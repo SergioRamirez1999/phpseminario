@@ -230,6 +230,44 @@ h4 {
     padding: 0px 8px 0px 8px;
 }
 
+/*#### ESTILOS ESPECIFICOS FOLLOWERS/FOLLOWINGS PAGE *BOTONES SEGUIMIENTO* ####*/
+
+.btn-follows {
+    margin-right: 5px;
+}
+
+.followingme-button {
+    background-color: rgb(0, 172, 238);
+}
+
+.followingme-button:hover {
+    background-color: rgb(210, 28, 56);
+}
+
+.notfollowingme-button {
+    background-color: rgb(0, 172, 238);
+}
+
+.notfollowingme-button:hover {
+    background-color: rgba(0, 172, 238, 0.2);
+}
+
+.followingyou-button {
+    background-color: rgb(0, 172, 238);
+}
+
+.followingyou-button:hover {
+    background-color: rgb(210, 28, 56);
+}
+
+.notfollowingyou-button {
+    background-color: rgb(0, 172, 238);
+}
+
+.notfollowingyou-button:hover {
+    background-color: rgba(0, 172, 238, 2);
+}
+
 
 /*### POST ###*/
 

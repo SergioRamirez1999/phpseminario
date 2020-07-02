@@ -55,73 +55,13 @@
 
     <div class="post-general-content" id="follows-container">
 
-        <?php if(isset($userFollows)):?>
-
-            <?php if($profile == "followers" && isset($followings)):?>
-                <?php
-                    //obtengo a quienes sigo
-
-                    $ids = array_map(function($user){
-                        return $user["id"];
-                    }, $followings);
-
-                    //si el id del seguidor esta en el array de siguiendo, entonces boton dejar de seguir
-                ?>
-
-            <?php endif; ?>
-
-            <?php foreach($userFollows as $key => $element): ?>
-                <div class="follows-layout-content fx fx-ai-ctr">
-
-                    <div class="left-layout-content fx fx-jc-ctr fx-ai-ctr">
-
-                        <!-- IMAGEN DE USUARIO -->
-                        <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $element["nombreusuario"]?>">
-                            <div class="user-logo-container">
-                                <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $element["id"]?>" alt="user image">
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="right-layout-content">
-
-                        <div class="top-content-post fx fx-jc-btw fx-ai-ctr">
-
-                            <div class="user-username-content fx fx-column">
-                                <!-- NOMBRE DE USUARIO -->
-                                <div class="post-user-name">
-                                    <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $element["nombreusuario"]?>">
-                                        <span><?php echo $element["nombre"].' '.$element["apellido"]?></span>
-                                    </a>
-                                </div>
-                                <!-- USERNAME DE USUARIO -->
-                                <div class="post-user-username">
-                                    <span><?php echo '@'.$element["nombreusuario"]?></span>
-                                </div>
-
-                            </div>
-
-                            <?php if($profile == "followers"):?>
-
-                                <?php if(in_array($element["id"], $ids)): ?>
-                                    <div class="btn btn-primary follows-button" user_owner="<?php echo $user["id"]?>" user_host="<?php echo $element["id"]?>">Siguiendo</div>
-                                <?php else: ?>
-                                    <div class="btn btn-primary follows-button" user_owner="<?php echo $user["id"]?>" user_host="<?php echo $element["id"]?>">Seguir</div>    
-                                <?php endif;?>
-                                
-                            <?php else:?>
-                                <div class="btn btn-primary follows-button" user_owner="<?php echo $user["id"]?>" user_host="<?php echo $element["id"]?>">Siguiendo</div>
-                            <?php endif;?>
-
-                        </div>
-
-                    </div>
-
-                </div>
-            <?php endforeach; ?>
-
-        <?php endif; ?>
+       
         
     </div>
+
+    <script type="module" src="views/js/followersfollowings.js"></script>
+
+    <input type="hidden" value="<?php echo $user["id"]?>" id="user_id_input">
+    <input type="hidden" value="<?php echo $profile?>" id="profile_input">
 
 </section>
