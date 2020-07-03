@@ -80,6 +80,7 @@ function manageButtons(){
 
         if(is_following == "followingme"){
             button.innerText = 'Siguiendo';
+            button.addEventListener('mouseover', buttonStyleFollow(button));
         }else if(is_following == "notfollowingme"){
             button.innerText = 'Seguir';
         }else if(is_following == "followingyou"){
@@ -97,4 +98,8 @@ function manageButtons(){
 
         console.log(owner_id, host_id, is_following)
     });
+}
+
+function buttonStyleFollow(button){
+    button.innerText = 'Dejar de seguir';
 }
