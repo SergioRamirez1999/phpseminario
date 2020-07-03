@@ -40,7 +40,7 @@
     <div class="fx fx-column">
         <nav class="navigator-menu fx fx-ai-ctr fx-jc-sa">
 
-            <div class="nav-menu-opt fx fx-jc-ctr opt-selected" id="btn-followers">
+            <div class="nav-menu-opt fx fx-jc-ctr" id="btn-followers">
                 <a href="http://localhost/phpseminario/src?page=follows&username=<?php echo $user["nombreusuario"] ?>&profile=followers" class="nav-link">
                     <span>Seguidores</span>
                 </a>
@@ -59,9 +59,10 @@
         
     </div>
 
-    <script type="module" src="views/js/followersfollowings.js"></script>
 
     <input type="hidden" value="<?php echo $user["id"]?>" id="user_id_input">
     <input type="hidden" value="<?php echo $profile?>" id="profile_input">
+    
+    <script type="module" src="views/js/followersfollowings.js"></script>
 
 </section>
