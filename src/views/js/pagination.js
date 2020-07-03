@@ -6,12 +6,16 @@ import {
     manageLikes
 } from './likes.js';
 
+import {
+    manageRemovePost
+} from './removepost.js';
+
 
 const user_id = document.querySelector('#user_id_input').value;
 const page = document.querySelector('#page_input').value;
 
 let origin = 0;
-const rows = 3;
+const rows = 10;
 var fired = false;
 
 getPosts(page);
@@ -45,6 +49,7 @@ function getPosts(resource){
                 origin += posts.length;
                 addPostToDom(posts);
                 manageLikes();
+                manageRemovePost();
             }
         }else {
             console.error('error paginacion');

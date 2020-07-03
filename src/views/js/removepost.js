@@ -1,4 +1,6 @@
-window.onload = function() {
+window.onload = manageRemovePost();
+
+export function manageRemovePost() {
 
     let removePostEl = document.querySelectorAll('.remove-message');
 
