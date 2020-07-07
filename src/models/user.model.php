@@ -33,7 +33,7 @@ class UserModel {
         
         $stmt = DatabaseConnection::getConnection()->prepare("SELECT * FROM ".USERS_TABLENAME." `u` WHERE `u`.`id` = :id ");
 
-        $stmt -> bindParam(":id", $id, PDO::PARAM_STR);
+        $stmt -> bindParam(":id", $id, PDO::PARAM_INT);
 
 
         if(!$stmt -> execute()) {

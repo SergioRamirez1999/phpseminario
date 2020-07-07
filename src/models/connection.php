@@ -15,3 +15,5 @@ Class DatabaseConnection {
         return $link;
     }
 }
+
+?>
