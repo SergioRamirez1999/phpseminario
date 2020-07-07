@@ -53,8 +53,8 @@ class MessageDaoImp implements MessageDao {
             $stmt -> bindParam(":imageContent", $message->image_content, PDO::PARAM_STR);
             $stmt -> bindParam(":imageType", $message->image_type, PDO::PARAM_STR);
         }
-        $stmt -> bindParam(":userIdFk", $message->id_user_fk, PDO::PARAM_STR);
-        $stmt -> bindParam(":createAt", $message->create_at, PDO::PARAM_STR);
+        $stmt -> bindParam(":userIdFk", $message->id_user_fk, PDO::PARAM_INT);
+        $stmt -> bindParam(":createAt", $message->create_at, PDO::PARAM_INT);
 
 
         if(!$stmt -> execute()) {
