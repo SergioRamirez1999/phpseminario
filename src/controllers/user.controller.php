@@ -1,102 +1,64 @@
 <?php
 
+require_once "./dao/imp/user.imp.php";
 
 class UserController {
 
-    static public function getUserByUsername($username){
-        $response = UserModel::findUserByUsername($username);
+    private $userDao;
+
+    public function __construct(){
+        $this->userDao = new UserDaoImp();
+    }
+
+    public function getById($id, $full=false){
+        $response = $this->userDao->findById($id,$full);
         return $response;
     }
 
-    static public function getUserById($id){
-        $response = UserModel::findUserById($id);
+    public function getByUsername($username, $full=false){
+        $response = $this->userDao->findByUsername($username, $full);
         return $response;
     }
 
-    static public function getMessageById($id){
-        $response = UserModel::findMessageById($id);
+    public function getByUsernameAndPassword($username, $password, $full=false){
+        $response = $this->userDao->findByUsernameAndPassword($username, $password, $full);
         return $response;
     }
 
-    static public function getFollowingsPosts($id, $origin=0, $rows=10){
-        $response = UserModel::findFollowingsPostsById($id, $origin, $rows);
+    public function save($user){
+        $response = $this->userDao->save($user);
         return $response;
     }
 
-    static public function saveUser($user){
-        $response = UserModel::putUser($user);
+    public function update($user, $field, $value){
+        $response = $this->userDao->update($user, $field, $value);
         return $response;
     }
 
-    static public function savePost($message){
-        $response = UserModel::putMessage($message);
+    public function delete($id){
+        $response = $this->userDao->delete($id);
         return $response;
     }
 
-    static public function getFollowingsById($id){
-        $response = UserModel::findFollowingsById($id);
+    public function getFollowings($id){
+        $response = $this->userDao->getFollowings($id);
         return $response;
     }
 
-    static public function getFollowersById($id){
-        $response = UserModel::findFollowersById($id);
+    public function getFollowers($id){
+        $response = $this->userDao->getFollowers($id);
         return $response;
     }
 
-    static public function getPostsById($id, $origin=0, $rows=10){
-        $response = UserModel::findPostsById($id, $origin, $rows);
+    public function getPaginationMessages($id, $origin=0, $rows=10){
+        $response = $this->userDao->getPaginationMessages($id, $origin, $rows);
         return $response;
     }
 
-    static public function followUserById($id_owner, $id_host){
-        $response = UserModel::putFollowById($id_owner, $id_host);
+    public function getAllMessages($id, $origin=0, $rows=10){
+        $response = $this->userDao->getAllMessages($id, $origin, $rows);
         return $response;
     }
-
-    static public function unfollowUserById($id_owner, $id_host){
-        $response = UserModel::removeFollowById($id_owner, $id_host);
-        return $response;
-    }
-
-    static public function searchUsersByCriteria($keyword){
-        $keyword = '%'.$keyword.'%';
-        $response = UserModel::findUsersByCriteria($keyword);
-        return $response;
-    }
-
-    static public function removePostById($id){
-        $response = UserModel::deletePostById($id);
-        return $response;
-    }
-
-    static public function editUserById($id, $field, $value){
-        $response = UserModel::updateUserById($id, $field, $value);
-        return $response;
-    }
-
-    static public function editUserImage($id, $image_content, $image_type){
-        $response = UserModel::uploadUserImage($id, $image_content, $image_type);
-        return $response;
-    }
-
-    static public function getLikesByPostId($id){
-        $response = UserModel::findLikesByPostId($id);
-        return $response;
-    }
-
-    static public function saveLike($id_user, $id_post){
-        $response = UserModel::putLike($id_user, $id_post);
-        return $response;
-    }
-
-    static public function removeLike($id_user, $id_post){
-        $response = UserModel::deleteLike($id_user, $id_post);
-        return $response;
-    }
-
-    static public function removeAllLikes($id_post){
-        $response = UserModel::deleteAllLikes($id_post);
-        return $response;
-    }
+   
 }
 ?>

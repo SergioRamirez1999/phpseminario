@@ -14,25 +14,48 @@ class User {
     private $followings;
     private $messages;
 
+    public function __construct(){
+        //obtengo un array con los parámetros enviados a la función
+        $params = func_get_args();
+		//saco el número de parámetros que estoy recibiendo
+		$num_params = func_num_args();
+		//cada constructor de un número dado de parámtros tendrá un nombre de
+		//atendiendo al siguiente modelo __construct1() __construct2()...
+		$funcion_constructor ='__construct'.$num_params;
+		//compruebo si hay un constructor con ese número de parámetros
+		if (method_exists($this,$funcion_constructor)) {
+			//si existía esa función, la invoco, reenviando los parámetros que recibí en el constructor original
+			call_user_func_array(array($this,$funcion_constructor),$params);
+		}
+    }
 
-    public function __construct($id, $name, $lastname, $email, $username, $password){
+    public function __construct5($id, $name, $lastname, $email, $username){
         $this->id = $id;
         $this->name = $name;
         $this->lastname = $lastname;
         $this->email = $email;
         $this->username = $username;
+    }
+
+    public function __construct6($id, $name, $lastname, $email, $username, $password){
+        $this->__construct5($id, $name, $lastname, $email, $username);
         $this->password = $password;
     }
 
-
-    public function __construct1($id, $name, $lastname, $email, $username, $password, $photo_content, $photo_type){
-        $this->__construct($id, $name, $lastname, $email, $username, $password);
+    public function __construct7($id, $name, $lastname, $email, $username, $photo_content, $photo_type){
+        $this->__construct5($id, $name, $lastname, $email, $username);
         $this->photo_content = $photo_content;
         $this->photo_type = $photo_type;
     }
 
-    public function __construct2($id, $name, $lastname, $email, $username, $password, $photo_content, $photo_type, $followers, $followings, $messages){
-        $this->__construct1($id, $name, $lastname, $email, $username, $password, $photo_content, $photo_type);
+    public function __construct8($id, $name, $lastname, $email, $username, $password, $photo_content, $photo_type){
+        $this->__construct6($id, $name, $lastname, $email, $username, $password);
+        $this->photo_content = $photo_content;
+        $this->photo_type = $photo_type;
+    }
+
+    public function __construct11($id, $name, $lastname, $email, $username, $password, $photo_content, $photo_type, $followers, $followings, $messages){
+        $this->__construct8($id, $name, $lastname, $email, $username, $password, $photo_content, $photo_type);
         $this->followers = $followers;
         $this->followings = $followings;
         $this->messages = $messages;
@@ -51,7 +74,7 @@ class User {
     }
 
     public function setName($name){
-        $this->id = $name;
+        $this->name = $name;
     }
 
     public function getLastname(){
@@ -59,7 +82,7 @@ class User {
     }
 
     public function setLastname($lastname){
-        $this->id = $lastname;
+        $this->lastname = $lastname;
     }
 
     public function getEmail(){
@@ -67,7 +90,7 @@ class User {
     }
 
     public function setEmail($email){
-        $this->id = $email;
+        $this->email = $email;
     }
 
     public function getUsername(){
@@ -75,7 +98,7 @@ class User {
     }
 
     public function setUsername($username){
-        $this->id = $username;
+        $this->username = $username;
     }
 
     public function getPassword(){
@@ -83,7 +106,7 @@ class User {
     }
 
     public function setPassword($password){
-        $this->id = $password;
+        $this->password = $password;
     }
 
     public function getPhotoContent(){
@@ -91,7 +114,7 @@ class User {
     }
 
     public function setPhotoContent($photo_content){
-        $this->id = $photo_content;
+        $this->photo_content = $photo_content;
     }
 
     public function getPhotoType(){
@@ -99,7 +122,7 @@ class User {
     }
 
     public function setPhotoType($photo_type){
-        $this->id = $photo_type;
+        $this->photo_type = $photo_type;
     }
 
     public function getFollowers(){

@@ -10,8 +10,16 @@ class Message {
     private $create_at;
     private $likes;
 
+    public function __construct(){
+        $params = func_get_args();
+		$num_params = func_num_args();
+		$funcion_constructor ='__construct'.$num_params;
+		if (method_exists($this,$funcion_constructor)) {
+			call_user_func_array(array($this,$funcion_constructor),$params);
+		}
+    }
 
-    public function __construct($id, $text_content, $id_user_fk, $create_at){
+    public function __construct4($id, $text_content, $id_user_fk, $create_at){
         $this->id = $id;
         $this->text_content = $text_content;
         $this->id_user_fk = $id_user_fk;
@@ -19,14 +27,17 @@ class Message {
     }
 
 
-    public function __construct1($id, $text_content, $image_content, $image_type, $id_user_fk, $create_at){
-        $this->__construct($id, $text_content, $id_user_fk, $create_at);
+    public function __construct6($id, $text_content, $image_content, $image_type, $id_user_fk, $create_at){
+        $this->id = $id;
+        $this->text_content = $text_content;
+        $this->id_user_fk = $id_user_fk;
+        $this->create_at = $create_at;
         $this->image_content = $image_content;
         $this->image_type = $image_type;
     }
 
-    public function __construct2($id, $text_content, $image_content, $image_type, $id_user_fk, $create_at, $likes){
-        $this->__construct1($id, $text_content, $image_content, $image_type, $id_user_fk, $create_at);
+    public function __construct7($id, $text_content, $image_content, $image_type, $id_user_fk, $create_at, $likes){
+        $this->__construct6($id, $text_content, $image_content, $image_type, $id_user_fk, $create_at);
         $this->likes = $likes;
     }
 
@@ -43,7 +54,7 @@ class Message {
     }
 
     public function setText($text_content){
-        $this->id = $text_content;
+        $this->text = $text_content;
     }
 
     public function getImageContent(){
@@ -51,7 +62,7 @@ class Message {
     }
 
     public function setImageContent($image_content){
-        $this->id = $image_content;
+        $this->image_content = $image_content;
     }
 
     public function getImageType(){
@@ -59,7 +70,7 @@ class Message {
     }
 
     public function setImageType($image_type){
-        $this->id = $image_type;
+        $this->image_type = $image_type;
     }
 
     public function getIdUserFk(){
@@ -67,7 +78,7 @@ class Message {
     }
 
     public function setIdUserFk($id_user_fk){
-        $this->id = $id_user_fk;
+        $this->id_user_fk = $id_user_fk;
     }
 
     public function getCreateAt(){
@@ -75,7 +86,7 @@ class Message {
     }
 
     public function setCreateAT($create_at){
-        $this->id = $create_at;
+        $this->create_at = $create_at;
     }
 
     public function getLikes(){
@@ -83,7 +94,7 @@ class Message {
     }
 
     public function setLikes($likes){
-        $this->id = $likes;
+        $this->likes = $likes;
     }
 
    

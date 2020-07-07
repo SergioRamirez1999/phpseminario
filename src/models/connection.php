@@ -1,7 +1,7 @@
 <?php
 
 
-Class DatabaseConnection {
+class DatabaseConnection {
 
     static public function getConnection(){
 

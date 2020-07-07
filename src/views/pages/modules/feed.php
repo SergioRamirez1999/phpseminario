@@ -1,4 +1,6 @@
 <?php
+    require_once "./controllers/user.controller.php";
+    require_once "./controllers/message.controller.php";
 
     if(session_status() == PHP_SESSION_NONE)
         session_start();
@@ -6,9 +8,18 @@
     if(isset($_SESSION["user_data"])){
         $user = $_SESSION["user_data"];
 
-        $postsFollowings = UserController::getFollowingsPosts($user["id"]);
+        $userController = new UserController();
 
-        $postsUser = UserController::getPostsById($user["id"]);
+        $userSke = $userController->getById($user["id"]);
+
+        $messageController = new MessageController();
+        $messageSke = $messageController->getById(65);
+
+        echo $messageSke;
+        return;
+        // $postsFollowings = UserController::getFollowingsPosts($user["id"]);
+
+        // $postsUser = UserController::getPostsById($user["id"]);
 
     }else {
         echo '<script> window.location.href = "http://localhost/phpseminario/src"</script>';
