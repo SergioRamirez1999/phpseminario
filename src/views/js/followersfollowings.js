@@ -7,6 +7,15 @@ const user_id = document.querySelector('#user_id_input').value;
 const profile = document.querySelector('#profile_input').value;
 let followsContainer = document.querySelector('#follows-container');
 
+if(profile == "followers"){
+    document.querySelector('#btn-followings').classList.remove('opt-selected');
+    document.querySelector('#btn-followers').classList.add('opt-selected');
+
+}else if(profile == "followings"){
+    document.querySelector('#btn-followers').classList.remove('opt-selected');
+    document.querySelector('#btn-followings').classList.add('opt-selected');
+}
+
 let fdata = new FormData();
 fdata.append('user_id', user_id);
 fdata.append('profile', profile);
@@ -57,7 +66,7 @@ function addUsersToDom(users){
     
                     </div>
     
-                    <div class="btn btn-primary btn-follows ${user.is_following}-button" user_owner="${user_id}" user_host="${user.id}" is_following="${user.is_following}">siguiendo</div>
+                    <div class="btn btn-primary button-follow" user_owner="${user_id}" user_host="${user.id}" is_following="${user.is_following}">siguiendo</div>
     
                 </div>
     
@@ -71,35 +80,84 @@ function addUsersToDom(users){
 }
 
 function manageButtons(){
-    let buttons = document.querySelectorAll('.btn-follows');
+    let buttons = document.querySelectorAll('.button-follow');
 
     buttons.forEach((button) => {
         let owner_id = button.getAttribute("user_owner");
         let host_id = button.getAttribute("user_host");
         let is_following = button.getAttribute("is_following");
 
-        if(is_following == "followingme"){
-            button.innerText = 'Siguiendo';
-            button.addEventListener('mouseover', buttonStyleFollow(button));
-        }else if(is_following == "notfollowingme"){
-            button.innerText = 'Seguir';
-        }else if(is_following == "followingyou"){
-            button.innerText = 'Siguiendo';
-        }else if(is_following == "notfollowingyou"){
-            button.innerText = 'Seguir';
+        function buttonFollowingOverStyle(){
+            button.innerText = 'Dejar de seguir';
+            button.style = 'background-color: rgb(210, 28, 56)';
         }
 
+        function buttonFollowingOutStyle(){
+            button.innerText = 'Siguiendo';
+            button.style = 'background-color: rgb(29, 161, 242)';
+        }
+
+        function buttonFollowOverStyle(){
+            button.style = 'background-color: rgba(29, 161, 242, 0.7)';
+        }
+        
+        function buttonFollowOutStyle(){
+            button.style = 'background-color: rgb(29, 161, 242)';
+        }
+
+        if(profile == "followings"){
+            button.innerText = "Siguiendo";
+            button.addEventListener('mouseover', buttonFollowingOverStyle);
+            button.addEventListener('mouseout', buttonFollowingOutStyle);
+        }else if(profile == "followers"){
+            //si lo estoy siguiendo
+            if(is_following == "true"){
+                button.innerText = "Siguiendo";
+                button.addEventListener('mouseover', buttonFollowingOverStyle);
+                button.addEventListener('mouseout', buttonFollowingOutStyle);
+            }else {
+                button.innerText = "Seguir";
+                button.addEventListener('mouseover', buttonFollowOverStyle);
+                button.addEventListener('mouseout', buttonFollowOutStyle);
+            }
+        }
 
         button.addEventListener('click', () => {
+            let fdata = new FormData();
+            fdata.append('user_id', owner_id);
+            fdata.append('user_id_fu', host_id);
+            fdata.append('is_following', is_following);
 
-            
-            
+            sendAjaxRequest('controllers/ajax/followunfollow.controller.php', 'POST', fdata, (response) => {
+
+                if(response.status == 200){
+                    if(is_following == "true"){
+                        is_following = "false";
+
+                        if(profile == "followings"){
+                            let container = button.parentNode.parentNode.parentNode
+                            container.parentNode.removeChild(container);
+
+                        }else {
+                            button.setAttribute("is_following", is_following);
+                            button.removeEventListener('mouseover', buttonFollowingOverStyle);
+                            button.removeEventListener('mouseout', buttonFollowingOutStyle);
+                            button.innerText = 'Seguir';
+                            button.addEventListener('mouseover', buttonFollowOverStyle);
+                            button.addEventListener('mouseout', buttonFollowOutStyle);
+                        }
+                    }else if(is_following == "false"){
+                        is_following = "true";
+                        button.setAttribute("is_following", is_following);
+                        button.removeEventListener('mouseover', buttonFollowOverStyle);
+                        button.removeEventListener('mouseout', buttonFollowOutStyle);
+                        button.innerText = 'Siguiendo';
+                        button.addEventListener('mouseover', buttonFollowingOverStyle);
+                        button.addEventListener('mouseout', buttonFollowingOutStyle);
+                    }
+                }
+            });
         });
 
-        console.log(owner_id, host_id, is_following)
     });
-}
-
-function buttonStyleFollow(button){
-    button.innerText = 'Dejar de seguir';
 }

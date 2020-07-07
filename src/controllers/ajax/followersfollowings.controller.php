@@ -17,18 +17,11 @@
                 $users = UserController::getFollowingsById($user_id);
 
                 $data = array_map(function($user) use ($user_id){
-                    $us_fw = UserController::getFollowingsById($user["id"]);
-                    $us_fw_id = array_map(function($us){
-                        return $us["id"];
-                    }, $us_fw);
-
-                    $is_following = in_array($user_id, $us_fw_id);
-
                     return array("id" => $user["id"],
                     "nombreusuario" => $user["nombreusuario"],
                     "nombre" => $user["nombre"],
                     "apellido" => $user["apellido"],
-                    "is_following" => $is_following == TRUE ? 'followingme' : 'notfollowingme',
+                    "is_following" => "true",
                     "imagen_contenido" => isset($user["foto_contenido"]));
 
                 }, $users);
@@ -53,7 +46,7 @@
                     "nombreusuario" => $user["nombreusuario"],
                     "nombre" => $user["nombre"],
                     "apellido" => $user["apellido"],
-                    "is_following" => $is_following == TRUE ? 'followingyou' : 'notfollowingyou',
+                    "is_following" => $is_following,
                     "imagen_contenido" => isset($user["foto_contenido"]));
 
                 }, $users);

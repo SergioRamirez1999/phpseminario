@@ -6,12 +6,16 @@ import {
     manageLikes
 } from './likes.js';
 
+import {
+    manageRemovePost
+} from './removepost.js';
+
 
 const user_id = document.querySelector('#user_id_input').value;
 const page = document.querySelector('#page_input').value;
 
 let origin = 0;
-const rows = 3;
+const rows = 10;
 var fired = false;
 
 getPosts(page);
@@ -45,6 +49,7 @@ function getPosts(resource){
                 origin += posts.length;
                 addPostToDom(posts);
                 manageLikes();
+                manageRemovePost();
             }
         }else {
             console.error('error paginacion');
@@ -107,11 +112,12 @@ function addPostToDom(posts){
                         <div class="post-fecha">
                             <span>${post.fechayhora_mensaje}</span>
                         </div>
-                    </div>
+                    </div>`
 
 
-                    <!--EDITAR MENSAJE -->
-                    <div class="edit-post">
+        let eliminarPost =
+                    `<!--EDITAR MENSAJE -->
+                    <div class="edit-post remove-message" message_id=${post.id_mensaje}>
                         <div class="icon-down-open"></div>
                     </div>
 
@@ -129,6 +135,27 @@ function addPostToDom(posts){
 
                     <br>
                 </div>`
+
+        let editarPost =
+                `<!--EDITAR MENSAJE -->
+                <div class="edit-post">
+                    <div class="icon-down-open"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="between-content-post">
+
+            <div class="commentary-content-post">
+                <div class="commentary-content-msg">
+                    <!--POST TEXTO-->
+                    <span>${post.texto_mensaje}</span>
+                </div>
+
+                <br>
+            </div>`
 
         let imagen = `
                 <!--POST IMAGEN-->
@@ -158,6 +185,12 @@ function addPostToDom(posts){
 
         let fullTemplate = template;
 
+        if(page == "profile"){
+            fullTemplate += eliminarPost
+        }else {
+            fullTemplate += editarPost
+        }
+        
         if(post.imagen_contenido){
             fullTemplate += imagen;
         }
