@@ -17,7 +17,8 @@ export function manageRemovePost() {
                             if(xhr.status == 200){
                                 let response = JSON.parse(xhr.responseText);
                                 if(response.status == 200){
-                                    console.log(response.message)
+                                    let postContainerEl = elem.parentNode.parentNode.parentNode.parentNode;
+                                    postContainerEl.parentNode.removeChild(postContainerEl);
                                 }else {
                                     console.error(response.message);
                                 }

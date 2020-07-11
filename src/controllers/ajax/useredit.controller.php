@@ -1,6 +1,8 @@
 <?php
-    require_once "../user.controller.php";
-    require_once "../../models/user.model.php";
+    require_once "../../config/bootstrap.php";
+    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/controllers/user.controller.php";
+    require_once ROOT_DIR."/controllers/following.controller.php";
 
     if(session_status() == PHP_SESSION_NONE)
         session_start();
@@ -11,6 +13,8 @@
             && isset($_POST["field"]) 
             && isset($_POST["value"]) || (isset($_FILES["value"]["tmp_name"]) 
             && !empty($_FILES["value"]["tmp_name"]))) {
+
+            $userController = new UserController();
             $user_id = $_POST["user_id"];
             $field = $_POST["field"];
 
@@ -27,7 +31,7 @@
 
                 $imageContent = file_get_contents(addslashes($_FILES["value"]["tmp_name"]));
 
-                UserController::editUserImage($user_id, $imageContent, $imageType);
+                $userController->uploadImage($user_id, $imageContent, $imageType);
 
                 $response = array("status" => 200, 
                 "body" => "", 
@@ -35,14 +39,14 @@
                 
             }else if($field == "contrasenia"){
                 if(isset($_POST["actual_password"])){
-                    $user = UserController::getUserById($user_id);
+                    $user = $userController->getById($user_id);
                     $actual_pwd = $_POST["actual_password"];
                     $new_pwd = md5($value);
-                    if($user["contrasenia"] == md5($actual_pwd)){
+                    if($user->getPassword() == md5($actual_pwd)){
 
-                        if($user["contrasenia"] != $new_pwd){
+                        if($user->getPassword() != $new_pwd){
 
-                            UserController::editUserById($user_id, $field, $new_pwd);
+                            $userController->update($user_id, $field, $new_pwd);
                             $response = array("status" => 200, 
                             "body" => "", 
                             "message" => "Edicion de usuario exitoso: el usuario ha sido actualizado.");
@@ -63,13 +67,13 @@
                     "message" => "Edicion de usuario erroneo: por favor intente mas tarde.");
                 }
             }else {
-                UserController::editUserById($user_id, $field, $value);
+                $userController->update($user_id, $field, $value);
                 $response = array("status" => 200, 
                 "body" => "", 
                 "message" => "Edicion de usuario exitoso: el usuario ha sido actualizado.");
             }
 
-            $_SESSION["user_data"] = UserController::getUserById($user_id);
+            $_SESSION["user_data"] = $userController->getById($user_id);
 
         }else {
             $response = array("status" => 404, 

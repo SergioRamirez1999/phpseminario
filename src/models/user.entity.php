@@ -1,6 +1,6 @@
 <?php
 
-class User {
+class User implements JsonSerializable {
 
     private $id;
     private $name;
@@ -59,6 +59,22 @@ class User {
         $this->followers = $followers;
         $this->followings = $followings;
         $this->messages = $messages;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'lastname' => $this->lastname,
+            'email' => $this->email,
+            'username' => $this->username,
+            'password' => $this->password,
+            'photo_content' => base64_encode($this->photo_content),
+            'photo_type' => $this->photo_type,
+            'followers' => $this->followers,
+            'followings' => $this->followings,
+            'messages' => $this->messages
+        ];
     }
 
     public function getId(){

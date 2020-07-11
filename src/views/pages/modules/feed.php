@@ -1,6 +1,7 @@
 <?php
-    require_once "./controllers/user.controller.php";
-    require_once "./controllers/message.controller.php";
+    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/controllers/user.controller.php";
+    require_once ROOT_DIR."/controllers/message.controller.php";
 
     if(session_status() == PHP_SESSION_NONE)
         session_start();
@@ -10,16 +11,9 @@
 
         $userController = new UserController();
 
-        $userSke = $userController->getById($user["id"]);
+        //obtener solo un post propio
+        $postUser = $userController->getPaginationMessages($user->getId(), 0, 1);
 
-        $messageController = new MessageController();
-        $messageSke = $messageController->getById(65);
-
-        echo $messageSke;
-        return;
-        // $postsFollowings = UserController::getFollowingsPosts($user["id"]);
-
-        // $postsUser = UserController::getPostsById($user["id"]);
 
     }else {
         echo '<script> window.location.href = "http://localhost/phpseminario/src"</script>';
@@ -34,7 +28,7 @@
         <div class="comment-center fx fx-column fx-jc-sa">
             <div class="fx fx-jc-ctr">
                 <div class="user-logo">
-                    <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $user["id"]?>" alt="user image" style="max-width: 50px; max-height: 50px; border-radius: 100%;">
+                    <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $user->getId()?>" alt="user image" style="max-width: 50px; max-height: 50px; border-radius: 100%;">
                 </div>
                 <div class="user-commentary-content">
                     <textarea class="input-commentary" name="post-commentary" id="input-post-commentary" placeholder="en que estas pensando?"></textarea>
@@ -69,16 +63,16 @@
     <div class="post-general-content" id="posts-container">
 
 
-        <?php if(count($postsUser) > 0): ?>
+        <?php if(isset($postUser) && count($postUser) > 0): ?>
             <div class="post-layout-content fx">
 
                 <div class="left-layout-content fx fx-jc-ctr">
 
                     <!--LOGO DE USUARIO-->
 
-                    <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user["nombreusuario"] ?>">
+                    <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername() ?>">
                         <div class="user-logo-container">
-                            <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $user["id"]?>" alt="user image">
+                            <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $user->getId()?>" alt="user image">
                         </div>
                     </a>
 
@@ -94,20 +88,20 @@
                             
                             <div class="lft-ct fx fx-ai-ctr">
                                 <!--NOMBRE Y APELLIDO DE USUARIO -->
-                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user["nombreusuario"] ?>">
+                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername() ?>">
                                     <div class="post-user-name">
-                                        <span><?php echo $user["nombre"].' '.$user["apellido"]?></span>
+                                        <span><?php echo $user->getName().' '.$user->getLastname()?></span>
                                     </div>
                                 </a>
 
                                 <!--USERNAME DE USUARIO -->
                                 <div class="post-user-username">
-                                    <span>&nbsp;<?php echo '@'.$user["nombreusuario"]?></span>
+                                    <span>&nbsp;<?php echo '@'.$user->getUsername()?></span>
                                 </div>
 
                                 <!--FECHA MENSAJE -->
                                 <div class="post-fecha">
-                                    <span><?php echo '~'.$postsUser["0"]["fechayhora"] ?></span>
+                                    <span><?php echo '~'.$postUser[0]->getCreateAt() ?></span>
                                 </div>
                             </div>
 
@@ -126,45 +120,38 @@
                         <div class="commentary-content-post">
                             <div class="commentary-content-msg">
                                 <!--POST TEXTO-->
-                                <span><?php echo $postsUser[0]["texto"]?></span>
+                                <span><?php echo $postUser[0]->getText()?></span>
                             </div>
 
                             <br>
 
                         </div>
 
-                        <?php if(isset($postsUser[0]["imagen_contenido"]) && $postsUser[0]["imagen_contenido"] != null):?>
+                        <?php if($postUser[0]->getImageContent() != null):?>
                             <div class="image-post-container fx fx-jc-ctr">
-                                <img src="controllers/ajax/imagepreview.controller.php?image_type=message&id_message=<?php echo $postsUser[0]["id"] ?>" alt="post image">
+                                <img src="controllers/ajax/imagepreview.controller.php?image_type=message&id_message=<?php echo $postUser[0]->getId() ?>" alt="post image">
                             </div>
                         <?php endif; ?>
 
                     </div>
 
                     <?php
-                        $likes = UserController::getLikesByPostId($postsUser[0]["id"]);
-                        $c_likes = count($likes);
-
-                        $id_likes = array_map(function($like){
-                            return $like["usuarios_id"];
-                        }, $likes);
-
-                        $liked = in_array($user["id"], $id_likes);
-
+                        $messageController = new MessageController();
+                        $likes = $messageController->getById($postUser[0]->getId())->getLikes();
                     ?>
 
                     <!--LIKES/RETWEETS-->
                     <div class="bottom-content-post fx">
                         <div class="menu-option fx fx-ai-ctr">
                             <?php if(isset($liked) && $liked):?>
-                                <div class="liked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user["id"]?>" post_id="<?php echo $postsUser[0]["id"]?>" is_liked="liked">
+                                <div class="liked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user->getId()?>" post_id="<?php echo $postUser[0]->getId()?>" is_liked="liked">
                                     <div class="icon-heart likes-counter-icon"></div>
-                                    <span class="likes-counter"><?php echo $c_likes?></span>
+                                    <span class="likes-counter"><?php echo $likes?></span>
                                 </div>
                             <?php else:?>
-                                <div class="unliked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user["id"]?>" post_id="<?php echo $postsUser[0]["id"]?>" is_liked="unliked">
+                                <div class="unliked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user->getId()?>" post_id="<?php echo $postUser[0]->getId()?>" is_liked="unliked">
                                     <div class="icon-heart likes-counter-icon"></div>
-                                    <span class="likes-counter"><?php echo $c_likes?></span>
+                                    <span class="likes-counter"><?php echo $likes?></span>
                                 </div>
                             <?php endif;?>
                         </div>
@@ -183,13 +170,12 @@
 
     </div>
     
-    <input type="hidden" value="<?php echo $user["id"]?>" id="user_id_input">
+    <input type="hidden" value="<?php echo $user->getId()?>" id="user_session_id_input">
+    <input type="hidden" value="<?php echo $user->getId()?>" id="user_id_input">
     <input type="hidden" value="home" id="page_input">
 
     <script type="module" src="views/js/pagination.js"> </script>
     <script type="module" src="views/js/likes.js"> </script>
-
-
 
 
 </section>

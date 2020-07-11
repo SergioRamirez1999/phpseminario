@@ -1,6 +1,8 @@
 <?php
-    require_once "../user.controller.php";
-    require_once "../../models/user.model.php";
+    require_once "../../config/bootstrap.php";
+    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/models/like.entity.php";
+    require_once ROOT_DIR."/controllers/like.controller.php";
 
     if(session_status() == PHP_SESSION_NONE)
         session_start();
@@ -10,12 +12,15 @@
             $user_id = $_POST["user_id"];
             $post_id = $_POST["post_id"];
             $is_liked = $_POST["is_liked"];
+
+            $likeController = new LikeController();
+            
             if($is_liked == "liked"){
                 //deslikear
-                UserController::removeLike($_POST["user_id"], $_POST["post_id"]);
+                $likeController->deleteByFks($user_id, $post_id);
             }else if($is_liked == "unliked"){
                 //likear
-                UserController::saveLike($_POST["user_id"], $_POST["post_id"]);
+                $likeController->save(new Like(null, $user_id, $post_id));
             }
 
             $response = array("status" => 200, 

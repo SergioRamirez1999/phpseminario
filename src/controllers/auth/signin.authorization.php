@@ -1,12 +1,14 @@
 <?php
-    require_once "../user.controller.php";
-    require_once "../../models/user.model.php";
+    require_once "../../config/bootstrap.php";
+    require_once ROOT_DIR."/controllers/user.controller.php";
+    require_once ROOT_DIR."/dao/imp/user.imp.php";
 
     if(isset($_POST["username"]) && isset($_POST["password"])){
-        $user = UserController::getUserByUsername($_POST["username"]);
+        $userController = new UserController();
+        $user = $userController->getByUsername($_POST["username"]);
         if($user){
             $pass_hash = md5($_POST["password"]);
-            if($user["contrasenia"] == $pass_hash){
+            if($user->getPassword() == $pass_hash){
 
                 if(session_status() == PHP_SESSION_NONE)
                     session_start();
@@ -14,7 +16,7 @@
                 $_SESSION["user_data"] = $user;
 
                 $response = array("status" => 200, 
-                "body" => json_encode(array("nombre" => $user["nombre"], "apellido" => $user["apellido"], "email" => $user["email"], "nombreusuario" => $user["nombreusuario"])), 
+                "body" => json_encode($user), 
                 "message" => "Inicio de sesion exitoso: usted sera redireccionado");
             }else {
                 $response = array("status" => 400, 

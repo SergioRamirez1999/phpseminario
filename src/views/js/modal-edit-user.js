@@ -580,7 +580,7 @@ if(btnEditUser != undefined){
                         }, 3500);
                     }
 
-                    user_data.emial = inputEmail.value;
+                    user_data.email = inputEmail.value;
                 }else {
                     if(document.querySelector('#form-edit-email').getElementsByClassName('error-message')[0] == undefined){
                         printMessage('form-edit-email', response.message, 'error');

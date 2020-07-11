@@ -1,6 +1,6 @@
 <?php
 
-require_once "./dao/imp/following.imp.php";
+require_once ROOT_DIR."/dao/imp/following.imp.php";
 
 class FollowingController {
 
@@ -27,6 +27,11 @@ class FollowingController {
 
     public function delete($id){
         $response = $this->followingDao->delete($id);
+        return $response;
+    }
+
+    public function deleteByFks($id_user, $id_user_following_fk){
+        $response = $this->followingDao->deleteByFks($id_user, $id_user_following_fk);
         return $response;
     }
 

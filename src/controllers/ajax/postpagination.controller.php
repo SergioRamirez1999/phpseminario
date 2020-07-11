@@ -1,6 +1,9 @@
 <?php
-    require_once "../user.controller.php";
-    require_once "../../models/user.model.php";
+    require_once "../../config/bootstrap.php";
+    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/controllers/user.controller.php";
+    require_once ROOT_DIR."/controllers/message.controller.php";
+    require_once ROOT_DIR."/controllers/like.controller.php";
 
     if(session_status() == PHP_SESSION_NONE)
         session_start();
@@ -12,20 +15,19 @@
             $rows = $_POST["rows"];
             $page = $_POST["page"];
 
+            $userController = new UserController();
+            $messageController = new MessageController();
+            $likeController = new LikeController();
+
             if($page == "home"){
 
-                $posts = UserController::getFollowingsPosts($user_id, $origin, $rows);
+                $posts = $messageController->getPaginationFromFollowings($user_id, $origin, $rows);
                 
-                $data = array_map(function($post){
+                $data = array_map(function($post) use ($messageController, $likeController, $user_id){
                     
-                    $likes = UserController::getLikesByPostId($post["id_mensaje"]);
-                    $c_likes = count($likes);
+                    $c_likes = $messageController->getCountLikes($post["id_mensaje"]);
                     
-                    $id_likes = array_map(function($like){
-                        return $like["usuarios_id"];
-                    }, $likes);
-                    
-                    $liked = in_array($_POST["user_id"], $id_likes);
+                    $liked = $likeController->isLiked($user_id, $post["id_mensaje"]);
                     
                     return array("id_user" => $post["id_user"],
                     "nombreusuario_user" => $post["nombreusuario_user"],
@@ -35,7 +37,7 @@
                     "texto_mensaje" => $post["texto_mensaje"],
                     "fechayhora_mensaje" => $post["fechayhora_mensaje"],
                     "likes" => $c_likes,
-                    "is_liked" => $liked == true ? 'liked':'unliked',
+                    "is_liked" => $liked != null ? 'liked':'unliked',
                     "imagen_contenido" => isset($post["imagen_contenido_mensaje"]));
                 }, $posts);
 
@@ -45,31 +47,26 @@
 
             }else if($page == "profile"){
 
-                $user = UserController::getUserById($user_id);
+                $user = $userController->getById($user_id);
 
-                $posts = UserController::getPostsById($user["id"], $origin, $rows);
+                $posts = $userController->getPaginationMessages($user->getId(), $origin, $rows);
 
-                $data = array_map(function($post) use ($user){
+                $data = array_map(function($post) use ($user, $messageController, $likeController){
                     
-                    $likes = UserController::getLikesByPostId($post["id"]);
-                    $c_likes = count($likes);
+                    $c_likes = $messageController->getCountLikes($post->getId());
                     
-                    $id_likes = array_map(function($like){
-                        return $like["usuarios_id"];
-                    }, $likes);
+                    $liked = $likeController->isLiked($user->getId(), $post->getId());
                     
-                    $liked = in_array($_POST["user_id"], $id_likes);
-                    
-                    return array("id_user" => $user["id"],
-                    "nombreusuario_user" => $user["nombreusuario"],
-                    "nombre_user" => $user["nombre"],
-                    "apellido_user" => $user["apellido"],
-                    "id_mensaje" => $post["id"],
-                    "texto_mensaje" => $post["texto"],
-                    "fechayhora_mensaje" => $post["fechayhora"],
+                    return array("id_user" => $user->getId(),
+                    "nombreusuario_user" => $user->getUsername(),
+                    "nombre_user" => $user->getName(),
+                    "apellido_user" => $user->getLastname(),
+                    "id_mensaje" => $post->getId(),
+                    "texto_mensaje" => $post->getText(),
+                    "fechayhora_mensaje" => $post->getCreateAt(),
                     "likes" => $c_likes,
-                    "is_liked" => $liked == true ? 'liked':'unliked',
-                    "imagen_contenido" => isset($post["imagen_contenido"]));
+                    "is_liked" => $liked != null ? 'liked':'unliked',
+                    "imagen_contenido" => $post->getImageContent() != null);
                 }, $posts);
 
                 $response = array("status" => 200, 

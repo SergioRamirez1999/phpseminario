@@ -1,4 +1,6 @@
 <?php
+    require_once ROOT_DIR."/models/user.entity.php";
+    
     if(session_status() == PHP_SESSION_NONE)
         session_start();
 
@@ -9,6 +11,7 @@
 ?>
 
 <section class="left-content fx fx-column fx-ai-ctr">
+
     <a href="http://localhost/phpseminario/src?page=home" class="lk-logo-web">
         <img src="views/img/logo-white.png" class="logo-web" alt="world logo">
     </a>
@@ -37,7 +40,7 @@
                     <span class="option-title">Mis likes</span>
                 </div>
             </a>
-            <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user["nombreusuario"] ?>">
+            <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername() ?>">
                 <div class="fx fx-jc-sa fx-ai-ctr">
                     <div class="icon-sidebar icon icon-user"></div>
                     <span class="option-title">Perfil</span>

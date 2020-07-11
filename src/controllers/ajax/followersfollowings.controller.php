@@ -1,28 +1,33 @@
 <?php
 
-    require_once "../user.controller.php";
-    require_once "../../models/user.model.php";
+    require_once "../../config/bootstrap.php";
+    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/controllers/user.controller.php";
+    require_once ROOT_DIR."/controllers/following.controller.php";
 
     if(session_status() == PHP_SESSION_NONE)
         session_start();
 
     if(isset($_SESSION["user_data"])){
 
+        $userController = new UserController();
+        $followingController = new FollowingController();
+
         if(isset($_POST["user_id"]) && isset($_POST["profile"])){
             $user_id = $_POST["user_id"];
             $profile = $_POST["profile"];
 
             if($profile == "followings"){
-                //obtener siguiendo y saber si ellos me siguen
-                $users = UserController::getFollowingsById($user_id);
+                //obtener siguiendo
+                $users = $userController->getFollowings($user_id);
 
-                $data = array_map(function($user) use ($user_id){
-                    return array("id" => $user["id"],
-                    "nombreusuario" => $user["nombreusuario"],
-                    "nombre" => $user["nombre"],
-                    "apellido" => $user["apellido"],
+                $data = array_map(function($user){
+                    return array("id" => $user->getId(),
+                    "nombreusuario" => $user->getUsername(),
+                    "nombre" => $user->getName(),
+                    "apellido" => $user->getLastname(),
                     "is_following" => "true",
-                    "imagen_contenido" => isset($user["foto_contenido"]));
+                    "imagen_contenido" => $user->getPhotoContent() != null);
 
                 }, $users);
 
@@ -32,22 +37,18 @@
 
             }else if($profile == "followers"){
                 //obtener seguidores y saber si yo los sigo
-                $users = UserController::getFollowersById($user_id);
+                $users = $userController->getFollowers($user_id);
 
-                $data = array_map(function($user) use ($user_id){
-                    $us_fw = UserController::getFollowersById($user["id"]);
-                    $us_fw_id = array_map(function($us){
-                        return $us["id"];
-                    }, $us_fw);
+                $data = array_map(function($user) use ($followingController, $user_id){
 
-                    $is_following = in_array($user_id, $us_fw_id);
+                    $is_following = $followingController->isFollowing($user_id, $user->getId());
 
-                    return array("id" => $user["id"],
-                    "nombreusuario" => $user["nombreusuario"],
-                    "nombre" => $user["nombre"],
-                    "apellido" => $user["apellido"],
-                    "is_following" => $is_following,
-                    "imagen_contenido" => isset($user["foto_contenido"]));
+                    return array("id" => $user->getId(),
+                    "nombreusuario" => $user->getUsername(),
+                    "nombre" => $user->getName(),
+                    "apellido" => $user->getLastname(),
+                    "is_following" => $is_following != null,
+                    "imagen_contenido" => $user->getPhotoContent() != null);
 
                 }, $users);
 

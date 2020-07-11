@@ -1,6 +1,6 @@
 <?php
 
-require_once "./dao/imp/like.imp.php";
+require_once ROOT_DIR."/dao/imp/like.imp.php";
 
 class LikeController {
 
@@ -27,6 +27,16 @@ class LikeController {
 
     public function delete($id){
         $response = $this->likeDao->delete($id);
+        return $response;
+    }
+
+    public function deleteByFks($id_user, $id_message){
+        $response = $this->likeDao->deleteByFks($id_user, $id_message);
+        return $response;
+    }
+
+    public function deleteByMessageId($id_message){
+        $response = $this->likeDao->deleteByMessageId($id_message);
         return $response;
     }
 

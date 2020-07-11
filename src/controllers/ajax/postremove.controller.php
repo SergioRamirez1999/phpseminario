@@ -1,17 +1,21 @@
 <?php
-    require_once "../user.controller.php";
-    require_once "../../models/user.model.php";
+    require_once "../../config/bootstrap.php";
+    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/controllers/message.controller.php";
+    require_once ROOT_DIR."/controllers/like.controller.php";
 
     if(session_status() == PHP_SESSION_NONE)
         session_start();
 
     if(isset($_SESSION["user_data"])){
 
+        $likeController = new LikeController();
+        $messageController = new MessageController();
         if(isset($_POST["id_message"])){
-            
-            UserController::removeAllLikes($_POST["id_message"]);
 
-            UserController::removePostById($_POST["id_message"]);
+            $likeController->deleteByMessageId($_POST["id_message"]);
+
+            $messageController->delete($_POST["id_message"]);
 
             $response = array("status" => 200, 
             "body" => "", 

@@ -1,6 +1,6 @@
 <?php
 
-require_once "./dao/imp/user.imp.php";
+require_once ROOT_DIR."/dao/imp/user.imp.php";
 
 class UserController {
 
@@ -25,7 +25,13 @@ class UserController {
         return $response;
     }
 
-    public function save($user){
+    public function getByCriteria($keyword){
+        $keyword = '%'.$keyword.'%';
+        $response = $this->userDao->findByCriteria($keyword);
+        return $response;
+    }
+
+    public function save(User $user){
         $response = $this->userDao->save($user);
         return $response;
     }
@@ -37,6 +43,11 @@ class UserController {
 
     public function delete($id){
         $response = $this->userDao->delete($id);
+        return $response;
+    }
+
+    public function uploadImage($id, $image_content, $image_type){
+        $response = $this->userDao->uploadImage($id, $image_content, $image_type);
         return $response;
     }
 
@@ -55,8 +66,8 @@ class UserController {
         return $response;
     }
 
-    public function getAllMessages($id, $origin=0, $rows=10){
-        $response = $this->userDao->getAllMessages($id, $origin, $rows);
+    public function getAllMessages($id){
+        $response = $this->userDao->getAllMessages($id);
         return $response;
     }
    

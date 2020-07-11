@@ -1,15 +1,22 @@
 <?php
+
+    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/controllers/user.controller.php";
+    require_once ROOT_DIR."/controllers/message.controller.php";
+
     if(session_status() == PHP_SESSION_NONE)
         session_start();
 
     if(isset($_SESSION["user_data"])){
 
+        $user = $_SESSION["user_data"];
         if(isset($_GET["q"])){
-            $user = $_SESSION["user_data"];
-    
+            
             $keyword = $_GET["q"];
+
+            $userController = new UserController();
     
-            $usersFound = UserController::searchUsersByCriteria($keyword);
+            $usersFound = $userController->getByCriteria($keyword);
 
         } else {
             echo '<script> window.location.href = "http://localhost/phpseminario/src?page=home</script>';
@@ -44,9 +51,9 @@
                     <div class="left-layout-content fx fx-jc-ctr fx-ai-ctr">
 
                         <!-- IMAGEN DE USUARIO -->
-                        <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $element["nombreusuario"]?>">
+                        <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $element->getUsername()?>">
                             <div class="user-logo-container">
-                                <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $element["id"]?>" alt="user image">
+                                <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $element->getId()?>" alt="user image">
                             </div>
                         </a>
 
@@ -60,13 +67,13 @@
 
                                 <!-- NOMBRE DE USUARIO -->
                                 <div class="post-user-name">
-                                    <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $element["nombreusuario"]?>">
-                                        <span><?php echo $element["nombre"].' '.$element["apellido"]?></span>
+                                    <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $element->getUsername()?>">
+                                        <span><?php echo $element->getName().' '.$element->getLastname()?></span>
                                     </a>
                                 </div>
                                 <!-- USERNAME DE USUARIO -->
                                 <div class="post-user-username">
-                                    <span><?php echo '@'.$element["nombreusuario"]?></span>
+                                    <span><?php echo '@'.$element->getUsername()?></span>
                                 </div>
 
                             </div>
@@ -82,7 +89,7 @@
             <?php endforeach;?>
         <?php else: ?>
 
-            <div class="">
+            <div>
                 no hay resultados
             </div>
 

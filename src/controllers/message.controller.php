@@ -1,6 +1,6 @@
 <?php
 
-require_once "./dao/imp/message.imp.php";
+require_once ROOT_DIR."/dao/imp/message.imp.php";
 
 class MessageController {
 
@@ -32,6 +32,11 @@ class MessageController {
 
     public function getCountLikes($id){
         $response = $this->messageDao->getCountLikes($id);
+        return $response;
+    }
+
+    public function getPaginationFromFollowings($id, $origin=0, $rows=10){
+        $response = $this->messageDao->getPaginationFromFollowings($id, $origin, $rows);
         return $response;
     }
 

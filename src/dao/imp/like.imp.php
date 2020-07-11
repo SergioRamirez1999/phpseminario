@@ -1,10 +1,10 @@
 <?php
 
-require_once "./dao/like.dao.php";
+require_once ROOT_DIR."/dao/like.dao.php";
 
-require_once "./models/connection.php";
+require_once ROOT_DIR."/models/connection.php";
 
-require_once "./models/like.entity.php";
+require_once ROOT_DIR."/models/like.entity.php";
 
 
 class LikeDaoImp implements LikeDao {
@@ -38,14 +38,14 @@ class LikeDaoImp implements LikeDao {
         $stmt = null;
     }
 
-    public function save($like){
+    public function save(Like $like){
 
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
         $stmt = $connection->prepare("INSERT INTO ".self::LIKES_TABLENAME." (`usuarios_id`, `mensaje_id`) VALUES (:id_user_fk, :id_message_fk)");
 
-        $stmt -> bindParam(":id_user_fk", $like->id_user_fk, PDO::PARAM_INT);
-        $stmt -> bindParam(":id_message_fk", $like->id_message_fk, PDO::PARAM_INT);
+        $stmt -> bindValue(":id_user_fk", $like->getIdUserFk(), PDO::PARAM_INT);
+        $stmt -> bindValue(":id_message_fk", $like->getIdMessageFk(), PDO::PARAM_INT);
 
 
         if(!$stmt -> execute()) {
@@ -53,7 +53,7 @@ class LikeDaoImp implements LikeDao {
             return null;
         }
 
-        return $message;
+        return $like;
 
         $stmt -> close();
 
@@ -61,14 +61,14 @@ class LikeDaoImp implements LikeDao {
 
     }
 
-    public function update($like){
+    public function update(Like $like){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
         $stmt = $connection->prepare("UPDATE ".self::LIKES_TABLENAME." SET `usuarios_id`=:id_user_fk, `mensaje_id`=:id_message_fk WHERE `id` = :id_like");
 
-        $stmt -> bindParam(":id_user_fk", $like->id_user_fk, PDO::PARAM_INT);
-        $stmt -> bindParam(":id_message_fk", $like->id_message_fk, PDO::PARAM_INT);
-        $stmt -> bindParam(":id_like", $like->id, PDO::PARAM_INT);
+        $stmt -> bindValue(":id_user_fk", $like->getIdUserFk(), PDO::PARAM_INT);
+        $stmt -> bindValue(":id_message_fk", $like->getIdMessageFk(), PDO::PARAM_INT);
+        $stmt -> bindValue(":id_like", $like->getId(), PDO::PARAM_INT);
        
 
         if(!$stmt -> execute()) {
@@ -76,7 +76,7 @@ class LikeDaoImp implements LikeDao {
             return null;
         }
 
-        return $message;
+        return $like;
 
         $stmt -> close();
 
@@ -87,7 +87,7 @@ class LikeDaoImp implements LikeDao {
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
         $stmt = $connection->prepare(
-            "DELETE FROM ".self::LIKES_TABLENAME." WHERE id = :id_like");
+            "DELETE FROM ".self::LIKES_TABLENAME." WHERE `id` = :id_like");
 
         $stmt -> bindParam(":id_like", $id, PDO::PARAM_INT);
 
@@ -97,6 +97,47 @@ class LikeDaoImp implements LikeDao {
         }
 
         return $id;
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    public function deleteByFks($id_user, $id_message){
+        $db = new DatabaseConnection();
+        $connection = $db->getConnection();
+        $stmt = $connection->prepare(
+            "DELETE FROM ".self::LIKES_TABLENAME." WHERE `usuarios_id` = :id_user AND `mensaje_id` = :id_message");
+
+        $stmt -> bindParam(":id_user", $id_user, PDO::PARAM_INT);
+        $stmt -> bindParam(":id_message", $id_message, PDO::PARAM_INT);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        return array("id_user" => $id_user, "id_message" => $id_message);
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    public function deleteByMessageId($id_message){
+        $db = new DatabaseConnection();
+        $connection = $db->getConnection();
+        $stmt = $connection->prepare(
+            "DELETE FROM ".self::LIKES_TABLENAME." WHERE `mensaje_id` = :id_message");
+
+        $stmt -> bindParam(":id_message", $id_message, PDO::PARAM_INT);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        return $id_message;
 
         $stmt -> close();
 
@@ -117,8 +158,10 @@ class LikeDaoImp implements LikeDao {
             return null;
         }
 
+        $like = null;
+
         while($temp = $stmt->fetch()){
-            $like = new Like($temp["id"],$temp["usuarios_id"],$temp["id_message_fk"]);
+            $like = new Like($temp["id"],$temp["usuarios_id"],$temp["mensaje_id"]);
         }
 
         return $like;

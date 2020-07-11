@@ -1,10 +1,10 @@
 <?php
 
-require_once "./dao/message.dao.php";
+require_once ROOT_DIR."/dao/message.dao.php";
 
-require_once "./models/connection.php";
+require_once ROOT_DIR."/models/connection.php";
 
-require_once "./models/message.entity.php";
+require_once ROOT_DIR."/models/message.entity.php";
 
 
 class MessageDaoImp implements MessageDao {
@@ -40,21 +40,21 @@ class MessageDaoImp implements MessageDao {
         $stmt = null;
     }
 
-    public function save($message){
+    public function save(Message $message){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
         $stmt = $connection->prepare("INSERT INTO ".self::MESSAGES_TABLENAME." (`texto`, `imagen_contenido`, `imagen_tipo`, `usuarios_id`, `fechayhora`) VALUES (:text, :imageContent, :imageType, :userIdFk, :createAt)");
 
-        $stmt -> bindParam(":text", $message->text_content, PDO::PARAM_STR);
-        if($message->image_content == null && $message->image_type == null){
-            $stmt -> bindParam(":imageContent", $message->image_content, PDO::PARAM_NULL);
-            $stmt -> bindParam(":imageType", $message->image_type, PDO::PARAM_NULL);
+        $stmt -> bindValue(":text", $message->getText(), PDO::PARAM_STR);
+        if($message->getImageContent() == null && $message->getImageType() == null){
+            $stmt -> bindValue(":imageContent", $message->getImageContent(), PDO::PARAM_NULL);
+            $stmt -> bindValue(":imageType", $message->getImageType(), PDO::PARAM_NULL);
         }else {
-            $stmt -> bindParam(":imageContent", $message->image_content, PDO::PARAM_STR);
-            $stmt -> bindParam(":imageType", $message->image_type, PDO::PARAM_STR);
+            $stmt -> bindValue(":imageContent", $message->getImageContent(), PDO::PARAM_STR);
+            $stmt -> bindValue(":imageType", $message->getImageType(), PDO::PARAM_STR);
         }
-        $stmt -> bindParam(":userIdFk", $message->id_user_fk, PDO::PARAM_INT);
-        $stmt -> bindParam(":createAt", $message->create_at, PDO::PARAM_INT);
+        $stmt -> bindValue(":userIdFk", $message->getIdUserFk(), PDO::PARAM_INT);
+        $stmt -> bindValue(":createAt", $message->getCreateAt(), PDO::PARAM_STR);
 
 
         if(!$stmt -> execute()) {
@@ -69,16 +69,16 @@ class MessageDaoImp implements MessageDao {
         $stmt = null;
     }
 
-    public function update($message){
+    public function update(Message $message){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
         $stmt = $connection->prepare("UPDATE ".self::MESSAGES_TABLENAME." SET `texto`=:newText, `imagen_contenido`=:newImageContent, `imagen_tipo`=:newImageType, `usuarios_id`=:newUserIdFk, `fechayhora`=:newCreateAt WHERE `id` = :messageId");
 
-        $stmt -> bindParam(":newText", $message->text_content, PDO::PARAM_STR);
-        $stmt -> bindParam(":imagen_contenido", $message->image_content, PDO::PARAM_STR);
-        $stmt -> bindParam(":imagen_tipo", $message->image_type, PDO::PARAM_STR);
-        $stmt -> bindParam(":usuarios_id", $message->id_user_fk, PDO::PARAM_STR);
-        $stmt -> bindParam(":fechayhora", $message->create_at, PDO::PARAM_STR);
+        $stmt -> bindParam(":newText", $message->getText(), PDO::PARAM_STR);
+        $stmt -> bindParam(":imagen_contenido", $message->getImageContent(), PDO::PARAM_STR);
+        $stmt -> bindParam(":imagen_tipo", $message->getImageType(), PDO::PARAM_STR);
+        $stmt -> bindParam(":usuarios_id", $message->getIdUserFk(), PDO::PARAM_INT);
+        $stmt -> bindParam(":fechayhora", $message->getCreateAt(), PDO::PARAM_STR);
        
 
         if(!$stmt -> execute()) {
@@ -128,6 +128,26 @@ class MessageDaoImp implements MessageDao {
         $likes = $stmt->fetch();
          
         return $likes["likes"];
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    public function getPaginationFromFollowings($id, $origin=0, $rows=10){
+        $stmt = DatabaseConnection::getConnection()->prepare(
+            "SELECT * FROM (SELECT `u`.`id` AS `id_user`, `u`.`nombreusuario` AS `nombreusuario_user`, `u`.`nombre` AS `nombre_user`, `u`.`apellido` AS `apellido_user`, `u`.`foto_contenido` AS `foto_contenido_user`, `u`.`foto_tipo` AS `foto_tipo_user`,`m`.`id` AS `id_mensaje`, `m`.`texto` AS `texto_mensaje`, `m`.`imagen_contenido` AS `imagen_contenido_mensaje`, `m`.`imagen_tipo` AS `imagen_tipo_mensaje`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%m') AS `fechayhora_mensaje` FROM ".self::USERS_TABLENAME." `u` INNER JOIN ".self::MESSAGES_TABLENAME." `m` ON(`u`.`id` = `m`.`usuarios_id`) WHERE `u`.`id` IN (SELECT `fl`.`usuarioseguido_id` FROM ".self::FOLLOWINGS_TABLENAME." `fl` WHERE `fl`.`usuarios_id` = :userid)) `data` ORDER BY `data`.`fechayhora_mensaje` DESC LIMIT :origin, :rows");
+
+            $stmt -> bindParam(":userid", $id, PDO::PARAM_STR);
+            $stmt -> bindParam(":origin", $origin, PDO::PARAM_INT);
+            $stmt -> bindParam(":rows", $rows, PDO::PARAM_INT);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        return $stmt->fetchAll();
 
         $stmt -> close();
 

@@ -1,11 +1,15 @@
 <?php
-    require_once "../user.controller.php";
-    require_once "../../models/user.model.php";
+    require_once "../../config/bootstrap.php";
+    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/models/message.entity.php";
+    require_once ROOT_DIR."/controllers/message.controller.php";
 
     if(session_status() == PHP_SESSION_NONE)
         session_start();
     
     if(isset($_SESSION["user_data"])){
+
+        $user = $_SESSION["user_data"];
 
         $maxLength = 140;
 
@@ -13,7 +17,7 @@
             && !empty($_POST["post-commentary"]) 
             && strlen($_POST["post-commentary"]) <= $maxLength){
 
-            
+            $messageController = new MessageController();
 
             if(isset($_FILES["post-image"]["tmp_name"]) 
                 && !empty($_FILES["post-image"]["tmp_name"])){
@@ -30,16 +34,12 @@
                 $imageType = null;
             }
 
-            $message = array("text" => $_POST["post-commentary"],
-                                "image_content" => $imageContent,
-                                "image_type" => $imageType,
-                                "user_id_fk" => $_SESSION["user_data"]["id"],
-                                "create_at" => date('Y-m-d H:i:s'));
+            $message = new Message(null, $_POST["post-commentary"], $imageContent, $imageType, $user->getId(), date('Y-m-d H:i:s'));
 
-            
-            if(UserController::savePost($message)){
+            $message_saved = $messageController->save($message);
+            if(isset($message_saved)){
                 $response = array("status" => 200, 
-                "body" => json_encode($message), 
+                "body" => json_encode($message_saved), 
                 "message" => "Guardado de post exitoso: el post fue publicado.");
             }else {
                 $response = array("status" => 505, 

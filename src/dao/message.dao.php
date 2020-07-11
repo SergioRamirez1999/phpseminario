@@ -2,8 +2,8 @@
 
 interface MessageDao {
     public function findById($id);
-    public function save($message);
-    public function update($message);
+    public function save(Message $message);
+    public function update(Message $message);
     public function delete($id);
     public function getCountLikes($id);
 }

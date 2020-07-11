@@ -12,6 +12,7 @@ import {
 
 
 const user_id = document.querySelector('#user_id_input').value;
+const user_session_id = document.querySelector('#user_session_id_input').value;
 const page = document.querySelector('#page_input').value;
 
 let origin = 0;
@@ -69,8 +70,6 @@ function addPostToDom(posts){
 
     let postsContainer = document.querySelector('#posts-container');
 
-    let user_id_session = document.querySelector('#user_id_input').value;
-
     posts.forEach((post) => {
 
         let template = `<div class="post-layout-content fx">
@@ -105,12 +104,12 @@ function addPostToDom(posts){
 
                         <!--USERNAME DE USUARIO -->
                         <div class="post-user-username">
-                            <span>&nbsp;${post.nombreusuario_user}</span>
+                            <span>&nbsp;@${post.nombreusuario_user}</span>
                         </div>
 
                         <!--FECHA MENSAJE -->
                         <div class="post-fecha">
-                            <span>${post.fechayhora_mensaje}</span>
+                            <span>~${post.fechayhora_mensaje}</span>
                         </div>
                     </div>`
 
@@ -169,7 +168,7 @@ function addPostToDom(posts){
             <div class="bottom-content-post fx">
                 <div class="menu-option fx fx-ai-ctr">
                         
-                        <div class="${post.is_liked}-opt-container likes-counter-container fx fx-ai-ctr" user_id="${user_id_session}" post_id="${post.id_mensaje}" is_liked="${post.is_liked}">
+                        <div class="${post.is_liked}-opt-container likes-counter-container fx fx-ai-ctr" user_id="${user_id}" post_id="${post.id_mensaje}" is_liked="${post.is_liked}">
                             <div class="icon-heart likes-counter-icon"></div>
                             <span class="likes-counter">${post.likes}</span>
                         </div>
@@ -185,7 +184,7 @@ function addPostToDom(posts){
 
         let fullTemplate = template;
 
-        if(page == "profile"){
+        if(page == "profile" && user_id == user_session_id){
             fullTemplate += eliminarPost
         }else {
             fullTemplate += editarPost

@@ -1,32 +1,34 @@
 <?php
+    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/controllers/user.controller.php";
+    require_once ROOT_DIR."/controllers/following.controller.php";
 
     if(session_status() == PHP_SESSION_NONE)
         session_start();
 
     if(isset($_SESSION["user_data"])){
 
+        $user_session = $_SESSION["user_data"];
+
+        $userController = new UserController();
+        $followingController = new FollowingController();
+
         if(isset($_GET["username"])){
 
-            if($_SESSION["user_data"]["nombreusuario"] == $_GET["username"]){
-                $user = $_SESSION["user_data"];
+            if($user_session->getName() == $_GET["username"]){
+                $user = $user_session;
             }else {
-                $user = UserController::getUserByUsername($_GET["username"]);
+                $user = $userController->getByUsername($_GET["username"]);
             }
     
             if($user){
-                $followingsUserProfile = UserController::getFollowingsById($user["id"]);
+                $followingsUserProfile = $userController->getFollowings($user->getId());
             
-                $followersUserProfile = UserController::getFollowersById($user["id"]);
-    
-                foreach($followersUserProfile as $key => $element){
-                    if(in_array($_SESSION["user_data"]["id"], $element)){
-                        $isFollowing = true;
-                        break;
-                    }
-                }
-    
-                $postsUserProfile = UserController::getPostsById($user["id"]);
-    
+                $followersUserProfile = $userController->getFollowers($user->getId());
+
+                //codigo para saber si estoy siguiendo al usuario
+                $isFollowing = $followingController->isFollowing($user_session->getId(), $user->getId());
+
             }else {
                 echo '<script> window.location.href = "http://localhost/phpseminario/src?page=home" </script>';
             }
@@ -55,23 +57,23 @@
 
             <div class="profile-center-content fx fx-jc-btw">
 
-                <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $user["id"]?>" alt="user image" class="profile-user-image" id="user-image-profile">
+                <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $user->getId()?>" alt="user image" class="profile-user-image" id="user-image-profile">
 
 
-                <?php if($_SESSION["user_data"]["nombreusuario"] == $_GET["username"]):?>
+                <?php if($user_session->getUsername() == $_GET["username"]):?>
                 
                     <div class="button-edit fx fx-jc-ctr fx-ai-ctr" id="btn-edit-user">
                         <span>Editar</span>
                     </div>
 
-                    <input type="hidden" value="<?php echo $user["id"]?>" id="user_data_id">
-                    <input type="hidden" value="<?php echo $user["nombre"]?>" id="user_data_name">
-                    <input type="hidden" value="<?php echo $user["apellido"]?>" id="user_data_lastname">
-                    <input type="hidden" value="<?php echo $user["email"]?>" id="user_data_email">
+                    <input type="hidden" value="<?php echo $user->getId()?>" id="user_data_id">
+                    <input type="hidden" value="<?php echo $user->getName()?>" id="user_data_name">
+                    <input type="hidden" value="<?php echo $user->getLastname()?>" id="user_data_lastname">
+                    <input type="hidden" value="<?php echo $user->getEmail()?>" id="user_data_email">
 
                 <?php else: ?>
 
-                    <?php if(isset($isFollowing) && $isFollowing): ?>
+                    <?php if(isset($isFollowing)): ?>
                         <div class="button-follow fx fx-jc-ctr fx-ai-ctr" following="true" id="btn-follow-user">
                             <span>Siguiendo</span>
                         </div>
@@ -81,8 +83,8 @@
                         </div>
                     <?php endif; ?>
                     
-                    <input type="hidden" id="user_id" value="<?php echo $_SESSION["user_data"]["id"]?>">
-                    <input type="hidden" id="follow_user_id" value="<?php echo $user["id"]?>">
+                    <input type="hidden" id="user_id" value="<?php echo $user_session->getId()?>">
+                    <input type="hidden" id="follow_user_id" value="<?php echo $user->getId()?>">
                 <?php endif; ?>
 
             </div>
@@ -95,16 +97,16 @@
         <div class="bottom-content-profile">
             <div class="user-info-content fx fx-column fx-jc-sa">
                 <div class="row-user-info">
-                    <h2 class="name-user-profile" id="user-name-profile"><?php echo $user["nombre"].' '.$user["apellido"]?></h2>
+                    <h2 class="name-user-profile" id="user-name-profile"><?php echo $user->getName().' '.$user->getLastname()?></h2>
                 </div>
                 <div class="row-user-info">
-                    <span class="username-user-profile"><?php echo '@'.$user["nombreusuario"] ?></span>
+                    <span class="username-user-profile"><?php echo '@'.$user->getUsername()?></span>
                 </div>
                 <div class="row-user-info">
-                    <a href="http://localhost/phpseminario/src?page=follows&username=<?php echo $user["nombreusuario"] ?>&profile=followings" class="flwers-fling-lk">
+                    <a href="http://localhost/phpseminario/src?page=follows&username=<?php echo $user->getUsername()?>&profile=followings" class="flwers-fling-lk">
                         <span class="followings-user" id="span_followings"><?php echo count($followingsUserProfile)?>&nbsp;siguiendo</span>
                     </a>
-                    <a href="http://localhost/phpseminario/src?page=follows&username=<?php echo $user["nombreusuario"] ?>&profile=followers" class="flwers-fling-lk">
+                    <a href="http://localhost/phpseminario/src?page=follows&username=<?php echo $user->getUsername()?>&profile=followers" class="flwers-fling-lk">
                         <span class="followers-user" id="span_followers"><?php echo count($followersUserProfile)?>&nbsp;seguidores</span>
                     </a>
                 </div>
@@ -148,6 +150,7 @@
     <script type="module" src="views/js/pagination.js"> </script>
     <script type="module" src="views/js/removepost.js"></script>
     <input type="hidden" value="profile" id="page_input">
-    <input type="hidden" value="<?php echo $user["id"]?>" id="user_id_input">
+    <input type="hidden" value="<?php echo $user->getId()?>" id="user_id_input">
+    <input type="hidden" value="<?php echo $user_session->getId()?>" id="user_session_id_input">
 
 </section>

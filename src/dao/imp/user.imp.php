@@ -1,12 +1,14 @@
 <?php
 
-require_once "./dao/user.dao.php";
+require_once ROOT_DIR."/dao/user.dao.php";
 
-require_once "./models/connection.php";
+require_once ROOT_DIR."/dao/imp/message.imp.php";
 
-require_once "./models/user.entity.php";
+require_once ROOT_DIR."/models/connection.php";
 
-require_once "./models/message.entity.php";
+require_once ROOT_DIR."/models/user.entity.php";
+
+require_once ROOT_DIR."/models/message.entity.php";
 
 
 class UserDaoImp implements UserDao {
@@ -16,8 +18,14 @@ class UserDaoImp implements UserDao {
     const FOLLOWINGS_TABLENAME = "siguiendo";
     const LIKES_TABLENAME = "me_gusta";
 
+    private $messageDao;
 
-    public function findById($id, $full){
+    public function __construct(){
+        $this->messageDao = new MessageDaoImp();
+    }
+
+
+    public function findById($id, $full=false){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
         $stmt = $connection->prepare("SELECT * FROM ".self::USERS_TABLENAME." `u` WHERE `u`.`id` = :id ");
@@ -28,6 +36,8 @@ class UserDaoImp implements UserDao {
             print_r(DatabaseConnection::getConnection()->errorInfo());
             return null;
         }
+
+        $user = null;
 
         while($temp = $stmt->fetch()){
             $user = new User($temp["id"],$temp["nombre"],$temp["apellido"],$temp["email"],$temp["nombreusuario"],$temp["contrasenia"],$temp["foto_contenido"],$temp["foto_tipo"]);
@@ -46,7 +56,7 @@ class UserDaoImp implements UserDao {
         $stmt = null;
     }
 
-    public function findByUsername($username, $full){
+    public function findByUsername($username, $full=false){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
         $stmt = $connection->prepare("SELECT * FROM ".self::USERS_TABLENAME." `u` WHERE `u`.`nombreusuario` = :username ");
@@ -58,6 +68,8 @@ class UserDaoImp implements UserDao {
             print_r(DatabaseConnection::getConnection()->errorInfo());
             return null;
         }
+
+        $user = null;
 
         while($temp = $stmt->fetch()){
             $user = new User($temp["id"],$temp["nombre"],$temp["apellido"],$temp["email"],$temp["nombreusuario"],$temp["contrasenia"],$temp["foto_contenido"],$temp["foto_tipo"]);
@@ -77,7 +89,7 @@ class UserDaoImp implements UserDao {
         
     }
 
-    public function findByUsernameAndPassword($username, $password, $full){
+    public function findByUsernameAndPassword($username, $password, $full=false){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
         $stmt = $connection->prepare("SELECT * FROM ".self::USERS_TABLENAME." `u` WHERE `u`.`nombreusuario` = :username AND `u`.`contrasenia` = :password");
@@ -91,6 +103,8 @@ class UserDaoImp implements UserDao {
             return null;
         }
 
+        $user = null;
+
         while($temp = $stmt->fetch()){
             $user = new User($temp["id"],$temp["nombre"],$temp["apellido"],$temp["email"],$temp["nombreusuario"],$temp["contrasenia"],$temp["foto_contenido"],$temp["foto_tipo"]);
         }
@@ -101,23 +115,49 @@ class UserDaoImp implements UserDao {
             $user->setMessages($this->getAllMessages($user->getId()));
         }
 
+        return $user;
+
         $stmt -> close();
 
         $stmt = null;
     }
 
-    public function save($user){
+    public function findByCriteria($keyword){
+        $db = new DatabaseConnection();
+        $connection = $db->getConnection();
+        $stmt = $connection->prepare("SELECT `u`.`id`, `u`.`apellido`, `u`.`nombre`, `u`.`email`, `u`.`nombreusuario`, `u`.`foto_contenido`, `u`.`foto_tipo` FROM ".self::USERS_TABLENAME." `u` WHERE `u`.`nombre` LIKE :keyword OR `u`.`apellido` LIKE :keyword OR `u`.`nombreusuario` LIKE :keyword");
+        $stmt -> bindParam(":keyword", $keyword, PDO::PARAM_STR);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        $users = [];
+
+        foreach($stmt->fetchAll() as $key => $temp){
+            $users[$key] = new User($temp["id"],$temp["nombre"],$temp["apellido"],$temp["email"],$temp["nombreusuario"],$temp["foto_contenido"],$temp["foto_tipo"]);
+        }
+
+        return $users;
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    public function save(User $user){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
         $stmt = $connection->prepare("INSERT INTO ".self::USERS_TABLENAME." (`apellido`, `nombre`, `email`, `nombreusuario`, `contrasenia`, `foto_contenido`, `foto_tipo`) VALUES (:userLastname, :userName, :userEmail, :userUsername, :userPassword, :userImageContent, :userImageType)");
 
-        $stmt -> bindParam(":userLastname", $user->lastname, PDO::PARAM_STR);
-        $stmt -> bindParam(":userName", $user->name, PDO::PARAM_STR);
-        $stmt -> bindParam(":userEmail", $user->email, PDO::PARAM_STR);
-        $stmt -> bindParam(":userUsername", $user->username, PDO::PARAM_STR);
-        $stmt -> bindParam(":userPassword", $user->password, PDO::PARAM_STR);
-        $stmt -> bindParam(":userImageContent", $user->image_content, PDO::PARAM_STR);
-        $stmt -> bindParam(":userImageType", $user->image_type, PDO::PARAM_STR);
+        $stmt -> bindValue(":userLastname", $user->getLastname(), PDO::PARAM_STR);
+        $stmt -> bindValue(":userName", $user->getName(), PDO::PARAM_STR);
+        $stmt -> bindValue(":userEmail", $user->getEmail(), PDO::PARAM_STR);
+        $stmt -> bindValue(":userUsername", $user->getUsername(), PDO::PARAM_STR);
+        $stmt -> bindValue(":userPassword", $user->getPassword(), PDO::PARAM_STR);
+        $stmt -> bindValue(":userImageContent", $user->getPhotoContent(), PDO::PARAM_STR);
+        $stmt -> bindValue(":userImageType", $user->getPhotoType(), PDO::PARAM_STR);
 
         if(!$stmt -> execute()) {
             print_r(DatabaseConnection::getConnection()->errorInfo());
@@ -144,7 +184,28 @@ class UserDaoImp implements UserDao {
             return null;
         }
 
-        return $user;
+        return $id;
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    public function uploadImage($id, $image_content, $image_type){
+        $db = new DatabaseConnection();
+        $connection = $db->getConnection();
+        $stmt = $connection->prepare("UPDATE ".self::USERS_TABLENAME." SET `foto_contenido` = :imageContent, `foto_tipo` = :imageType WHERE `id` = :userId");
+
+        $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
+        $stmt -> bindParam(":imageContent", $image_content, PDO::PARAM_STR);
+        $stmt -> bindParam(":imageType", $image_type, PDO::PARAM_STR);
+
+        if(!$stmt -> execute()) {
+            print_r(DatabaseConnection::getConnection()->errorInfo());
+            return null;
+        }
+
+        return $id;
 
         $stmt -> close();
 
@@ -184,6 +245,8 @@ class UserDaoImp implements UserDao {
             return null;
         }
 
+        $users = [];
+
         foreach($stmt->fetchAll() as $key => $temp){
             $users[$key] = new User($temp["id"],$temp["nombre"],$temp["apellido"],$temp["email"],$temp["nombreusuario"],$temp["foto_contenido"],$temp["foto_tipo"]);
         }
@@ -208,6 +271,8 @@ class UserDaoImp implements UserDao {
             print_r(DatabaseConnection::getConnection()->errorInfo());
             return null;
         }
+
+        $users = [];
 
         foreach($stmt->fetchAll() as $key => $temp){
             $users[$key] = new User($temp["id"],$temp["nombre"],$temp["apellido"],$temp["email"],$temp["nombreusuario"],$temp["foto_contenido"],$temp["foto_tipo"]);
@@ -234,8 +299,11 @@ class UserDaoImp implements UserDao {
             return null;
         }
 
+        $messages = [];
+
         foreach($stmt->fetchAll() as $key => $temp){
             $messages[$key] = new Message($temp["id"],$temp["texto"],$temp["imagen_contenido"],$temp["imagen_tipo"],$temp["usuarios_id"],$temp["fechayhora"]);
+            $messages[$key]->setLikes($this->messageDao->getCountLikes($temp["id"]));
         }
 
         return $messages;
@@ -257,8 +325,11 @@ class UserDaoImp implements UserDao {
             return null;
         }
 
+        $messages = [];
+
         foreach($stmt->fetchAll() as $key => $temp){
             $messages[$key] = new Message($temp["id"],$temp["texto"],$temp["imagen_contenido"],$temp["imagen_tipo"],$temp["usuarios_id"],$temp["fechayhora"]);
+            $messages[$key]->setLikes($this->messageDao->getCountLikes($temp["id"]));
         }
 
         return $messages;
