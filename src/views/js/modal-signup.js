@@ -397,7 +397,7 @@ btnSignupSubmit.addEventListener('click', (e) => {
             }
         }
     }
-    xhr.open('POST', 'controllers/auth/signup.authorization.php');
+    xhr.open('POST', 'controllers/ajax/signup.controller.php');
     xhr.send(fdata);
 })
 

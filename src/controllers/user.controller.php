@@ -20,11 +20,6 @@ class UserController {
         return $response;
     }
 
-    public function getByUsernameAndPassword($username, $password, $full=false){
-        $response = $this->userDao->findByUsernameAndPassword($username, $password, $full);
-        return $response;
-    }
-
     public function getByCriteria($keyword){
         $keyword = '%'.$keyword.'%';
         $response = $this->userDao->findByCriteria($keyword);

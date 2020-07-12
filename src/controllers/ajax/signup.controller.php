@@ -2,13 +2,7 @@
 
     require_once "../../config/bootstrap.php";
     require_once ROOT_DIR."/controllers/user.controller.php";
-    require_once ROOT_DIR."/dao/imp/user.imp.php";
-
-    DEFINE("USERNAME_REGEX",'/^[a-zA-Z0-9]{6,}$/');
-    DEFINE("EMAIL_REGEX",'/^([a-zA-Z0-9]+)([\.a-z0-9]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/');
-    DEFINE("PASSWORD_REGEX",'/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9#?!@$%^&*-]).{6,}$/');
-    DEFINE("NAME_REGEX",'/^[a-zA-Z ]+$/');
-    DEFINE("LASTNAME_REGEX",'/^[a-zA-Z ]+$/');
+    require_once ROOT_DIR."/controllers/auth/register.authentication.php";
     
     if(isset($_POST["user-username"]) 
         && isset($_POST["user-email"]) 
@@ -24,39 +18,17 @@
             && preg_match(PASSWORD_REGEX, $_POST["user-password"])
             && preg_match(NAME_REGEX, $_POST["user-name"])
             && preg_match(LASTNAME_REGEX, $_POST["user-lastname"])){
-
-            $userController = new UserController();
             
-            if($_FILES["user-image"]["type"] == "image/jpeg")
-                $imageType = "jpg";
-            else
-                $imageType = "png";
-
-            $imageContent = file_get_contents(addslashes($_FILES["user-image"]["tmp_name"]));
-
-            $user = new User(null, $_POST["user-name"],
-                            $_POST["user-lastname"],
-                            $_POST["user-email"],
-                            $_POST["user-username"],
-                            md5($_POST["user-password"]),
-                            $imageContent,
-                            $imageType);
-
-
-            //SE DEBE VERIFICAR SI YA EXITE UN USUARIO CON ESE USERNAME
-            //TAL VEZ ARROJAR EXCEPTION DESDE EL MODEL
-
-            $user = $userController->save($user);
-            
-            if($user){
-                if(session_status() == PHP_SESSION_NONE)
-                    session_start();
-    
-                $_SESSION["user_data"] = $user;
-    
+            try {
+                $user = RegisterAuthentication::attemptRegister();
                 $response = array("status" => 200, 
                 "body" => json_encode($user), 
                 "message" => "Registro de usuario exitoso: usted sera redireccionado.");
+            } catch (UserExistsException $e) {
+                CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}", array("context" => "USER SIGNUP"));
+                $response = array("status" => 400, 
+                "body" => "", 
+                "message" => "Registro de usuario erroneo: el nombre de usuario ya se encuentra registrado.");
             }
 
         }else {

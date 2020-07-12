@@ -115,7 +115,7 @@ btnSignin.addEventListener('click', (e) => {
                         }
                     }
                 }
-                xhr.open('POST', 'controllers/auth/signin.authorization.php');
+                xhr.open('POST', 'controllers/ajax/signin.controller.php');
                 xhr.send(fdata);
 
 

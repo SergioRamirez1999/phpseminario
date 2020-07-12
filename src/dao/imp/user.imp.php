@@ -63,7 +63,7 @@ class UserDaoImp implements UserDao {
     public function findByUsername($username, $full=false){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
-        $stmt = $connection->prepare("SELECT ASDD * FROM ".self::USERS_TABLENAME." `u` WHERE `u`.`nombreusuario` = :username");
+        $stmt = $connection->prepare("SELECT * FROM ".self::USERS_TABLENAME." `u` WHERE `u`.`nombreusuario` = :username");
 
         $stmt -> bindParam(":username", $username, PDO::PARAM_STR);
 
@@ -96,42 +96,6 @@ class UserDaoImp implements UserDao {
         
     }
 
-    public function findByUsernameAndPassword($username, $password, $full=false){
-        $db = new DatabaseConnection();
-        $connection = $db->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM ".self::USERS_TABLENAME." `u` WHERE `u`.`nombreusuario` = :username AND `u`.`contrasenia` = :password");
-
-        $stmt -> bindParam(":username", $username, PDO::PARAM_STR);
-        $stmt -> bindParam(":password", $password, PDO::PARAM_STR);
-
-
-        try {
-            $stmt -> execute();
-        } catch (PDOException $e) {
-            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
-            return null;
-        }
-
-        $user = null;
-
-        while($temp = $stmt->fetch()){
-            $user = new User($temp["id"],$temp["nombre"],$temp["apellido"],$temp["email"],$temp["nombreusuario"],$temp["contrasenia"],$temp["foto_contenido"],$temp["foto_tipo"]);
-        }
-
-        if($full){
-            $user->setFollowings($this->getFollowings($user->getId()));
-            $user->setFollowers($this->getFollowers($user->getId()));
-            $user->setMessages($this->getAllMessages($user->getId()));
-        }
-
-        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
-
-        return $user;
-
-        $stmt -> close();
-
-        $stmt = null;
-    }
 
     public function findByCriteria($keyword){
         $db = new DatabaseConnection();
