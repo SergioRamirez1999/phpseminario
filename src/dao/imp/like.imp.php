@@ -22,14 +22,18 @@ class LikeDaoImp implements LikeDao {
         $stmt -> bindParam(":likeId", $id, PDO::PARAM_INT);
 
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
         while($temp = $stmt->fetch()){
             $like = new Like($temp["id"],$temp["usuarios_id"],$temp["id_message_fk"]);
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $like;
 
@@ -48,10 +52,14 @@ class LikeDaoImp implements LikeDao {
         $stmt -> bindValue(":id_message_fk", $like->getIdMessageFk(), PDO::PARAM_INT);
 
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $like;
 
@@ -71,10 +79,14 @@ class LikeDaoImp implements LikeDao {
         $stmt -> bindValue(":id_like", $like->getId(), PDO::PARAM_INT);
        
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $like;
 
@@ -91,10 +103,14 @@ class LikeDaoImp implements LikeDao {
 
         $stmt -> bindParam(":id_like", $id, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $id;
 
@@ -112,10 +128,14 @@ class LikeDaoImp implements LikeDao {
         $stmt -> bindParam(":id_user", $id_user, PDO::PARAM_INT);
         $stmt -> bindParam(":id_message", $id_message, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return array("id_user" => $id_user, "id_message" => $id_message);
 
@@ -132,10 +152,14 @@ class LikeDaoImp implements LikeDao {
 
         $stmt -> bindParam(":id_message", $id_message, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $id_message;
 
@@ -153,8 +177,10 @@ class LikeDaoImp implements LikeDao {
         $stmt -> bindParam(":id_message_fk", $id_message, PDO::PARAM_INT);
 
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
@@ -163,6 +189,8 @@ class LikeDaoImp implements LikeDao {
         while($temp = $stmt->fetch()){
             $like = new Like($temp["id"],$temp["usuarios_id"],$temp["mensaje_id"]);
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $like;
 

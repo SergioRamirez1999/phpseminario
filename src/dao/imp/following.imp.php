@@ -6,6 +6,8 @@ require_once ROOT_DIR."/models/connection.php";
 
 require_once ROOT_DIR."/models/following.entity.php";
 
+require_once ROOT_DIR."/config/logger.php";
+
 
 class FollowingDaoImp implements FollowingDao {
 
@@ -23,14 +25,18 @@ class FollowingDaoImp implements FollowingDao {
         $stmt -> bindParam(":followingId", $id, PDO::PARAM_INT);
 
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
         while($temp = $stmt->fetch()){
             $following = new Following($temp["id"],$temp["usuarios_id"],$temp["usuarioseguido_id"]);
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $following;
 
@@ -49,10 +55,14 @@ class FollowingDaoImp implements FollowingDao {
         $stmt -> bindValue(":id_user_following_fk", $following->getIdUserFollowingFk(), PDO::PARAM_INT);
 
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $following;
 
@@ -72,10 +82,14 @@ class FollowingDaoImp implements FollowingDao {
         $stmt -> bindValue(":id_following", $following->id, PDO::PARAM_INT);
        
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $following;
 
@@ -92,10 +106,14 @@ class FollowingDaoImp implements FollowingDao {
 
         $stmt -> bindParam(":id_following", $id, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $id;
 
@@ -113,10 +131,14 @@ class FollowingDaoImp implements FollowingDao {
         $stmt -> bindParam(":id_user", $id_user, PDO::PARAM_INT);
         $stmt -> bindParam(":id_user_following_fk", $id_user_following_fk, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $id_user;
 
@@ -134,10 +156,14 @@ class FollowingDaoImp implements FollowingDao {
         $stmt -> bindParam(":id_user_following_fk", $id_user_following_fk, PDO::PARAM_INT);
 
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         $following = null;
 

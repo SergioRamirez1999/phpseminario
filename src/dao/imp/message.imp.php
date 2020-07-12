@@ -22,8 +22,10 @@ class MessageDaoImp implements MessageDao {
         $stmt -> bindParam(":messageId", $id, PDO::PARAM_INT);
 
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
@@ -32,6 +34,8 @@ class MessageDaoImp implements MessageDao {
         }
 
         $message->setLikes($this->getCountLikes($message->getId()));
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $message;
 
@@ -57,10 +61,14 @@ class MessageDaoImp implements MessageDao {
         $stmt -> bindValue(":createAt", $message->getCreateAt(), PDO::PARAM_STR);
 
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $message;
 
@@ -81,10 +89,14 @@ class MessageDaoImp implements MessageDao {
         $stmt -> bindParam(":fechayhora", $message->getCreateAt(), PDO::PARAM_STR);
        
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $message;
 
@@ -101,10 +113,14 @@ class MessageDaoImp implements MessageDao {
 
         $stmt -> bindParam(":messageId", $id, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $id;
 
@@ -120,10 +136,14 @@ class MessageDaoImp implements MessageDao {
 
         $stmt -> bindParam(":idMensaje", $id, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         $likes = $stmt->fetch();
          
@@ -142,10 +162,14 @@ class MessageDaoImp implements MessageDao {
             $stmt -> bindParam(":origin", $origin, PDO::PARAM_INT);
             $stmt -> bindParam(":rows", $rows, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $stmt->fetchAll();
 

@@ -1,7 +1,6 @@
 <?php
     require_once "../../config/bootstrap.php";
     require_once ROOT_DIR."/controllers/user.controller.php";
-    require_once ROOT_DIR."/dao/imp/user.imp.php";
 
     if(isset($_POST["username"]) && isset($_POST["password"])){
         $userController = new UserController();
@@ -17,16 +16,16 @@
 
                 $response = array("status" => 200, 
                 "body" => json_encode($user), 
-                "message" => "Inicio de sesion exitoso: usted sera redireccionado");
+                "message" => "Inicio de sesion exitoso: usted sera redireccionado.");
             }else {
                 $response = array("status" => 400, 
                 "body" => "", 
-                "message" => "Inicio de sesion erroneo: credenciales no validas");
+                "message" => "Inicio de sesion erroneo: credenciales no validas.");
             }
         }else {
             $response = array("status" => 400, 
                 "body" => "", 
-                "message" => "Inicio de sesion erroneo: credenciales no validas");
+                "message" => "Inicio de sesion erroneo: usuario inexistente.");
         }
         
     }else {

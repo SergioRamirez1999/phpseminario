@@ -32,8 +32,10 @@ class UserDaoImp implements UserDao {
 
         $stmt -> bindParam(":id", $id, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
@@ -48,6 +50,8 @@ class UserDaoImp implements UserDao {
             $user->setFollowers($this->getFollowers($user->getId()));
             $user->setMessages($this->getAllMessages($user->getId()));
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $user;
 
@@ -59,13 +63,14 @@ class UserDaoImp implements UserDao {
     public function findByUsername($username, $full=false){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM ".self::USERS_TABLENAME." `u` WHERE `u`.`nombreusuario` = :username ");
+        $stmt = $connection->prepare("SELECT ASDD * FROM ".self::USERS_TABLENAME." `u` WHERE `u`.`nombreusuario` = :username");
 
         $stmt -> bindParam(":username", $username, PDO::PARAM_STR);
 
-
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
@@ -80,6 +85,8 @@ class UserDaoImp implements UserDao {
             $user->setFollowers($this->getFollowers($user->getId()));
             $user->setMessages($this->getAllMessages($user->getId()));
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $user;
 
@@ -98,8 +105,10 @@ class UserDaoImp implements UserDao {
         $stmt -> bindParam(":password", $password, PDO::PARAM_STR);
 
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
@@ -115,6 +124,8 @@ class UserDaoImp implements UserDao {
             $user->setMessages($this->getAllMessages($user->getId()));
         }
 
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
+
         return $user;
 
         $stmt -> close();
@@ -128,8 +139,10 @@ class UserDaoImp implements UserDao {
         $stmt = $connection->prepare("SELECT `u`.`id`, `u`.`apellido`, `u`.`nombre`, `u`.`email`, `u`.`nombreusuario`, `u`.`foto_contenido`, `u`.`foto_tipo` FROM ".self::USERS_TABLENAME." `u` WHERE `u`.`nombre` LIKE :keyword OR `u`.`apellido` LIKE :keyword OR `u`.`nombreusuario` LIKE :keyword");
         $stmt -> bindParam(":keyword", $keyword, PDO::PARAM_STR);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
@@ -138,6 +151,8 @@ class UserDaoImp implements UserDao {
         foreach($stmt->fetchAll() as $key => $temp){
             $users[$key] = new User($temp["id"],$temp["nombre"],$temp["apellido"],$temp["email"],$temp["nombreusuario"],$temp["foto_contenido"],$temp["foto_tipo"]);
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $users;
 
@@ -159,10 +174,14 @@ class UserDaoImp implements UserDao {
         $stmt -> bindValue(":userImageContent", $user->getPhotoContent(), PDO::PARAM_STR);
         $stmt -> bindValue(":userImageType", $user->getPhotoType(), PDO::PARAM_STR);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $user;
 
@@ -179,10 +198,14 @@ class UserDaoImp implements UserDao {
         $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
         $stmt -> bindParam(":value", $value, PDO::PARAM_STR);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $id;
 
@@ -200,10 +223,14 @@ class UserDaoImp implements UserDao {
         $stmt -> bindParam(":imageContent", $image_content, PDO::PARAM_STR);
         $stmt -> bindParam(":imageType", $image_type, PDO::PARAM_STR);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $id;
 
@@ -219,10 +246,14 @@ class UserDaoImp implements UserDao {
 
         $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $id;
 
@@ -240,8 +271,10 @@ class UserDaoImp implements UserDao {
 
         $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
@@ -250,6 +283,8 @@ class UserDaoImp implements UserDao {
         foreach($stmt->fetchAll() as $key => $temp){
             $users[$key] = new User($temp["id"],$temp["nombre"],$temp["apellido"],$temp["email"],$temp["nombreusuario"],$temp["foto_contenido"],$temp["foto_tipo"]);
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $users;
 
@@ -267,8 +302,10 @@ class UserDaoImp implements UserDao {
 
         $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
@@ -277,6 +314,8 @@ class UserDaoImp implements UserDao {
         foreach($stmt->fetchAll() as $key => $temp){
             $users[$key] = new User($temp["id"],$temp["nombre"],$temp["apellido"],$temp["email"],$temp["nombreusuario"],$temp["foto_contenido"],$temp["foto_tipo"]);
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $users;
 
@@ -294,8 +333,10 @@ class UserDaoImp implements UserDao {
         $stmt -> bindParam(":origin", $origin, PDO::PARAM_INT);
         $stmt -> bindParam(":rows", $rows, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
@@ -305,6 +346,9 @@ class UserDaoImp implements UserDao {
             $messages[$key] = new Message($temp["id"],$temp["texto"],$temp["imagen_contenido"],$temp["imagen_tipo"],$temp["usuarios_id"],$temp["fechayhora"]);
             $messages[$key]->setLikes($this->messageDao->getCountLikes($temp["id"]));
         }
+
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $messages;
 
@@ -320,8 +364,10 @@ class UserDaoImp implements UserDao {
 
         $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
 
-        if(!$stmt -> execute()) {
-            print_r(DatabaseConnection::getConnection()->errorInfo());
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
             return null;
         }
 
@@ -331,6 +377,8 @@ class UserDaoImp implements UserDao {
             $messages[$key] = new Message($temp["id"],$temp["texto"],$temp["imagen_contenido"],$temp["imagen_tipo"],$temp["usuarios_id"],$temp["fechayhora"]);
             $messages[$key]->setLikes($this->messageDao->getCountLikes($temp["id"]));
         }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
         return $messages;
 
