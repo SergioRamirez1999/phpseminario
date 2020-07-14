@@ -17,7 +17,7 @@ class MessageDaoImp implements MessageDao {
     public function findById($id){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM ".self::MESSAGES_TABLENAME." `m` WHERE `m`.`id` = :messageId ");
+        $stmt = $connection->prepare("SELECT * FROM ".self::MESSAGES_TABLENAME." `m` WHERE `m`.`id` = :messageId");
 
         $stmt -> bindParam(":messageId", $id, PDO::PARAM_INT);
 
@@ -171,6 +171,32 @@ class MessageDaoImp implements MessageDao {
 
         CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
+        return $stmt->fetchAll();
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    public function findTrending($rows=3){
+        $stmt = DatabaseConnection::getConnection()->prepare(
+            "SELECT `m`.`id`, `m`.`texto`, `u`.`nombreusuario`, COUNT(`l`.`mensaje_id`) as `C_LIKES` 
+            FROM ".self::MESSAGES_TABLENAME." `m` 
+            LEFT JOIN ".self::LIKES_TABLENAME." `l` ON(`l`.`mensaje_id` = `m`.`id`)
+            INNER JOIN ".self::USERS_TABLENAME." `u` ON(`u`.`id` = `m`.`usuarios_id`)
+            GROUP BY `m`.`id` ORDER BY `C_LIKES` DESC LIMIT :rows");
+
+        $stmt -> bindParam(":rows", $rows, PDO::PARAM_INT);
+
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
+            return null;
+        }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
+        
         return $stmt->fetchAll();
 
         $stmt -> close();

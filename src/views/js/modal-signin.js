@@ -4,7 +4,8 @@ import {
     validateUsername,
     validatePassword,
     setFlickingMessage,
-    printMessage
+    printMessage,
+    sendAjaxRequest
 } from './modal-helper.js';
 
 
@@ -87,36 +88,28 @@ btnSignin.addEventListener('click', (e) => {
                     passwordContainerEl.removeChild(passwordContainerEl.getElementsByClassName('error-message')[0])
 
 
-                let xhr = new XMLHttpRequest;
                 let fdata = new FormData();
                 fdata.append('username', usernameValue);
                 fdata.append('password', passwordValue);
-                xhr.onreadystatechange = function() {
-                    if(xhr.readyState == 4){
-                        if(xhr.status == 200){
-                            let response = JSON.parse(xhr.responseText);
-                            if(response.status == 200){
-                                printMessage('form-signin', response.message, 'success')
-                                setFlickingMessage(formSigninEl.getElementsByClassName('success-message')[0]);
-                                setTimeout(() => {
-                                    window.location.href = 'http://localhost/phpseminario/src?page=home';
-                                }, 3500);
-                            }else {
-                                if(formSigninEl.getElementsByClassName('error-message')[0] == undefined){
-                                    printMessage('form-signin', response.message, 'error');
-                                    
-                                    setFlickingMessage(formSigninEl.getElementsByClassName('error-message')[0]);
-                                    
-                                    setTimeout(() => {
-                                        formSigninEl.removeChild(formSigninEl.getElementsByClassName('error-message')[0]);
-                                    }, 3500);
-                                }
-                            }
+                sendAjaxRequest('controllers/ajax/signin.controller.php', 'POST', fdata, (response) => {
+                    if(response.status == 200){
+                        printMessage('form-signin', response.message, 'success')
+                        setFlickingMessage(formSigninEl.getElementsByClassName('success-message')[0]);
+                        setTimeout(() => {
+                            window.location.href = 'http://localhost/phpseminario/src?page=home';
+                        }, 3500);
+                    }else {
+                        if(formSigninEl.getElementsByClassName('error-message')[0] == undefined){
+                            printMessage('form-signin', response.message, 'error');
+                            
+                            setFlickingMessage(formSigninEl.getElementsByClassName('error-message')[0]);
+                            
+                            setTimeout(() => {
+                                formSigninEl.removeChild(formSigninEl.getElementsByClassName('error-message')[0]);
+                            }, 3500);
                         }
                     }
-                }
-                xhr.open('POST', 'controllers/ajax/signin.controller.php');
-                xhr.send(fdata);
+                });
 
 
             }else {

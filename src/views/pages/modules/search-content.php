@@ -19,11 +19,12 @@
             $usersFound = $userController->getByCriteria($keyword);
 
         } else {
-            echo '<script> window.location.href = "http://localhost/phpseminario/src?page=home</script>';
+            header("Location: http://localhost/phpseminario/src?page=home");
         }
 
     }else {
-        echo '<script> window.location.href = "http://localhost/phpseminario/src"</script>';
+        session_destroy();
+        header("Location: http://localhost/phpseminario/src");
     }
 
 ?>

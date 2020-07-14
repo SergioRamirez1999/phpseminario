@@ -2,6 +2,7 @@
     require_once ROOT_DIR."/models/user.entity.php";
     require_once ROOT_DIR."/controllers/user.controller.php";
     require_once ROOT_DIR."/controllers/message.controller.php";
+    require_once ROOT_DIR."/controllers/like.controller.php";
 
     if(session_status() == PHP_SESSION_NONE)
         session_start();
@@ -11,12 +12,11 @@
 
         $userController = new UserController();
 
-        //obtener solo un post propio
         $postUser = $userController->getPaginationMessages($user->getId(), 0, 1);
 
-
     }else {
-        echo '<script> window.location.href = "http://localhost/phpseminario/src"</script>';
+        session_destroy();
+        header("Location: http://localhost/phpseminario/src");
     }
 ?>
 
@@ -138,12 +138,14 @@
                     <?php
                         $messageController = new MessageController();
                         $likes = $messageController->getById($postUser[0]->getId())->getLikes();
+                        $likeController = new LikeController();
+                        $isLiked = $likeController->isLiked($user->getId(), $postUser[0]->getId());
                     ?>
 
                     <!--LIKES/RETWEETS-->
                     <div class="bottom-content-post fx">
                         <div class="menu-option fx fx-ai-ctr">
-                            <?php if(isset($liked) && $liked):?>
+                            <?php if(isset($isLiked)):?>
                                 <div class="liked-opt-container likes-counter-container fx fx-ai-ctr" user_id="<?php echo $user->getId()?>" post_id="<?php echo $postUser[0]->getId()?>" is_liked="liked">
                                     <div class="icon-heart likes-counter-icon"></div>
                                     <span class="likes-counter"><?php echo $likes?></span>
@@ -166,10 +168,17 @@
             </div>
         <?php endif; ?>
 
-
-
     </div>
-    
+
+    <script type="module">
+        import {
+            postManager
+        } from "./views/js/post.js";
+
+        postManager();
+    </script>
+
+
     <input type="hidden" value="<?php echo $user->getId()?>" id="user_session_id_input">
     <input type="hidden" value="<?php echo $user->getId()?>" id="user_id_input">
     <input type="hidden" value="home" id="page_input">

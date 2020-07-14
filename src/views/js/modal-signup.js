@@ -6,7 +6,8 @@ import {
     validateEmail,
     validatePassword,
     setFlickingMessage,
-    printMessage
+    printMessage,
+    sendAjaxRequest
 } from './modal-helper.js';
 
 
@@ -365,7 +366,6 @@ btnSignupSubmit.addEventListener('click', (e) => {
 
     e.preventDefault();
 
-    let xhr = new XMLHttpRequest;
     let fdata = new FormData();
     fdata.append('user-username', inputUsernameEl.value);
     fdata.append('user-email', inputEmailEl.value);
@@ -373,31 +373,25 @@ btnSignupSubmit.addEventListener('click', (e) => {
     fdata.append('user-name', inputNameEl.value);
     fdata.append('user-lastname', inputLastnameEl.value);
     fdata.append('user-image', inputImageEl.files[0]);
-    xhr.onreadystatechange = function() {
-        if(xhr.readyState == 4){
-            if(xhr.status == 200){
-                let response = JSON.parse(xhr.responseText);
-                if(response.status == '200'){
-                    printMessage('form-signup-st3', response.message, 'success')
-                    setFlickingMessage(formSignupEl.getElementsByClassName('success-message')[0]);
-                    setTimeout(() => {
-                        window.location.href = 'http://localhost/phpseminario/src?page=home&username='+JSON.parse(response.body).username;
-                    }, 3500);
-                }else{
-                    if(formSignupEl.getElementsByClassName('error-message')[0] == undefined){
-                        printMessage('form-signup-st3', response.message, 'error');
-                        
-                        setFlickingMessage(formSignupEl.getElementsByClassName('error-message')[0]);
-                        
-                        setTimeout(() => {
-                            formSignupEl.removeChild(formSignupEl.getElementsByClassName('error-message')[0]);
-                        }, 3500);
-                    }
-                }
+    sendAjaxRequest('controllers/ajax/signup.controller.php', 'POST', fdata, (response) => {
+        if(response.status == '200'){
+            printMessage('form-signup-st3', response.message, 'success')
+            setFlickingMessage(formSignupEl.getElementsByClassName('success-message')[0]);
+            setTimeout(() => {
+                window.location.href = 'http://localhost/phpseminario/src?page=home&username='+JSON.parse(response.body).username;
+            }, 3500);
+        }else{
+            if(formSignupEl.getElementsByClassName('error-message')[0] == undefined){
+                printMessage('form-signup-st3', response.message, 'error');
+                
+                setFlickingMessage(formSignupEl.getElementsByClassName('error-message')[0]);
+                
+                setTimeout(() => {
+                    formSignupEl.removeChild(formSignupEl.getElementsByClassName('error-message')[0]);
+                }, 3500);
             }
         }
-    }
-    xhr.open('POST', 'controllers/ajax/signup.controller.php');
-    xhr.send(fdata);
+    });
+
 })
 

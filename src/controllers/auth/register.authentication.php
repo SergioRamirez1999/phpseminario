@@ -36,7 +36,9 @@ class RegisterAuthentication {
             throw new UserExistsException("El usuario [{$user->getUsername()}] ya existe en la base de datos.");
         }
 
-        $user = $userController->save($user);
+        $userController->save($user);
+
+        $user = $userController->getByUsername($user->getUsername());
         
         if($user){
             if(session_status() == PHP_SESSION_NONE)

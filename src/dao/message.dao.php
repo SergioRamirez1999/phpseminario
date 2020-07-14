@@ -6,6 +6,7 @@ interface MessageDao {
     public function update(Message $message);
     public function delete($id);
     public function getCountLikes($id);
+    public function findTrending($rows);
 }
 
 ?>

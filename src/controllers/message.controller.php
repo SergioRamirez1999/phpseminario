@@ -40,6 +40,11 @@ class MessageController {
         return $response;
     }
 
+    public function getTrending($rows=3){
+        $response = $this->messageDao->findTrending($rows);
+        return $response;
+    }
+
 }
 
 ?>

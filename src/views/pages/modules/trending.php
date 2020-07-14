@@ -1,3 +1,23 @@
+<?php
+
+    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/controllers/user.controller.php";
+    require_once ROOT_DIR."/controllers/message.controller.php";
+
+    if(session_status() == PHP_SESSION_NONE)
+        session_start();
+    
+    if(isset($_SESSION["user_data"])){
+        $messageController = new MessageController();
+
+        $trendingMessages = $messageController->getTrending(3);
+
+    }else {
+        session_destroy();
+        header("Location: http://localhost/phpseminario/src");
+    }
+
+?>
 <section class="right-content fx fx-column fx-ai-ctr">
     <div class="browser-content fx">
         <div class="browser-center-content fx fx-jc-ctr fx-ai-ctr">
@@ -18,15 +38,30 @@
             </div>
             <div class="comments-content fx fx-column">
 
-                <div class="cmt-ctn">
-                    <span class="comment">Coronavirus, nuevas cepas empeoran la situacion...</span>
-                </div>
-                <div class="cmt-ctn">
-                    <span class="comment">Coronavirus, nuevas cepas empeoran la situacion...</span>
-                </div>
-                <div class="cmt-ctn">
-                    <span class="comment">Coronavirus, nuevas cepas empeoran la situacion...</span>
-                </div>
+                <?php if(isset($trendingMessages) && count($trendingMessages) >= 3): ?>
+
+                    <?php foreach($trendingMessages as $key => $element): ?>
+                        <div class="cmt-ctn">
+                            <span class="comment">
+                                <?php echo ( strlen($element["texto"]) >= 30 ? substr($element["texto"], 0, 30).'...' : $element["texto"]) ?>
+                                <br>
+                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $element["nombreusuario"] ?>" style="text-decoration: underline">leer mas</a>
+                            </span>
+                        </div>    
+                    <?php endforeach; ?>
+                
+                <?php else: ?>
+                    <div class="cmt-ctn">
+                        <span class="comment">Mensaje destacado por defecto.</span>
+                    </div>
+                    <div class="cmt-ctn">
+                        <span class="comment">Mensaje destacado por defecto.</span>
+                    </div>
+                    <div class="cmt-ctn">
+                        <span class="comment">Mensaje destacado por defecto.</span>
+                    </div>
+                <?php endif; ?>
+
 
             </div>
 
@@ -87,5 +122,6 @@
         </div>
 
     </section>
+
 
 </section>

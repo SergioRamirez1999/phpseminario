@@ -6,6 +6,9 @@
 
     if(isset($_SESSION["user_data"])){
         $user = $_SESSION["user_data"];
+    }else {
+        session_destroy();
+        header("Location: http://localhost/phpseminario/src");
     }
 
 ?>

@@ -28,14 +28,15 @@
                     $userFollows = $userController->getFollowings($user->getId());
                 }
             }else {
-                echo '<script> window.location.href = "http://localhost/phpseminario/src?page=home"</script>';    
+                header("Location: http://localhost/phpseminario/src?page=home");   
             }
         }else {
-            echo '<script> window.location.href = "http://localhost/phpseminario/src"</script>';
+            header("Location: http://localhost/phpseminario/src?page=home");
         }
 
     }else {
-        echo '<script> window.location.href = "http://localhost/phpseminario/src?page=home"</script>';
+        session_destroy();
+        header("Location: http://localhost/phpseminario/src");
     }
 ?>
 
