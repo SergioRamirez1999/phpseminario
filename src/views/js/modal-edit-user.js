@@ -499,7 +499,7 @@ if(btnEditUser != undefined){
         } else {
             let errorMessageEl = nameContainerEl.querySelector('.error-message');
             if (errorMessageEl == undefined) {
-                printMessage('name-edit-container', 'Al menos 6 caracteres alfanumericos', 'error');
+                printMessage('name-edit-container', 'Solo caracteres alfabeticos', 'error');
             } else {
                 setFlickingMessage(errorMessageEl)
             }
@@ -550,7 +550,7 @@ if(btnEditUser != undefined){
         } else {
             let errorMessageEl = lastnameContainerEl.querySelector('.error-message');
             if (errorMessageEl == undefined) {
-                printMessage('lastname-edit-container', 'Al menos 6 caracteres alfanumericos', 'error');
+                printMessage('lastname-edit-container', 'Solo caracteres alfabeticos', 'error');
             } else {
                 setFlickingMessage(errorMessageEl)
             }

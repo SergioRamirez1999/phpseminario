@@ -10,7 +10,7 @@ const user_session_id = document.querySelector("#user_session_id_input").value;
 
 let template = 
 `
-<div class="main-container-cmt fx fx-column fx-ai-ctr">
+<div class="main-container-cmt fx fx-column fx-ai-ctr" id="main-container-modal">
     <div class="top-content-cmt fx fx-ai-ctr fx-jc-btw">
 
         <div class="padding-top"></div>

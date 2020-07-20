@@ -117,7 +117,7 @@ function addPostToDom(posts){
         let eliminarPost =
                     `<!--EDITAR MENSAJE -->
                     <div class="edit-post remove-message" message_id=${post.id_mensaje}>
-                        <div class="icon-down-open"></div>
+                        <div>X</div>
                     </div>
 
                 </div>
@@ -131,8 +131,6 @@ function addPostToDom(posts){
                         <!--POST TEXTO-->
                         <span>${post.texto_mensaje}</span>
                     </div>
-
-                    <br>
                 </div>`
 
         let editarPost =
@@ -152,8 +150,6 @@ function addPostToDom(posts){
                     <!--POST TEXTO-->
                     <span>${post.texto_mensaje}</span>
                 </div>
-
-                <br>
             </div>`
 
         let imagen = `
@@ -167,16 +163,12 @@ function addPostToDom(posts){
             </div>
             <div class="bottom-content-post fx">
                 <div class="menu-option fx fx-ai-ctr">
-                        
-                        <div class="${post.is_liked}-opt-container likes-counter-container fx fx-ai-ctr" user_id="${user_id}" post_id="${post.id_mensaje}" is_liked="${post.is_liked}">
-                            <div class="icon-heart likes-counter-icon"></div>
-                            <span class="likes-counter">${post.likes}</span>
-                        </div>
+                    <div class="${post.is_liked}-opt-container likes-counter-container fx fx-ai-ctr" user_id="${user_id}" post_id="${post.id_mensaje}" is_liked="${post.is_liked}">
+                        <div class="icon-heart likes-counter-icon"></div>
+                        <span class="likes-counter">${post.likes}</span>
+                    </div>
                 </div>
-                <div class="menu-option fx fx-ai-ctr">
-                    <div class="icon-retweet"></div>
-                    <span>0</span>
-                </div>
+                
             </div>
 
         </div>`

@@ -4,6 +4,10 @@
     require_once ROOT_DIR."/controllers/user.controller.php";
     require_once ROOT_DIR."/controllers/following.controller.php";
 
+    DEFINE("EMAIL_REGEX",'/^([a-zA-Z0-9]+)([\.a-z0-9]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/');
+    DEFINE("PASSWORD_REGEX",'/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9#?!@$%^&*-]).{6,}$/');
+    DEFINE("NAME_LASTNAME_REGEX",'/^[a-zA-Z ]+$/');
+
     if(session_status() == PHP_SESSION_NONE)
         session_start();
 
@@ -56,7 +60,6 @@
                             "message" => "Edicion de usuario erroneo: la nueva contrasenia no debe coincidir con la actual.");    
                         }
                     }else {
-                        //actual_password != actual_bbdd
                         $response = array("status" => 404, 
                         "body" => "", 
                         "message" => "Edicion de usuario erroneo: contrasenia actual incorrecta.");
@@ -66,11 +69,28 @@
                     "body" => "", 
                     "message" => "Edicion de usuario erroneo: por favor intente mas tarde.");
                 }
-            }else {
-                $userController->update($user_id, $field, $value);
-                $response = array("status" => 200, 
-                "body" => "", 
-                "message" => "Edicion de usuario exitoso: el usuario ha sido actualizado.");
+            }else if($field == "nombre" || $field == "apellido") {
+                if(preg_match(NAME_LASTNAME_REGEX, $value)){
+                    $userController->update($user_id, $field, $value);
+                    $response = array("status" => 200, 
+                    "body" => "", 
+                    "message" => "Edicion de usuario exitoso: el usuario ha sido actualizado.");
+                }else {
+                    $response = array("status" => 400, 
+                    "body" => "", 
+                    "message" => "Edicion de usuario erroneo: al menos 6 caracteres alfanumericos.");
+                }
+            }else if($field == "email") {
+                if(preg_match(EMAIL_REGEX, $value)){
+                    $userController->update($user_id, $field, $value);
+                    $response = array("status" => 200, 
+                    "body" => "", 
+                    "message" => "Edicion de usuario exitoso: el usuario ha sido actualizado.");
+                }else {
+                    $response = array("status" => 400, 
+                    "body" => "", 
+                    "message" => "Edicion de usuario erroneo: ingrese un correo electronico valido.");
+                }
             }
 
             $_SESSION["user_data"] = $userController->getById($user_id);

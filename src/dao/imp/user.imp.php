@@ -291,7 +291,7 @@ class UserDaoImp implements UserDao {
     public function getPaginationMessages($id, $origin=0, $rows=10){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
-        $stmt = $connection->prepare("SELECT `m`.`id`, `m`.`texto`, `m`.`imagen_contenido`, `m`.`imagen_tipo`, `m`.`usuarios_id`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%m') AS `fechayhora` FROM ".self::MESSAGES_TABLENAME." `m` WHERE `m`.`usuarios_id` = :userId ORDER BY `m`.`fechayhora` DESC LIMIT :origin, :rows");
+        $stmt = $connection->prepare("SELECT `m`.`id`, `m`.`texto`, `m`.`imagen_contenido`, `m`.`imagen_tipo`, `m`.`usuarios_id`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%i') AS `fechayhora` FROM ".self::MESSAGES_TABLENAME." `m` WHERE `m`.`usuarios_id` = :userId ORDER BY `m`.`fechayhora` DESC LIMIT :origin, :rows");
 
         $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
         $stmt -> bindParam(":origin", $origin, PDO::PARAM_INT);
@@ -324,7 +324,7 @@ class UserDaoImp implements UserDao {
     public function getAllMessages($id){
         $db = new DatabaseConnection();
         $connection = $db->getConnection();
-        $stmt = $connection->prepare("SELECT `m`.`id`, `m`.`texto`, `m`.`imagen_contenido`, `m`.`imagen_tipo`, `m`.`usuarios_id`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%m') AS `fechayhora` FROM ".self::MESSAGES_TABLENAME." `m` WHERE `m`.`usuarios_id` = :userId ORDER BY `m`.`fechayhora` DESC");
+        $stmt = $connection->prepare("SELECT `m`.`id`, `m`.`texto`, `m`.`imagen_contenido`, `m`.`imagen_tipo`, `m`.`usuarios_id`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%i') AS `fechayhora` FROM ".self::MESSAGES_TABLENAME." `m` WHERE `m`.`usuarios_id` = :userId ORDER BY `m`.`fechayhora` DESC");
 
         $stmt -> bindParam(":userId", $id, PDO::PARAM_INT);
 

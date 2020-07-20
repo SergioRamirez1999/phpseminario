@@ -123,8 +123,6 @@
                                 <span><?php echo $postUser[0]->getText()?></span>
                             </div>
 
-                            <br>
-
                         </div>
 
                         <?php if($postUser[0]->getImageContent() != null):?>

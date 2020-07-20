@@ -1,5 +1,7 @@
 import {
-    sendAjaxRequest
+    sendAjaxRequest,
+    printMessage,
+    setFlickingMessage
 } from './modal-helper.js';
 
 export function postManager(type = "feed", element = null){
@@ -107,6 +109,16 @@ export function sendPost(commentary, image = null, type="feed", element=null){
                 element.querySelector('#upload-post-image-modal').value = '';
                 if(element.querySelector('#filename-tag') != undefined)
                     element.querySelector('#filename-tag').parentNode.removeChild(element.querySelector('#filename-tag'));
+
+                if(document.querySelector('#main-container-modal').getElementsByClassName('success-message')[0] == undefined){
+                    printMessage('main-container-modal', response.message, 'success')
+                    setFlickingMessage(document.querySelector('#main-container-modal').getElementsByClassName('success-message')[0]);
+                    setTimeout(() => {
+                        if(document.querySelector('#main-container-modal') != undefined){
+                            document.querySelector('#main-container-modal').removeChild(document.querySelector('#main-container-modal').getElementsByClassName('success-message')[0]);
+                        }
+                    }, 3500);
+                }
             }
             
         }else {
