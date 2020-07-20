@@ -65,6 +65,11 @@ class UserController {
         $response = $this->userDao->getAllMessages($id);
         return $response;
     }
+
+    public function getTrending($rows=3, $full=false){
+        $response = $this->userDao->findTrending($rows, $full);
+        return $response;
+    }
    
 }
 ?>

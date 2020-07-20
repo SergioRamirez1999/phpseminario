@@ -12,6 +12,7 @@ interface UserDao {
     public function getFollowers($id);
     public function getPaginationMessages($id, $origin, $rows);
     public function getAllMessages($id);
+    public function findTrending($rows, $full);
 }
 
 ?>

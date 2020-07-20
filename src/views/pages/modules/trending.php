@@ -8,9 +8,15 @@
         session_start();
     
     if(isset($_SESSION["user_data"])){
+
+        $rowsTTUsers = 3;
+        $rowsTTMessages = 3;
+
+        $userController = new UserController();
         $messageController = new MessageController();
 
-        $trendingMessages = $messageController->getTrending(3);
+        $trendingUsers = $userController->getTrending($rowsTTUsers);
+        $trendingMessages = $messageController->getTrending($rowsTTMessages);
 
     }else {
         session_destroy();
@@ -38,14 +44,14 @@
             </div>
             <div class="comments-content fx fx-column">
 
-                <?php if(isset($trendingMessages) && count($trendingMessages) >= 3): ?>
+                <?php if(isset($trendingMessages) && count($trendingMessages) >= $rowsTTMessages): ?>
 
-                    <?php foreach($trendingMessages as $key => $element): ?>
+                    <?php foreach($trendingMessages as $key => $message): ?>
                         <div class="cmt-ctn">
                             <span class="comment">
-                                <?php echo ( strlen($element["texto"]) >= 30 ? substr($element["texto"], 0, 30).'...' : $element["texto"]) ?>
+                                <?php echo ( strlen($message["texto"]) >= 30 ? substr($message["texto"], 0, 30).'...' : $message["texto"]) ?>
                                 <br>
-                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $element["nombreusuario"] ?>" style="text-decoration: underline">leer mas</a>
+                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $message["nombreusuario"] ?>" style="text-decoration: underline">leer mas</a>
                             </span>
                         </div>    
                     <?php endforeach; ?>
@@ -78,42 +84,70 @@
                 <h2>Usuarios destacados</h2>
             </div>
 
-            <div class="user-trend-cnt fx fx-column fx-jc-sa">
+            <div class="fx fx-jc-ctr">
 
-                <div class="fx fx-jc-ctr fx-ai-ctr">
+                <div class="user-trend-cnt fx fx-column fx-jc-sa">
+                
+                    <?php if(isset($trendingUsers) && count($trendingUsers) >= $rowsTTUsers): ?>
+
+                        <?php foreach($trendingUsers as $key => $user): ?>
+
+                            <div class="fx fx-ai-ctr">
+
+                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername() ?>">
+                                    <div class="user-logo-container" style="width: 40px">
+                                        <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $user->getId()?>" alt="user image">
+                                    </div>
+                                </a>
+
+                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername() ?>">
+                                    <div class="user-trend-username">
+                                        <span style="font-size: 14px">@<?php echo $user->getUsername()?></span>
+                                    </div>
+                                </a>
+
+                            </div>
+
+                        <?php endforeach;?>
+
+                    <?php else: ?>
+
+                        <div class="fx fx-jc-ctr fx-ai-ctr">
+
+                            <div class="user-logo">
+                                <div class="box-icon-example"></div>
+                            </div>
+                            <div class="user-trend-username">
+                                <span>@default</span>
+                            </div>
+
+                        </div>
+
+                        <div class="fx fx-jc-ctr fx-ai-ctr">
+
+                            <div class="user-logo">
+                                <div class="box-icon-example"></div>
+                            </div>
+                            <div class="user-trend-username">
+                                <span>@default</span>
+                            </div>
+
+                        </div>
 
 
-                    <div class="user-logo">
-                        <div class="box-icon-example"></div>
-                    </div>
-                    <div class="user-trend-username">
-                        <span>fmsanti</span>
-                    </div>
+                        <div class="fx fx-jc-ctr fx-ai-ctr">
 
-                </div>
+                            <div class="user-logo">
+                                <div class="box-icon-example"></div>
+                            </div>
+                            <div class="user-trend-username">
+                                <span>@default</span>
+                            </div>
 
-                <div class="fx fx-jc-ctr fx-ai-ctr">
-
-
-                    <div class="user-logo">
-                        <div class="box-icon-example"></div>
-                    </div>
-                    <div class="user-trend-username">
-                        <span>fmsanti</span>
-                    </div>
-
-                </div>
+                        </div>
 
 
-                <div class="fx fx-jc-ctr fx-ai-ctr">
-
-
-                    <div class="user-logo">
-                        <div class="box-icon-example"></div>
-                    </div>
-                    <div class="user-trend-username">
-                        <span>fmsanti</span>
-                    </div>
+                    <?php endif;?>
 
                 </div>
 

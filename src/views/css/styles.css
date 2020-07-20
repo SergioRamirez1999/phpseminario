@@ -511,6 +511,14 @@ h4 {
     align-items: center;
 }
 
+.fx-ai-s {
+    align-items: flex-start;
+}
+
+.fx-ai-e {
+    align-items: flex-end;
+}
+
 
 /*### LOGO WEB ###*/
 

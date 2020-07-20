@@ -99,13 +99,14 @@ export function sendPost(commentary, image = null, type="feed", element=null){
                 document.querySelector('#cmt-limit-indicator').innerText = '0/140';
                 document.querySelector('#cmt-limit-indicator').style = "color: grey";
                 document.querySelector('#upload-post-image').value = '';
-                menuCommentEl.querySelector('#filename-tag').parentNode.removeChild(menuCommentEl.querySelector('#filename-tag'));
+                document.querySelector('#filename-tag').parentNode.removeChild(document.querySelector('#filename-tag'));
             }else if(type == "modal" && element != null){
                 element.querySelector('#input-post-commentary').value = '';
                 element.querySelector('#cmt-limit-indicator').innerText = '0/140';
                 element.querySelector('#cmt-limit-indicator').style = "color: grey";
                 element.querySelector('#upload-post-image-modal').value = '';
-                element.querySelector('#filename-tag').parentNode.removeChild(element.querySelector('#filename-tag'));
+                if(element.querySelector('#filename-tag') != undefined)
+                    element.querySelector('#filename-tag').parentNode.removeChild(element.querySelector('#filename-tag'));
             }
             
         }else {

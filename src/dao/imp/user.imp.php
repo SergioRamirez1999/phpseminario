@@ -351,6 +351,44 @@ class UserDaoImp implements UserDao {
         $stmt = null;
     }
 
+    public function findTrending($rows, $full=false){
+        $db = new DatabaseConnection();
+        $connection = $db->getConnection();
+        $stmt = $connection->prepare("SELECT `u`.`id`, `u`.`apellido`, `u`.`nombre`, `u`.`email`, `u`.`nombreusuario`, `u`.`foto_contenido`, `u`.`foto_tipo`, COUNT(*) AS `c_mensajes` FROM ".self::USERS_TABLENAME." `u` INNER JOIN ".self::MESSAGES_TABLENAME." `m` ON(`m`.`usuarios_id` = `u`.`id`)
+        GROUP BY `m`.`usuarios_id` ORDER BY `c_mensajes` DESC LIMIT :rows");
+
+        $stmt -> bindParam(":rows", $rows, PDO::PARAM_INT);
+
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
+            return null;
+        }
+
+        $users = [];
+
+        foreach($stmt->fetchAll() as $key => $temp){
+            $users[$key] = new User($temp["id"],$temp["nombre"],$temp["apellido"],$temp["email"],$temp["nombreusuario"],$temp["foto_contenido"],$temp["foto_tipo"]);
+        }
+
+        if($full){
+            foreach($users as $key => $user){
+                $user->setFollowings($this->getFollowings($user->getId()));
+                $user->setFollowers($this->getFollowers($user->getId()));
+                $user->setMessages($this->getAllMessages($user->getId()));
+            }
+        }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
+
+        return $users;
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
 }
 
 ?>

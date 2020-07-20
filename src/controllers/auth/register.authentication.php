@@ -14,41 +14,51 @@ class RegisterAuthentication {
     public static function attemptRegister(){
 
         $userController = new UserController();
-        
-        if($_FILES["user-image"]["type"] == "image/jpeg")
-            $imageType = "jpg";
-        else
-            $imageType = "png";
 
-        $imageContent = file_get_contents(addslashes($_FILES["user-image"]["tmp_name"]));
+        if(preg_match(USERNAME_REGEX, $_POST["user-username"])
+            && preg_match(EMAIL_REGEX, $_POST["user-email"])
+            && preg_match(PASSWORD_REGEX, $_POST["user-password"])
+            && preg_match(NAME_REGEX, $_POST["user-name"])
+            && preg_match(LASTNAME_REGEX, $_POST["user-lastname"])){
 
-        $user = new User(null, $_POST["user-name"],
-                        $_POST["user-lastname"],
-                        $_POST["user-email"],
-                        $_POST["user-username"],
-                        md5($_POST["user-password"]),
-                        $imageContent,
-                        $imageType);
+                if($_FILES["user-image"]["type"] == "image/jpeg")
+                    $imageType = "jpg";
+                else
+                    $imageType = "png";
 
-        $user_exists = $userController->getByUsername($user->getUsername());
+                $imageContent = file_get_contents(addslashes($_FILES["user-image"]["tmp_name"]));
 
-        if(isset($user_exists)){
-            throw new UserExistsException("El usuario [{$user->getUsername()}] ya existe en la base de datos.");
+                $user = new User(null, $_POST["user-name"],
+                                $_POST["user-lastname"],
+                                $_POST["user-email"],
+                                $_POST["user-username"],
+                                md5($_POST["user-password"]),
+                                $imageContent,
+                                $imageType);
+
+                $user_exists = $userController->getByUsername($user->getUsername());
+
+                if(isset($user_exists)){
+                    throw new UserExistsException("El usuario [{$user->getUsername()}] ya existe en la base de datos.");
+                }
+
+                $userController->save($user);
+
+                $user = $userController->getByUsername($user->getUsername());
+                
+                if($user){
+                    if(session_status() == PHP_SESSION_NONE)
+                        session_start();
+
+                    $_SESSION["user_data"] = $user;
+                }
+
+                return $user;
+
+        }else {
+            throw new UserBadCredentialsException("Credenciales invalidas.");
         }
-
-        $userController->save($user);
-
-        $user = $userController->getByUsername($user->getUsername());
         
-        if($user){
-            if(session_status() == PHP_SESSION_NONE)
-                session_start();
-
-            $_SESSION["user_data"] = $user;
-        }
-
-        return $user;
-
     }
 }
 

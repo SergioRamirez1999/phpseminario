@@ -5,7 +5,6 @@ class Like {
     private $id_user_fk;
     private $id_message_fk;
 
-
     public function __construct(){
         $params = func_get_args();
 		$num_params = func_num_args();
