@@ -51,7 +51,7 @@
                             <span class="comment">
                                 <?php echo ( strlen($message["texto"]) >= 30 ? substr($message["texto"], 0, 30).'...' : $message["texto"]) ?>
                                 <br>
-                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $message["nombreusuario"] ?>" style="text-decoration: underline">leer mas</a>
+                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $message["nombreusuario"]?>&menu_opt=posts" style="text-decoration: underline">leer mas</a>
                             </span>
                         </div>    
                     <?php endforeach; ?>
@@ -94,13 +94,13 @@
 
                             <div class="fx fx-ai-ctr">
 
-                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername() ?>">
+                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=posts">
                                     <div class="user-logo-container" style="width: 40px">
                                         <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=<?php echo $user->getId()?>" alt="user image">
                                     </div>
                                 </a>
 
-                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername() ?>">
+                                <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=posts">
                                     <div class="user-trend-username">
                                         <span style="font-size: 14px">@<?php echo $user->getUsername()?></span>
                                     </div>
@@ -146,7 +146,6 @@
 
                         </div>
 
-
                     <?php endif;?>
 
                 </div>
@@ -156,6 +155,5 @@
         </div>
 
     </section>
-
 
 </section>

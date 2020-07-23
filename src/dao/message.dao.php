@@ -8,5 +8,3 @@ interface MessageDao {
     public function getCountLikes($id);
     public function findTrending($rows);
 }
-
-?>

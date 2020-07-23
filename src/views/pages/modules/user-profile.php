@@ -13,7 +13,9 @@
         $userController = new UserController();
         $followingController = new FollowingController();
 
-        if(isset($_GET["username"])){
+        if(isset($_GET["username"]) && isset($_GET["menu_opt"])){
+
+            $menu_opt = $_GET["menu_opt"];
 
             if($user_session->getName() == $_GET["username"]){
                 $user = $user_session;
@@ -120,7 +122,7 @@
     <nav class="navigator-menu fx fx-ai-ctr fx-jc-sa">
         <div class="nav-menu-opt fx fx-jc-ctr opt-selected">
             <a href="#" class="nav-link">
-                <span>Comentarios</span>
+                <span>Posts</span>
             </a>
 
         </div>
@@ -155,3 +157,5 @@
     <input type="hidden" value="<?php echo $user_session->getId()?>" id="user_session_id_input">
 
 </section>
+
+

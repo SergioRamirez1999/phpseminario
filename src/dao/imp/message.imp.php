@@ -205,5 +205,3 @@ class MessageDaoImp implements MessageDao {
     }
 
 }
-
-?>

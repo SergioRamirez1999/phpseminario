@@ -43,7 +43,7 @@
                     <span class="option-title">Mis likes</span>
                 </div>
             </a>
-            <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername() ?>">
+            <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=posts">
                 <div class="fx fx-jc-sa fx-ai-ctr">
                     <div class="icon-sidebar icon icon-user"></div>
                     <span class="option-title">Perfil</span>

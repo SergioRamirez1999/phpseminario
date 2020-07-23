@@ -5,5 +5,3 @@ class TemplateController {
         include "views/template.php";
     }
 }
-
-?>

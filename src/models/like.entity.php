@@ -48,4 +48,3 @@ class Like {
         return '['.'id='.$this->id.', id_user_fk='.$this->id_user_fk.', id_message_fk='.$this->id_message_fk.']';
     }
 }
-?>

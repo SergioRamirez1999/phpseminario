@@ -8,5 +8,3 @@ interface LikeDao {
     public function deleteByMessageId($id_message);
     public function isLiked($id_user, $id_message);
 }
-?>
-

@@ -33,6 +33,3 @@
         "message" => "Eliminacion de post: usted no esta autorizado.");
     }
     echo json_encode($response);
-
-
-?>

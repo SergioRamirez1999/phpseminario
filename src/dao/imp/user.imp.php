@@ -390,5 +390,3 @@ class UserDaoImp implements UserDao {
     }
 
 }
-
-?>

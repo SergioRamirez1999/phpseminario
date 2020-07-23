@@ -47,4 +47,3 @@ class Following {
         return '['.'id='.$this->id.', id_user_fk='.$this->id_user_fk.', id_user_following_fk='.$this->id_user_following_fk.']';
     }
 }
-?>

@@ -170,5 +170,3 @@ class User implements JsonSerializable {
     }
     
 }
-
-?>

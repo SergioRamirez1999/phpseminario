@@ -8,5 +8,3 @@ interface FollowingDao {
     public function deleteByFks($id_user, $id_user_following_fk);
     public function isFollowing($id_user_owner, $id_user_host);
 }
-
-?>
