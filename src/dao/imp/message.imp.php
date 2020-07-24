@@ -60,7 +60,6 @@ class MessageDaoImp implements MessageDao {
         $stmt -> bindValue(":userIdFk", $message->getIdUserFk(), PDO::PARAM_INT);
         $stmt -> bindValue(":createAt", $message->getCreateAt(), PDO::PARAM_STR);
 
-
         try {
             $stmt -> execute();
         } catch (PDOException $e) {
@@ -70,7 +69,7 @@ class MessageDaoImp implements MessageDao {
 
         CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
 
-        return $message;
+        return $this->findById($connection->lastInsertId());
 
         $stmt -> close();
 

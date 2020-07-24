@@ -37,9 +37,23 @@
             $message = new Message(null, $_POST["post-commentary"], $imageContent, $imageType, $user->getId(), date('Y-m-d H:i:s'));
 
             $message_saved = $messageController->save($message);
+
+            $c_likes = $messageController->getCountLikes($message_saved->getId());
+
             if(isset($message_saved)){
+                $data = array("id_user" => $user->getId(),
+                "nombreusuario_user" => $user->getUsername(),
+                "nombre_user" => $user->getName(),
+                "apellido_user" => $user->getLastname(),
+                "id_mensaje" => $message_saved->getId(),
+                "texto_mensaje" => $message_saved->getText(),
+                "fechayhora_mensaje" => $message_saved->getCreateAt(),
+                "likes" => $c_likes,
+                "is_liked" => 'unliked',
+                "imagen_contenido" => $message_saved->getImageContent() != null);
+
                 $response = array("status" => 200, 
-                "body" => json_encode($message_saved), 
+                "body" => json_encode($data), 
                 "message" => "Guardado de post exitoso: el post fue publicado.");
             }else {
                 $response = array("status" => 505, 

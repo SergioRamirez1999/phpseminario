@@ -75,7 +75,7 @@
 
     <input type="hidden" value="<?php echo $user->getId()?>" id="user_session_id_input">
     <input type="hidden" value="<?php echo $user->getId()?>" id="user_id_input">
-    <input type="hidden" value="home" id="page_input">
+    <input type="hidden" value="feed" id="page_input">
 
     <script type="module" src="views/js/pagination.js"> </script>
     <script type="module" src="views/js/likes.js"> </script>

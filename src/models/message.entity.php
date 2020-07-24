@@ -1,6 +1,6 @@
 <?php
 
-class Message {
+class Message implements JsonSerializable{
 
     private $id;
     private $text_content;
@@ -39,6 +39,18 @@ class Message {
     public function __construct7($id, $text_content, $image_content, $image_type, $id_user_fk, $create_at, $likes){
         $this->__construct6($id, $text_content, $image_content, $image_type, $id_user_fk, $create_at);
         $this->likes = $likes;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'text_content' => $this->text_content,
+            'image_content' => isset($this->image_content) ? base64_encode($this->image_content) : null,
+            'image_type' => $this->image_type,
+            'id_user_fk' => $this->id_user_fk,
+            'create_at' => $this->create_at,
+            'likes' => $this->likes
+        ];
     }
 
     public function getId(){

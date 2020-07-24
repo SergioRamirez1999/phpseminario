@@ -31,22 +31,17 @@
                 </div>
 
             </a>
-            <a href="#">
-                <div class="fx fx-jc-sa fx-ai-ctr">
-                    <div class="icon-sidebar icon-fire"></div>
-                    <span class="option-title">Destacados</span>
-                </div>
-            </a>
-            <a href="#">
-                <div class="fx fx-jc-sa fx-ai-ctr">
-                    <div class="icon-sidebar icon-heart"></div>
-                    <span class="option-title">Mis likes</span>
-                </div>
-            </a>
             <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=posts">
                 <div class="fx fx-jc-sa fx-ai-ctr">
                     <div class="icon-sidebar icon icon-user"></div>
                     <span class="option-title">Perfil</span>
+                </div>
+            </a>
+
+            <a href="http://localhost/phpseminario/src?page=logout">
+                <div class="fx fx-jc-sa fx-ai-ctr">
+                    <div class="icon-sidebar icon icon-user"></div>
+                    <span class="option-title">Salir</span>
                 </div>
             </a>
 

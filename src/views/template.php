@@ -28,6 +28,8 @@
             break;
             case "search":
                 include 'pages/search.php';
+            case "logout":
+                include 'pages/logout.php';
             break;
         }
 

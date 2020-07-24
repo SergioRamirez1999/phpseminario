@@ -19,7 +19,7 @@
             $messageController = new MessageController();
             $likeController = new LikeController();
 
-            if($page == "home"){
+            if($page == "feed"){
 
                 $posts = $messageController->getPaginationFromFollowings($user_id, $origin, $rows);
                 
