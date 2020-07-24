@@ -35,10 +35,16 @@ class MessageController {
         return $response;
     }
 
-    public function getPaginationFromFollowings($id, $origin=0, $rows=10){
-        $response = $this->messageDao->getPaginationFromFollowings($id, $origin, $rows);
+    public function getPaginationFromFollowings($id_user, $origin=0, $rows=10){
+        $response = $this->messageDao->getPaginationFromFollowings($id_user, $origin, $rows);
         return $response;
     }
+
+    public function getPaginationLiked($id_user, $origin=0, $rows=10){
+        $response = $this->messageDao->getPaginationLiked($id_user, $origin, $rows);
+        return $response;
+    }
+
 
     public function getTrending($rows=3){
         $response = $this->messageDao->findTrending($rows);

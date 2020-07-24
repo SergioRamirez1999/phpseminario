@@ -56,8 +56,8 @@ class UserController {
         return $response;
     }
 
-    public function getPaginationMessages($id, $origin=0, $rows=10){
-        $response = $this->userDao->getPaginationMessages($id, $origin, $rows);
+    public function getPaginationMessages($id, $origin=0, $rows=10, $imagesMandatory=false){
+        $response = $this->userDao->getPaginationMessages($id, $origin, $rows, $imagesMandatory);
         return $response;
     }
 

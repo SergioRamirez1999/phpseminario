@@ -120,23 +120,22 @@
     </div>
 
     <nav class="navigator-menu fx fx-ai-ctr fx-jc-sa">
-        <div class="nav-menu-opt fx fx-jc-ctr opt-selected">
+        <div class="nav-menu-opt fx fx-jc-ctr" id="btn-posts">
             <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=posts" class="nav-link">
                 <span>Posts</span>
             </a>
 
         </div>
-        <div class="nav-menu-opt fx fx-jc-ctr">
+        <div class="nav-menu-opt fx fx-jc-ctr" id="btn-images">
             <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=images" class="nav-link">
                 <span>Imagenes</span>
             </a>
 
         </div>
-        <div class="nav-menu-opt fx fx-jc-ctr">
+        <div class="nav-menu-opt fx fx-jc-ctr" id="btn-likes">
             <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=likes" class="nav-link">
                 <span>Likes</span>
             </a>
-
         </div>
 
     </nav>

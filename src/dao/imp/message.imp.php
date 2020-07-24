@@ -153,11 +153,41 @@ class MessageDaoImp implements MessageDao {
         $stmt = null;
     }
 
-    public function getPaginationFromFollowings($id, $origin=0, $rows=10){
+    public function getPaginationFromFollowings($id_user, $origin=0, $rows=10){
         $stmt = DatabaseConnection::getConnection()->prepare(
             "SELECT * FROM (SELECT `u`.`id` AS `id_user`, `u`.`nombreusuario` AS `nombreusuario_user`, `u`.`nombre` AS `nombre_user`, `u`.`apellido` AS `apellido_user`, `u`.`foto_contenido` AS `foto_contenido_user`, `u`.`foto_tipo` AS `foto_tipo_user`,`m`.`id` AS `id_mensaje`, `m`.`texto` AS `texto_mensaje`, `m`.`imagen_contenido` AS `imagen_contenido_mensaje`, `m`.`imagen_tipo` AS `imagen_tipo_mensaje`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%i') AS `fechayhora_mensaje` FROM ".self::USERS_TABLENAME." `u` INNER JOIN ".self::MESSAGES_TABLENAME." `m` ON(`u`.`id` = `m`.`usuarios_id`) WHERE `u`.`id` IN (SELECT `fl`.`usuarioseguido_id` FROM ".self::FOLLOWINGS_TABLENAME." `fl` WHERE `fl`.`usuarios_id` = :userid)) `data` ORDER BY `data`.`fechayhora_mensaje` DESC LIMIT :origin, :rows");
 
-            $stmt -> bindParam(":userid", $id, PDO::PARAM_STR);
+            $stmt -> bindParam(":userid", $id_user, PDO::PARAM_STR);
+            $stmt -> bindParam(":origin", $origin, PDO::PARAM_INT);
+            $stmt -> bindParam(":rows", $rows, PDO::PARAM_INT);
+
+        try {
+            $stmt -> execute();
+        } catch (PDOException $e) {
+            CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}");
+            return null;
+        }
+
+        CustomLogger::getLogger()->info(__FILE__.": query executed [{$stmt->queryString}]");
+
+        return $stmt->fetchAll();
+
+        $stmt -> close();
+
+        $stmt = null;
+    }
+
+    public function getPaginationLiked($id_user, $origin=0, $rows=10){
+        $stmt = DatabaseConnection::getConnection()->prepare(
+            "SELECT `u`.`id` AS `id_user`, `u`.`nombreusuario` AS `nombreusuario_user`, `u`.`nombre` AS `nombre_user`, `u`.`apellido` AS `apellido_user`, `u`.`foto_contenido` AS `foto_contenido_user`, `u`.`foto_tipo` AS `foto_tipo_user`,`m`.`id` AS `id_mensaje`, `m`.`texto` AS `texto_mensaje`, `m`.`imagen_contenido` AS `imagen_contenido_mensaje`, `m`.`imagen_tipo` AS `imagen_tipo_mensaje`, DATE_FORMAT(`m`.`fechayhora`, '%d/%m/%Y %H:%i') AS `fechayhora_mensaje` 
+            FROM ".SELF::MESSAGES_TABLENAME." `m` 
+            INNER JOIN ".self::LIKES_TABLENAME." `l` ON(`l`.`mensaje_id` = `m`.`id`)
+            INNER JOIN ".self::USERS_TABLENAME." `u` ON(`u`.`id` = `m`.`usuarios_id`)
+            WHERE `l`.`usuarios_id` = :userid
+            ORDER BY `fechayhora` DESC
+            LIMIT :origin, :rows");
+
+            $stmt -> bindParam(":userid", $id_user, PDO::PARAM_STR);
             $stmt -> bindParam(":origin", $origin, PDO::PARAM_INT);
             $stmt -> bindParam(":rows", $rows, PDO::PARAM_INT);
 

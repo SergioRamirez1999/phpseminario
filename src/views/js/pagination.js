@@ -14,10 +14,10 @@ import {
 const user_id = document.querySelector('#user_id_input').value;
 const user_session_id = document.querySelector('#user_session_id_input').value;
 const page = document.querySelector('#page_input').value;
-let menu_opt = document.querySelector('#menu_opt_input');
-if(document.querySelector('#menu_opt_input') != undefined){
-    menu_opt = menu_opt.value;
-}
+let menu_opt = document.querySelector('#menu_opt_input').value;
+
+if(document.querySelector("#btn-"+menu_opt))
+    document.querySelector("#btn-"+menu_opt).classList.add("opt-selected");
 
 let origin = 0;
 const rows = 10;
@@ -46,6 +46,7 @@ function getPosts(resource){
     fdata.append('origin', origin);
     fdata.append('rows', rows);
     fdata.append('page', resource);
+    fdata.append('menu_opt', menu_opt);
     sendAjaxRequest('controllers/ajax/postpagination.controller.php', 'POST', fdata, (response) => {
 
         if(response.status == 200){
@@ -86,7 +87,7 @@ function addPostToDom(posts){
 
             <a href="http://localhost/phpseminario/src?page=profile&username=${post.nombreusuario_user}">
                 <div class="user-logo-container">
-                    <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=${post.id_user}" alt="user image">
+                    <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=${post.id_user}&menu_opt=posts" alt="user image">
                 </div>
             </a>
 
@@ -102,7 +103,7 @@ function addPostToDom(posts){
                     
                     <div class="lft-ct fx fx-ai-ctr">
                         <!--NOMBRE Y APELLIDO DE USUARIO -->
-                        <a href="http://localhost/phpseminario/src?page=profile&username=${post.nombreusuario_user}">
+                        <a href="http://localhost/phpseminario/src?page=profile&username=${post.nombreusuario_user}&menu_opt=posts">
                             <div class="post-user-name">
                                 <span>${post.nombre_user + ' ' + post.apellido_user}</span>
                             </div>
@@ -182,7 +183,7 @@ function addPostToDom(posts){
 
         let fullTemplate = template;
 
-        if(page == "profile" && user_id == user_session_id){
+        if(page == "profile" && post.id_user == user_session_id){
             fullTemplate += eliminarPost
         }else {
             fullTemplate += editarPost
@@ -200,9 +201,7 @@ function addPostToDom(posts){
 
         newPostsEl.push(templateEl.content.firstChild);
 
-        if(menu_opt == undefined || menu_opt == "posts" || menu_opt == "images" && post.imagen_contenido || menu_opt == "likes" && post.is_liked == "liked"){
-            postsContainer.appendChild(templateEl.content.firstChild);
-        }
+        postsContainer.appendChild(templateEl.content.firstChild);
 
         
     });
