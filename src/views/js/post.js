@@ -111,6 +111,7 @@ export function sendPost(commentary, image = null, type="feed", element=null){
     sendAjaxRequest('controllers/ajax/postpublication.controller.php', 'POST', fdata, (response) => {
         if(response.status == 200){
             let post = JSON.parse(response.body);
+            let newPost;
             if(type == "feed"){
                 document.querySelector('#input-post-commentary').value = '';
                 document.querySelector('#cmt-limit-indicator').innerText = '0/140';
@@ -118,7 +119,7 @@ export function sendPost(commentary, image = null, type="feed", element=null){
                 document.querySelector('#upload-post-image').value = '';
                 if(document.querySelector('#filename-tag') != undefined)
                     document.querySelector('#filename-tag').parentNode.removeChild(document.querySelector('#filename-tag'));
-                addPost(post);
+                newPost = addPost(post);
             }else if(type == "modal" && element != null){
                 element.querySelector('#input-post-commentary').value = '';
                 element.querySelector('#cmt-limit-indicator').innerText = '0/140';
@@ -137,12 +138,12 @@ export function sendPost(commentary, image = null, type="feed", element=null){
                     }, 3500);
                 }
 
-                addPost(post);
+                newPost = addPost(post);
             }
 
-            manageLikes();
-            manageRemovePost();
-            
+            manageLikes(newPost);
+            manageRemovePost(newPost);
+
         }else {
             console.error(response.message);
         }
@@ -272,7 +273,13 @@ function addPost(post){
     var templateEl = document.createElement('template');
     fullTemplate = fullTemplate.trim();
     templateEl.innerHTML = fullTemplate;
+    
+    let newPosts = [];
+    newPosts.push(templateEl.content.firstChild);
+
     setFlickingMessage(templateEl.content.firstChild);
     postsContainer.insertBefore(templateEl.content.firstChild, postsContainer.firstChild);
+
+    return newPosts;
     
 }

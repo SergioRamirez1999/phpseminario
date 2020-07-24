@@ -1,13 +1,12 @@
-window.onload = manageRemovePost();
+export function manageRemovePost(posts) {
 
-export function manageRemovePost() {
+    posts.forEach((element) => {
 
-    let removePostEl = document.querySelectorAll('.remove-message');
+        let removeEl = element.querySelector('.remove-message');
 
-    if(removePostEl != undefined){
-        removePostEl.forEach((elem) => {
-            elem.addEventListener('click', () => {
-                let id_message = elem.getAttribute('message_id');
+        if(removeEl != undefined){
+            removeEl.addEventListener('click', () => {
+                let id_message = removeEl.getAttribute('message_id');
                 if(id_message){
                     let xhr = new XMLHttpRequest;
                     let fdata = new FormData();
@@ -17,7 +16,7 @@ export function manageRemovePost() {
                             if(xhr.status == 200){
                                 let response = JSON.parse(xhr.responseText);
                                 if(response.status == 200){
-                                    let postContainerEl = elem.parentNode.parentNode.parentNode.parentNode;
+                                    let postContainerEl = removeEl.parentNode.parentNode.parentNode.parentNode;
                                     postContainerEl.parentNode.removeChild(postContainerEl);
                                 }else {
                                     console.error(response.message);
@@ -30,6 +29,7 @@ export function manageRemovePost() {
                 }
         
             });
-        })
-    }
+        }
+
+    })
 }

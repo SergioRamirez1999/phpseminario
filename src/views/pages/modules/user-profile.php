@@ -121,19 +121,19 @@
 
     <nav class="navigator-menu fx fx-ai-ctr fx-jc-sa">
         <div class="nav-menu-opt fx fx-jc-ctr opt-selected">
-            <a href="#" class="nav-link">
+            <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=posts" class="nav-link">
                 <span>Posts</span>
             </a>
 
         </div>
         <div class="nav-menu-opt fx fx-jc-ctr">
-            <a href="#" class="nav-link">
+            <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=images" class="nav-link">
                 <span>Imagenes</span>
             </a>
 
         </div>
         <div class="nav-menu-opt fx fx-jc-ctr">
-            <a href="#" class="nav-link">
+            <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=likes" class="nav-link">
                 <span>Likes</span>
             </a>
 
@@ -153,6 +153,7 @@
     <script type="module" src="views/js/pagination.js"> </script>
     <script type="module" src="views/js/removepost.js"></script>
     <input type="hidden" value="profile" id="page_input">
+    <input type="hidden" value="<?php echo $menu_opt?>" id="menu_opt_input">
     <input type="hidden" value="<?php echo $user->getId()?>" id="user_id_input">
     <input type="hidden" value="<?php echo $user_session->getId()?>" id="user_session_id_input">
 

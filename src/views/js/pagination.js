@@ -14,6 +14,10 @@ import {
 const user_id = document.querySelector('#user_id_input').value;
 const user_session_id = document.querySelector('#user_session_id_input').value;
 const page = document.querySelector('#page_input').value;
+let menu_opt = document.querySelector('#menu_opt_input');
+if(document.querySelector('#menu_opt_input') != undefined){
+    menu_opt = menu_opt.value;
+}
 
 let origin = 0;
 const rows = 10;
@@ -48,9 +52,9 @@ function getPosts(resource){
             let posts = JSON.parse(response.body);
             if(posts.length > 0){
                 origin += posts.length;
-                addPostToDom(posts);
-                manageLikes();
-                manageRemovePost();
+                let newPostsEl = addPostToDom(posts);
+                manageLikes(newPostsEl);
+                manageRemovePost(newPostsEl);
             }
         }else {
             console.error('error paginacion');
@@ -69,6 +73,8 @@ function getPosts(resource){
 function addPostToDom(posts){
 
     let postsContainer = document.querySelector('#posts-container');
+
+    let newPostsEl = [];
 
     posts.forEach((post) => {
 
@@ -188,9 +194,19 @@ function addPostToDom(posts){
 
         fullTemplate += like;
 
-        postsContainer.innerHTML += fullTemplate;
-        
+        var templateEl = document.createElement('template');
+        fullTemplate = fullTemplate.trim();
+        templateEl.innerHTML = fullTemplate;
+
+        newPostsEl.push(templateEl.content.firstChild);
+
+        if(menu_opt == undefined || menu_opt == "posts" || menu_opt == "images" && post.imagen_contenido || menu_opt == "likes" && post.is_liked == "liked"){
+            postsContainer.appendChild(templateEl.content.firstChild);
+        }
+
         
     });
+
+    return newPostsEl;
 
 }
