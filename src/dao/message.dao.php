@@ -1,5 +1,4 @@
 <?php
-
 interface MessageDao {
     public function findById($id);
     public function save(Message $message);

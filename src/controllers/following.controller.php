@@ -1,5 +1,4 @@
 <?php
-
 require_once ROOT_DIR."/dao/imp/following.imp.php";
 
 class FollowingController {
@@ -39,5 +38,4 @@ class FollowingController {
         $response = $this->followingDao->isFollowing($id_user, $id_user_following_fk);
         return $response;
     }
-
 }

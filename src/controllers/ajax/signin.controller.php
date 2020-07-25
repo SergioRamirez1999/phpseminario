@@ -27,5 +27,4 @@
         "body" => "", 
         "message" => "Inicio de sesion erroneo: por favor intente mas tarde.");
     }
-    
     echo json_encode($response);

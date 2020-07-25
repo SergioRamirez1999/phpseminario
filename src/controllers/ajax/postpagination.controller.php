@@ -10,6 +10,7 @@
 
     if(isset($_SESSION["user_data"])){
         if(isset($_POST["user_id"]) && isset($_POST["origin"]) && isset($_POST["rows"]) && isset($_POST["page"]) && isset($_POST["menu_opt"])) {
+            $user_session = $_SESSION["user_data"];
             $user_id = $_POST["user_id"];
             $origin = $_POST["origin"];
             $rows = $_POST["rows"];
@@ -47,7 +48,9 @@
                 "message" => "Paginacion de posts exitosa: pagina ".$origin.", registos ".count($posts).".");
 
             }else if($page == "profile"){
+                //Se debe tener en cuenta la perspectiva del usuario en session para los likes, y no del usuario del perfil. 
 
+                //usuario, puede ser el mismo usuario de session u otro usuario
                 $user = $userController->getById($user_id);
 
                 if($menu_opt == "posts"){
@@ -55,6 +58,7 @@
                 }else if($menu_opt == "images"){
                     $posts = $userController->getPaginationMessages($user->getId(), $origin, $rows, true);
                 }else if($menu_opt == "likes"){
+                    //obtener los mensajes likeados por el usuario(perfil/session)
                     $posts = $messageController->getPaginationLiked($user->getId(), $origin, $rows);
                 }else {
                     $response = array("status" => 400, 
@@ -64,11 +68,13 @@
 
                 if($menu_opt == "likes"){
 
-                    $data = array_map(function($post) use ($user, $messageController, $likeController){
+                    $data = array_map(function($post) use ($user_session, $messageController, $likeController){
                         
                         $c_likes = $messageController->getCountLikes($post["id_mensaje"]);
                         
-                        $liked = $likeController->isLiked($user->getId(), $post["id_mensaje"]);
+                        //saber si el usuario de session likeo este mensaje
+                        //Si user_session == user -> redundancia
+                        $liked = $likeController->isLiked($user_session->getId(), $post["id_mensaje"]);
                         
                         return array("id_user" => $post["id_user"],
                         "nombreusuario_user" => $post["nombreusuario_user"],
@@ -83,11 +89,12 @@
                     }, array_values($posts));
 
                 }else if($menu_opt == "posts" || $menu_opt == "images") {
-                    $data = array_map(function($post) use ($user, $messageController, $likeController){
+                    $data = array_map(function($post) use ($user, $user_session, $messageController, $likeController){
                         
                         $c_likes = $messageController->getCountLikes($post->getId());
                         
-                        $liked = $likeController->isLiked($user->getId(), $post->getId());
+                        //saber si el usuario de session likeo este mensaje
+                        $liked = $likeController->isLiked($user_session->getId(), $post->getId());
                         
                         return array("id_user" => $user->getId(),
                         "nombreusuario_user" => $user->getUsername(),
@@ -127,4 +134,3 @@
 
     }
     echo json_encode($response);
-

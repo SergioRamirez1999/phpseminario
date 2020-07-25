@@ -1,6 +1,5 @@
 <?php
 class Like {
-
     private $id;
     private $id_user_fk;
     private $id_message_fk;

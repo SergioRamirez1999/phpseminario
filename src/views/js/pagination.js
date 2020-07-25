@@ -42,7 +42,10 @@ window.addEventListener('scroll', () => {
 
 function getPosts(resource){
     let fdata = new FormData();
-    fdata.append('user_id', user_id);
+    if(page == "profile")
+        fdata.append('user_id', user_id);
+    else if(page == "feed")
+        fdata.append('user_id', user_session_id);
     fdata.append('origin', origin);
     fdata.append('rows', rows);
     fdata.append('page', resource);
@@ -170,7 +173,7 @@ function addPostToDom(posts){
             </div>
             <div class="bottom-content-post fx">
                 <div class="menu-option fx fx-ai-ctr">
-                    <div class="${post.is_liked}-opt-container likes-counter-container fx fx-ai-ctr" user_id="${user_id}" post_id="${post.id_mensaje}" is_liked="${post.is_liked}">
+                    <div class="${post.is_liked}-opt-container likes-counter-container fx fx-ai-ctr" user_id="${user_session_id}" post_id="${post.id_mensaje}" is_liked="${post.is_liked}">
                         <div class="icon-heart likes-counter-icon"></div>
                         <span class="likes-counter">${post.likes}</span>
                     </div>

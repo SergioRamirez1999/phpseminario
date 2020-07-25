@@ -1,5 +1,4 @@
 <?php
-
     require_once "../../config/bootstrap.php";
     require_once ROOT_DIR."/controllers/user.controller.php";
     require_once ROOT_DIR."/controllers/auth/register.authentication.php";
@@ -34,5 +33,4 @@
             "body" => "", 
             "message" => "Registro de usuario erroneo: por favor intente mas tarde.");
     }
-
     echo json_encode($response);

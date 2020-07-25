@@ -1,6 +1,4 @@
-
 <?php
-
     require_once "../../config/bootstrap.php";
     require_once ROOT_DIR."/models/user.entity.php";
     require_once ROOT_DIR."/models/following.entity.php";

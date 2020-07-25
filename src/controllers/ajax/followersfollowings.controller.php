@@ -1,5 +1,4 @@
 <?php
-
     require_once "../../config/bootstrap.php";
     require_once ROOT_DIR."/models/user.entity.php";
     require_once ROOT_DIR."/controllers/user.controller.php";
@@ -74,5 +73,4 @@
         "message" => "El administrador de seguimiento de usuario presenta errores: usted no tiene permisos necesarios.");
     
     }
-    
     echo json_encode($response);

@@ -9,10 +9,7 @@
     
 </head>
 <body>
-
-
 <?php
-
     if(isset($_GET["page"])){
         echo '<div class="fx fx-jc-ctr">
             <div class="center-container fx fx-jc-btw">';
@@ -28,24 +25,16 @@
             break;
             case "search":
                 include 'pages/search.php';
+            break;
             case "logout":
                 include 'pages/logout.php';
             break;
         }
-
         echo '    </div>
-
         </div>';
-
     }else {
         include 'pages/init.php';
     }
-    
-    
 ?>
-
-
-
-    
 </body>
 </html>

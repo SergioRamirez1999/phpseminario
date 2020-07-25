@@ -14,4 +14,3 @@ class CustomLogger {
         return $logger;
     }
 }
-?>

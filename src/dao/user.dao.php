@@ -1,5 +1,4 @@
 <?php
-
 interface UserDao {
     public function findById($id, $full);
     public function findByUsername($username, $full);

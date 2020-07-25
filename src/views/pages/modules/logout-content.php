@@ -5,3 +5,4 @@
     unset($_SESSION['user_data']);
     header("Location: http://localhost/phpseminario/src");
     exit;
+?>

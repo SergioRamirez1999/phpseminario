@@ -120,24 +120,15 @@
     </div>
 
     <nav class="navigator-menu fx fx-ai-ctr fx-jc-sa">
-        <div class="nav-menu-opt fx fx-jc-ctr" id="btn-posts">
-            <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=posts" class="nav-link">
+        <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=posts" class="nav-link nav-menu-opt fx fx-jc-ctr" id="btn-posts">
                 <span>Posts</span>
-            </a>
-
-        </div>
-        <div class="nav-menu-opt fx fx-jc-ctr" id="btn-images">
-            <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=images" class="nav-link">
+        </a>
+        <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=images" class="nav-link nav-menu-opt fx fx-jc-ctr" id="btn-images">
                 <span>Imagenes</span>
-            </a>
-
-        </div>
-        <div class="nav-menu-opt fx fx-jc-ctr" id="btn-likes">
-            <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=likes" class="nav-link">
+        </a>
+        <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=likes" class="nav-link nav-menu-opt fx fx-jc-ctr" id="btn-likes">
                 <span>Likes</span>
-            </a>
-        </div>
-
+        </a>
     </nav>
 
     <div class="post-general-content" id="posts-container">
@@ -155,6 +146,7 @@
     <input type="hidden" value="<?php echo $menu_opt?>" id="menu_opt_input">
     <input type="hidden" value="<?php echo $user->getId()?>" id="user_id_input">
     <input type="hidden" value="<?php echo $user_session->getId()?>" id="user_session_id_input">
+    <input type="hidden" value="<?php echo $user_session->getUsername()?>" id="user_session_username_input">
 
 </section>
 

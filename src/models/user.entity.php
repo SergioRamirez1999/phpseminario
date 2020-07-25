@@ -1,7 +1,5 @@
 <?php
-
 class User implements JsonSerializable {
-
     private $id;
     private $name;
     private $lastname;

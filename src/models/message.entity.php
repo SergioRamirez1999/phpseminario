@@ -1,7 +1,5 @@
 <?php
-
 class Message implements JsonSerializable{
-
     private $id;
     private $text_content;
     private $image_content;

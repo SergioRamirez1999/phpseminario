@@ -121,6 +121,12 @@ export function sendPost(commentary, image = null, type="feed", element=null){
                     document.querySelector('#filename-tag').parentNode.removeChild(document.querySelector('#filename-tag'));
                 newPost = addPost(post);
             }else if(type == "modal" && element != null){
+
+                if(page == "profile" && user_id != user_session_id){
+                    let username = document.querySelector("#user_session_username_input").value;
+                    window.location = `http://localhost/phpseminario/src?page=profile&username=${username}&menu_opt=posts`
+                }
+
                 element.querySelector('#input-post-commentary').value = '';
                 element.querySelector('#cmt-limit-indicator').innerText = '0/140';
                 element.querySelector('#cmt-limit-indicator').style = "color: grey";
@@ -137,7 +143,7 @@ export function sendPost(commentary, image = null, type="feed", element=null){
                         }
                     }, 3500);
                 }
-
+                
                 newPost = addPost(post);
             }
 

@@ -1,5 +1,4 @@
 <?php
-
 interface FollowingDao {
     public function findById($id);
     public function save(Following $following);

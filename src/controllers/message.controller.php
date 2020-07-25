@@ -1,5 +1,4 @@
 <?php
-
 require_once ROOT_DIR."/dao/imp/message.imp.php";
 
 class MessageController {

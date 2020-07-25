@@ -28,7 +28,6 @@ export function manageLikes(posts) {
                             likesEl.setAttribute("is_liked", "liked");
                             let counter = likesEl.querySelector('.likes-counter');
                             counter.innerText = parseInt(counter.innerText) + 1;
-                            
                         }else if(is_liked == "liked"){
                             likesEl.classList.remove("liked-opt-container");
                             likesEl.classList.add("unliked-opt-container");
