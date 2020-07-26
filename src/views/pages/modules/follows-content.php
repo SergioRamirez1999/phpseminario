@@ -1,5 +1,4 @@
 <?php
-
     require_once ROOT_DIR."/models/user.entity.php";
     require_once ROOT_DIR."/controllers/user.controller.php";
 
@@ -10,7 +9,7 @@
 
         if(isset($_GET["username"]) && isset($_GET["profile"])){
 
-            $user = $_SESSION["user_data"];
+            $user_session = $_SESSION["user_data"];
             $profile = $_GET["profile"];
             $username = $_GET["username"];
 
@@ -20,16 +19,6 @@
             if($username != $user->getUsername())
                 $user = $userController->getByUsername($username);
             
-            if($user){
-                if($profile == "followers"){
-                    $userFollows = $userController->getFollowers($user->getId());
-                    $followings = $userController->getFollowings($user->getId());
-                }else if($profile == "followings"){
-                    $userFollows = $userController->getFollowings($user->getId());
-                }
-            }else {
-                header("Location: http://localhost/phpseminario/src?page=home");   
-            }
         }else {
             header("Location: http://localhost/phpseminario/src?page=home");
         }
@@ -47,12 +36,12 @@
         <nav class="navigator-menu fx fx-ai-ctr fx-jc-sa">
 
             <div class="nav-menu-opt fx fx-jc-ctr" id="btn-followers">
-                <a href="http://localhost/phpseminario/src?page=follows&username=<?php echo $user->getUsername() ?>&profile=followers" class="nav-link">
+                <a href="http://localhost/phpseminario/src?page=follows&username=<?php echo isset($user)?$user->getUsername():$user_session->getUsername()?>&profile=followers" class="nav-link">
                     <span>Seguidores</span>
                 </a>
             </div>
             <div class="nav-menu-opt fx fx-jc-ctr" id="btn-followings">
-                <a href="http://localhost/phpseminario/src?page=follows&username=<?php echo $user->getUsername() ?>&profile=followings" class="nav-link">
+                <a href="http://localhost/phpseminario/src?page=follows&username=<?php echo isset($user)?$user->getUsername():$user_session->getUsername()?>&profile=followings" class="nav-link">
                     <span>Siguiendo</span>
                 </a>
             </div>
@@ -60,13 +49,14 @@
     </div>
 
     <div class="post-general-content" id="follows-container">
-
-       
         
     </div>
 
+    <input type="hidden" value="<?php echo $user_session->getId()?>" id="user_session_id_input">
+    <input type="hidden" value="<?php echo isset($user)?$user->getId():$user_session->getId()?>" id="user_id_input">
+    <input type="hidden" value="follows" id="page_input">
+    <input type="hidden" value="<?php echo $user_session->getUsername()?>" id="user_session_username_input">
 
-    <input type="hidden" value="<?php echo $user->getId()?>" id="user_id_input">
     <input type="hidden" value="<?php echo $profile?>" id="profile_input">
     
     <script type="module" src="views/js/followersfollowings.js"></script>

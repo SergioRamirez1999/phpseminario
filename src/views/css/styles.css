@@ -210,14 +210,12 @@ h4 {
     background-color: #E6FFFF;
 }
 
-
 .button-follow {
     padding: 0px 8px 0px 8px;
     height: 35px;
     background-color: #00acee;
     border-radius: 18px;
     color: #FFFFFF;
-    margin-top: 8px;
     cursor: pointer;
 }
 

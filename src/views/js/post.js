@@ -12,8 +12,6 @@ import {
     manageRemovePost
 } from './removepost.js';
 
-
-
 const user_id = document.querySelector('#user_id_input').value;
 const user_session_id = document.querySelector('#user_session_id_input').value;
 const page = document.querySelector('#page_input').value;
@@ -122,9 +120,10 @@ export function sendPost(commentary, image = null, type="feed", element=null){
                 newPost = addPost(post);
             }else if(type == "modal" && element != null){
 
-                if(page == "profile" && user_id != user_session_id){
+                if((page == "profile" && user_id != user_session_id) || page == "follows" || page == "search"){
                     let username = document.querySelector("#user_session_username_input").value;
                     window.location = `http://localhost/phpseminario/src?page=profile&username=${username}&menu_opt=posts`
+                    return;
                 }
 
                 element.querySelector('#input-post-commentary').value = '';

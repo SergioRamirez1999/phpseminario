@@ -9,6 +9,8 @@
 
     if(isset($_SESSION["user_data"])){
 
+        $user_session = $_SESSION["user_data"];
+
         $userController = new UserController();
         $followingController = new FollowingController();
 
@@ -20,12 +22,14 @@
                 //obtener siguiendo
                 $users = $userController->getFollowings($user_id);
 
-                $data = array_map(function($user){
+                $data = array_map(function($user) use ($followingController, $user_session){
+                    $is_following = $followingController->isFollowing($user_session->getId(), $user->getId());
+
                     return array("id" => $user->getId(),
                     "nombreusuario" => $user->getUsername(),
                     "nombre" => $user->getName(),
                     "apellido" => $user->getLastname(),
-                    "is_following" => "true",
+                    "is_following" => $is_following != null,
                     "imagen_contenido" => $user->getPhotoContent() != null);
 
                 }, $users);
@@ -38,9 +42,9 @@
                 //obtener seguidores y saber si yo los sigo
                 $users = $userController->getFollowers($user_id);
 
-                $data = array_map(function($user) use ($followingController, $user_id){
+                $data = array_map(function($user) use ($followingController, $user_session){
 
-                    $is_following = $followingController->isFollowing($user_id, $user->getId());
+                    $is_following = $followingController->isFollowing($user_session->getId(), $user->getId());
 
                     return array("id" => $user->getId(),
                     "nombreusuario" => $user->getUsername(),

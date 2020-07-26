@@ -12,12 +12,12 @@ if(btnFollowUser != undefined){
 
 
     function buttonStyleFollow(){
-        btnFollowUser.style = "background-color: #d21c38";
+        btnFollowUser.style = "background-color: #d21c38;margin-top: 8px;";
         btnFollowUser.innerText = 'Dejar de seguir';
     }
 
     function buttonStyleUnfollow(){
-        btnFollowUser.style = "background-color: #00acee";
+        btnFollowUser.style = "background-color: #00acee;margin-top: 8px;";
         btnFollowUser.innerText = 'Siguiendo';
     }
 
@@ -29,7 +29,7 @@ if(btnFollowUser != undefined){
         }else {
             btnFollowUser.removeEventListener('mouseover', buttonStyleFollow);
             btnFollowUser.removeEventListener('mouseout', buttonStyleUnfollow);
-            btnFollowUser.style = "background-color: #00acee";
+            btnFollowUser.style = "background-color: #00acee;margin-top: 8px;";
             btnFollowUser.innerText = 'Seguir';
         }
     }

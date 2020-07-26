@@ -77,11 +77,11 @@
                 <?php else: ?>
 
                     <?php if(isset($isFollowing)): ?>
-                        <div class="button-follow fx fx-jc-ctr fx-ai-ctr" following="true" id="btn-follow-user">
+                        <div class="button-follow fx fx-jc-ctr fx-ai-ctr" style="margin-top: 8px" following="true" id="btn-follow-user">
                             <span>Siguiendo</span>
                         </div>
                     <?php else: ?>
-                        <div class="button-follow fx fx-jc-ctr fx-ai-ctr" following="false" id="btn-follow-user">
+                        <div class="button-follow fx fx-jc-ctr fx-ai-ctr" style="margin-top: 8px" following="false" id="btn-follow-user">
                             <span>Seguir</span>
                         </div>
                     <?php endif; ?>

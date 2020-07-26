@@ -29,7 +29,22 @@
             <input class="input-search-brw input-search" type="text" placeholder="personas, keywords">
         </div>
     </div>
-    <script type="module" src="views/js/search.js"></script>
+
+    <script>
+        let inputsSearchEl = document.querySelectorAll(".input-search");
+
+        inputsSearchEl.forEach(($element, $key) => {
+            $element.addEventListener('focus', () => {
+                document.addEventListener('keyup', (e) => {
+                    if(e.keyCode == 13){
+                        let keyword = $element.value.trim();
+                        if(keyword !== "")
+                            window.location = "http://localhost/phpseminario/src?page=search&q="+keyword;
+                    }
+                })
+            })
+        })
+    </script>
     <section class="trending-comments-content">
         <div class="comments-center-content">
             <div class="trending-title">

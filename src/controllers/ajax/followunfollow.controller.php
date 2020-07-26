@@ -22,7 +22,11 @@
                 "body" => "unfollow", 
                 "message" => "Eliminacion de seguimiento de usuario exitoso");
             }else {
-                $user_id = $followingController->save(new Following(null, $userId, $userIdFu));
+                $existsFollowing = $followingController->isFollowing($userId, $userIdFu);
+                $user_id = 1;
+                if(!isset($existsFollowing)){
+                    $user_id = $followingController->save(new Following(null, $userId, $userIdFu));
+                }
                 $response = array("status" => 200, 
                 "body" => "follow", 
                 "message" => "Seguimiento de usuario exitoso");
