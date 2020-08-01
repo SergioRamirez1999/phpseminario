@@ -16,7 +16,6 @@ class UserDaoImp implements UserDao {
     const USERS_TABLENAME = "usuarios";
     const MESSAGES_TABLENAME = "mensaje";
     const FOLLOWINGS_TABLENAME = "siguiendo";
-    const LIKES_TABLENAME = "me_gusta";
 
     private $messageDao;
 

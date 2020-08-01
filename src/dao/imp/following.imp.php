@@ -11,11 +11,7 @@ require_once ROOT_DIR."/config/logger.php";
 
 class FollowingDaoImp implements FollowingDao {
 
-    const USERS_TABLENAME = "usuarios";
-    const MESSAGES_TABLENAME = "mensaje";
     const FOLLOWINGS_TABLENAME = "siguiendo";
-    const LIKES_TABLENAME = "me_gusta";
-
 
     public function findById($id){
         $db = new DatabaseConnection();

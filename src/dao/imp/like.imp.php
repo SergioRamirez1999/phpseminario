@@ -9,9 +9,6 @@ require_once ROOT_DIR."/models/like.entity.php";
 
 class LikeDaoImp implements LikeDao {
 
-    const USERS_TABLENAME = "usuarios";
-    const MESSAGES_TABLENAME = "mensaje";
-    const FOLLOWINGS_TABLENAME = "siguiendo";
     const LIKES_TABLENAME = "me_gusta";
 
     public function findById($id){
