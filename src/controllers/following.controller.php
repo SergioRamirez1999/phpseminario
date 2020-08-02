@@ -1,12 +1,14 @@
 <?php
-require_once ROOT_DIR."/dao/imp/following.imp.php";
+require_once ROOT_DIR."/models/dao/sql/sqldao.factory.php";
+require_once ROOT_DIR."/models/dao/sql/following.imp.php";
 
 class FollowingController {
 
     private $followingDao;
 
     public function __construct(){
-        $this->followingDao = new FollowingDaoImp();
+        $daoFactory = new SqlDaoFactory();
+        $this->followingDao = $daoFactory->createFollowingDao();
     }
 
     public function getById($id){

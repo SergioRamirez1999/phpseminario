@@ -1,5 +1,5 @@
 <?php
-    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/models/entities/user.entity.php";
     require_once ROOT_DIR."/controllers/user.controller.php";
     require_once ROOT_DIR."/controllers/message.controller.php";
 

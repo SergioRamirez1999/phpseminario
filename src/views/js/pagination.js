@@ -88,9 +88,9 @@ function addPostToDom(posts){
 
             <!--LOGO DE USUARIO-->
 
-            <a href="http://localhost/phpseminario/src?page=profile&username=${post.nombreusuario_user}">
+            <a href="http://localhost/phpseminario/src?page=profile&username=${post.nombreusuario_user}&menu_opt=posts">
                 <div class="user-logo-container">
-                    <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=${post.id_user}&menu_opt=posts" alt="user image">
+                    <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=${post.id_user}" alt="user image">
                 </div>
             </a>
 

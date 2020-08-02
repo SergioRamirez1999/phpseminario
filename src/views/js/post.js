@@ -165,7 +165,7 @@ function addPost(post){
 
             <!--LOGO DE USUARIO-->
 
-            <a href="http://localhost/phpseminario/src?page=profile&username=${post.nombreusuario_user}">
+            <a href="http://localhost/phpseminario/src?page=profile&username=${post.nombreusuario_user}&menu_opt=posts">
                 <div class="user-logo-container">
                     <img src="controllers/ajax/imagepreview.controller.php?image_type=user&id_user=${post.id_user}" alt="user image">
                 </div>
@@ -183,7 +183,7 @@ function addPost(post){
                     
                     <div class="lft-ct fx fx-ai-ctr">
                         <!--NOMBRE Y APELLIDO DE USUARIO -->
-                        <a href="http://localhost/phpseminario/src?page=profile&username=${post.nombreusuario_user}">
+                        <a href="http://localhost/phpseminario/src?page=profile&username=${post.nombreusuario_user}&menu_opt=posts">
                             <div class="post-user-name">
                                 <span>${post.nombre_user + ' ' + post.apellido_user}</span>
                             </div>

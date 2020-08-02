@@ -1,10 +1,10 @@
 <?php
 
-require_once ROOT_DIR."/dao/following.dao.php";
+require_once ROOT_DIR."/models/dao/following.dao.php";
 
-require_once ROOT_DIR."/models/connection.php";
+require_once ROOT_DIR."/models/dao/factory/connection.factory.php";
 
-require_once ROOT_DIR."/models/following.entity.php";
+require_once ROOT_DIR."/models/entities/following.entity.php";
 
 require_once ROOT_DIR."/config/logger.php";
 
@@ -14,8 +14,8 @@ class FollowingDaoImp implements FollowingDao {
     const FOLLOWINGS_TABLENAME = "siguiendo";
 
     public function findById($id){
-        $db = new DatabaseConnection();
-        $connection = $db->getConnection();
+        $connectionFactory = new ConnectionFactory();
+        $connection = $connectionFactory->createConnection("MYSQL")->getConnection();
         $stmt = $connection->prepare("SELECT * FROM ".self::FOLLOWINGS_TABLENAME." `f` WHERE `f`.`id` = :followingId");
 
         $stmt -> bindParam(":followingId", $id, PDO::PARAM_INT);
@@ -43,8 +43,8 @@ class FollowingDaoImp implements FollowingDao {
 
     public function save(Following $following){
 
-        $db = new DatabaseConnection();
-        $connection = $db->getConnection();
+        $connectionFactory = new ConnectionFactory();
+        $connection = $connectionFactory->createConnection("MYSQL")->getConnection();
         $stmt = $connection->prepare("INSERT INTO ".self::FOLLOWINGS_TABLENAME." (`usuarios_id`, `usuarioseguido_id`) VALUES (:id_user_fk, :id_user_following_fk)");
 
         $stmt -> bindValue(":id_user_fk", $following->getIdUserFk(), PDO::PARAM_INT);
@@ -69,8 +69,8 @@ class FollowingDaoImp implements FollowingDao {
     }
 
     public function update(Following $following){
-        $db = new DatabaseConnection();
-        $connection = $db->getConnection();
+        $connectionFactory = new ConnectionFactory();
+        $connection = $connectionFactory->createConnection("MYSQL")->getConnection();
         $stmt = $connection->prepare("UPDATE ".self::FOLLOWINGS_TABLENAME." SET `usuarios_id`=:id_user_fk, `usuarioseguido_id`=:id_user_following_fk WHERE `id` = :id_following");
 
         $stmt -> bindValue(":id_user_fk", $following->id_user_fk, PDO::PARAM_INT);
@@ -95,8 +95,8 @@ class FollowingDaoImp implements FollowingDao {
     }
 
     public function delete($id){
-        $db = new DatabaseConnection();
-        $connection = $db->getConnection();
+        $connectionFactory = new ConnectionFactory();
+        $connection = $connectionFactory->createConnection("MYSQL")->getConnection();
         $stmt = $connection->prepare(
             "DELETE FROM ".self::FOLLOWINGS_TABLENAME." WHERE id = :id_following");
 
@@ -119,8 +119,8 @@ class FollowingDaoImp implements FollowingDao {
     }
 
     public function deleteByFks($id_user, $id_user_following_fk){
-        $db = new DatabaseConnection();
-        $connection = $db->getConnection();
+        $connectionFactory = new ConnectionFactory();
+        $connection = $connectionFactory->createConnection("MYSQL")->getConnection();
         $stmt = $connection->prepare(
             "DELETE FROM ".self::FOLLOWINGS_TABLENAME." WHERE `usuarios_id` = :id_user AND `usuarioseguido_id` = :id_user_following_fk");
 
@@ -144,8 +144,8 @@ class FollowingDaoImp implements FollowingDao {
     }
 
     public function isFollowing($id_user, $id_user_following_fk){
-        $db = new DatabaseConnection();
-        $connection = $db->getConnection();
+        $connectionFactory = new ConnectionFactory();
+        $connection = $connectionFactory->createConnection("MYSQL")->getConnection();
         $stmt = $connection->prepare("SELECT * FROM ".self::FOLLOWINGS_TABLENAME." `f` WHERE `f`.`usuarios_id` = :id_user_fk AND `f`.`usuarioseguido_id` = :id_user_following_fk");
 
         $stmt -> bindParam(":id_user_fk", $id_user, PDO::PARAM_INT);

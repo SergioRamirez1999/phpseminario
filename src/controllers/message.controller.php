@@ -1,12 +1,14 @@
 <?php
-require_once ROOT_DIR."/dao/imp/message.imp.php";
+require_once ROOT_DIR."/models/dao/sql/sqldao.factory.php";
+require_once ROOT_DIR."/models/dao/sql/message.imp.php";
 
 class MessageController {
 
     private $messageDao;
 
     public function __construct(){
-        $this->messageDao = new MessageDaoImp();
+        $daoFactory = new SqlDaoFactory();
+        $this->messageDao = $daoFactory->createMessageDao();
     }
 
     public function getById($id){

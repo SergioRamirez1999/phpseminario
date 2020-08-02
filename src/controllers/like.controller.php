@@ -1,12 +1,14 @@
 <?php
-require_once ROOT_DIR."/dao/imp/like.imp.php";
+require_once ROOT_DIR."/models/dao/sql/sqldao.factory.php";
+require_once ROOT_DIR."/models/dao/sql/like.imp.php";
 
 class LikeController {
 
     private $likeDao;
 
     public function __construct(){
-        $this->likeDao = new LikeDaoImp();
+        $daoFactory = new SqlDaoFactory();
+        $this->likeDao = $daoFactory->createLikeDao();
     }
 
     public function getById($id){

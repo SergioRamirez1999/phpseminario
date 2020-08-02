@@ -1,5 +1,5 @@
 <?php
-    require_once ROOT_DIR."/models/user.entity.php";
+    require_once ROOT_DIR."/models/entities/user.entity.php";
     
     if(session_status() == PHP_SESSION_NONE)
         session_start();

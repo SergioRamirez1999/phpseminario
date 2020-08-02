@@ -1,12 +1,14 @@
 <?php
-require_once ROOT_DIR."/dao/imp/user.imp.php";
+require_once ROOT_DIR."/models/dao/sql/sqldao.factory.php";
+require_once ROOT_DIR."/models/dao/sql/user.imp.php";
 
 class UserController {
 
     private $userDao;
 
     public function __construct(){
-        $this->userDao = new UserDaoImp();
+        $daoFactory = new SqlDaoFactory();
+        $this->userDao = $daoFactory->createUserDao();
     }
 
     public function getById($id, $full=false){

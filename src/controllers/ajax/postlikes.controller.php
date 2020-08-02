@@ -1,7 +1,7 @@
 <?php
     require_once "../../config/bootstrap.php";
-    require_once ROOT_DIR."/models/user.entity.php";
-    require_once ROOT_DIR."/models/like.entity.php";
+    require_once ROOT_DIR."/models/entities/user.entity.php";
+    require_once ROOT_DIR."/models/entities/like.entity.php";
     require_once ROOT_DIR."/controllers/like.controller.php";
 
     if(session_status() == PHP_SESSION_NONE)
