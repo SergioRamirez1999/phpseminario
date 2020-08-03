@@ -1,6 +1,6 @@
 <?php
-require_once ROOT_DIR."/models/dao/sql/sqldao.factory.php";
-require_once ROOT_DIR."/models/dao/sql/message.imp.php";
+require_once ROOT_DIR."/models/dao/mysql/sqldao.factory.php";
+require_once ROOT_DIR."/models/dao/mysql/message.imp.php";
 
 class MessageController {
 

@@ -25,7 +25,9 @@
 <section class="right-content fx fx-column fx-ai-ctr">
     <div class="browser-content fx">
         <div class="browser-center-content fx fx-jc-ctr fx-ai-ctr">
-            <div class="icon-search"></div>
+            <span style="font-size: 14px">
+                <i class="fas fa-search"></i>
+            </span>
             <input class="input-search-brw input-search" type="text" placeholder="personas, keywords">
         </div>
     </div>

@@ -93,6 +93,7 @@ btnSignin.addEventListener('click', (e) => {
                 fdata.append('password', passwordValue);
                 sendAjaxRequest('controllers/ajax/signin.controller.php', 'POST', fdata, (response) => {
                     if(response.status == 200){
+                        console.log(response);
                         printMessage('form-signin', response.message, 'success')
                         setFlickingMessage(formSigninEl.getElementsByClassName('success-message')[0]);
                         setTimeout(() => {

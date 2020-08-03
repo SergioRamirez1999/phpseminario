@@ -46,20 +46,6 @@
                 <h2 class="title">Explorar</h2>
             </div>
 
-            <div class="navigator-menu fx fx-ai-ctr fx-jc-sa">
-                <div class="nav-menu-opt opt-selected fx fx-jc-ctr">
-                    <span>
-                        Imagenes
-                    </span>
-                </div>
-                <div class="nav-menu-opt fx fx-jc-ctr">
-                    <span>
-                        Comentarios
-                    </span>
-                </div>
-
-            </div>
-
 
             <div class="displayer-content fx fx-column fx-ai-ctr">
                 <div class="post-displayed-content">
@@ -83,9 +69,15 @@
             <footer class="footer-container fx fx-jc-ctr fx-ai-ctr">
                 <div class="ctr-foot-container fx fx-column fx-jc-sa fx-ai-ctr">
                     <div class="social-network-container fx fx-column fx-jc-sa">
-                        <div class="icon-facebook"></div>
-                        <div class="icon-instagram"></div>
-                        <div class="icon-twitter"></div>
+                        <a href="http://www.instagram.com" target="_blank">
+                            <i class="fab fa-instagram" style="font-size: 26px"></i>
+                        </a>
+                        <a href="http://www.facebook.com" target="_blank">
+                            <i class="fab fa-facebook-square" style="font-size: 26px"></i>
+                        </a>
+                        <a href="http://www.twitter.com" target="_blank">
+                            <i class="fab fa-twitter-square" style="font-size: 26px"></i>
+                        </a>
                     </div>
                     <div class="footer-text fx fx-column fx-ai-ctr">
                         <span>&copy; Copyright 2019 - 2025.</span>

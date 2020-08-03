@@ -378,7 +378,7 @@ btnSignupSubmit.addEventListener('click', (e) => {
             printMessage('form-signup-st3', response.message, 'success')
             setFlickingMessage(formSignupEl.getElementsByClassName('success-message')[0]);
             setTimeout(() => {
-                window.location.href = 'http://localhost/phpseminario/src?page=home&username='+JSON.parse(response.body).username;
+                window.location.href = 'http://localhost/phpseminario/src?page=home&username='+response.body.username;
             }, 3500);
         }else{
             if(formSignupEl.getElementsByClassName('error-message')[0] == undefined){

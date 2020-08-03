@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seminario</title>
-    <link rel="stylesheet" href="views/css/fontello.css">
+    <link rel="stylesheet" href="views/css/all.min.css">
     <link rel="stylesheet" href="views/css/styles.css">
-    
 </head>
 <body>
 <?php

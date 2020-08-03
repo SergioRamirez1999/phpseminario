@@ -1,6 +1,6 @@
 <?php
-require_once ROOT_DIR."/models/dao/sql/sqldao.factory.php";
-require_once ROOT_DIR."/models/dao/sql/user.imp.php";
+require_once ROOT_DIR."/models/dao/mysql/sqldao.factory.php";
+require_once ROOT_DIR."/models/dao/mysql/user.imp.php";
 
 class UserController {
 

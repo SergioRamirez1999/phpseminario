@@ -2,6 +2,7 @@
 require_once "../../config/bootstrap.php";
 require_once ROOT_DIR."/controllers/user.controller.php";
 require_once ROOT_DIR."/controllers/auth/exceptions/user.exception.php";
+require_once ROOT_DIR."/models/dto/user.dto.php";
 
 class UsernamePasswordAuthentication {
 
@@ -19,6 +20,8 @@ class UsernamePasswordAuthentication {
                     session_start();
                     
                 $_SESSION["user_data"] = $user;
+
+                return new UserDto($user->getId(), $user->getName(), $user->getLastname(), $user->getEmail(), $user->getUsername());
 
             }else{
                 throw new UserBadCredentialsException("Credenciales invalidas.");

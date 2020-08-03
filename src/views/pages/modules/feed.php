@@ -9,11 +9,6 @@
     
     if(isset($_SESSION["user_data"])){
         $user = $_SESSION["user_data"];
-
-        $userController = new UserController();
-
-        $postUser = $userController->getPaginationMessages($user->getId(), 0, 1);
-
     }else {
         session_destroy();
         header("Location: http://localhost/phpseminario/src");
@@ -40,11 +35,8 @@
                 <div class="menu-comment-left-buttons fx fx-ai-ctr" id="menu_comment_post">
                     <input type="file" name="post-image" id="upload-post-image" style="display: none;">
                     <label for="upload-post-image">
-                        <div class="icon-picture" style="cursor: pointer;"></div>
+                        <i class="far fa-image" style="cursor: pointer; padding: 5px; font-size:16px"></i>
                     </label>
-
-                    <div class="icon-smile" id="emojis-btn" style="cursor: pointer;"></div>
-
                 </div>
 
                 

@@ -2,6 +2,7 @@
 require_once "../../config/bootstrap.php";
 require_once ROOT_DIR."/controllers/user.controller.php";
 require_once ROOT_DIR."/controllers/auth/exceptions/user.exception.php";
+require_once ROOT_DIR."/models/dto/user.dto.php";
 
 DEFINE("USERNAME_REGEX",'/^[a-zA-Z0-9]{6,}$/');
 DEFINE("EMAIL_REGEX",'/^([a-zA-Z0-9]+)([\.a-z0-9]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/');
@@ -51,9 +52,12 @@ class RegisterAuthentication {
                         session_start();
 
                     $_SESSION["user_data"] = $user;
+
+                    return new UserDto($user->getId(), $user->getName(), $user->getLastname(), $user->getEmail(), $user->getUsername());
+                }else {
+                    throw new UserNotFoundException("El usuario [{$_POST["user-username"]}] no existe en la base de datos.");
                 }
 
-                return $user;
 
         }else {
             throw new UserBadCredentialsException("Credenciales invalidas.");

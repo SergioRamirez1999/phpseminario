@@ -1,6 +1,6 @@
 <?php
-require_once ROOT_DIR."/models/dao/sql/sqldao.factory.php";
-require_once ROOT_DIR."/models/dao/sql/following.imp.php";
+require_once ROOT_DIR."/models/dao/mysql/sqldao.factory.php";
+require_once ROOT_DIR."/models/dao/mysql/following.imp.php";
 
 class FollowingController {
 

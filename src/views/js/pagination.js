@@ -126,9 +126,7 @@ function addPostToDom(posts){
 
         let eliminarPost =
                     `<!--EDITAR MENSAJE -->
-                    <div class="edit-post remove-message" message_id=${post.id_mensaje}>
-                        <div>X</div>
-                    </div>
+                    <i class="fas fa-times remove-message" message_id=${post.id_mensaje}></i>
 
                 </div>
 
@@ -145,9 +143,7 @@ function addPostToDom(posts){
 
         let editarPost =
                 `<!--EDITAR MENSAJE -->
-                <div class="edit-post">
-                    <div class="icon-down-open"></div>
-                </div>
+                <i class="fas fa-angle-down edit-post" style="font-size: 19px"></i>
 
             </div>
 
@@ -174,7 +170,7 @@ function addPostToDom(posts){
             <div class="bottom-content-post fx">
                 <div class="menu-option fx fx-ai-ctr">
                     <div class="${post.is_liked}-opt-container likes-counter-container fx fx-ai-ctr" user_id="${user_session_id}" post_id="${post.id_mensaje}" is_liked="${post.is_liked}">
-                        <div class="icon-heart likes-counter-icon"></div>
+                        <i class="fas fa-heart likes-counter-icon"></i>
                         <span class="likes-counter">${post.likes}</span>
                     </div>
                 </div>

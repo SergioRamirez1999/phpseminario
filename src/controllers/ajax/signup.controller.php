@@ -12,9 +12,9 @@
         && !empty($_FILES["user-image"]["tmp_name"])){
         
         try {
-            $user = RegisterAuthentication::attemptRegister();
+            $userDto = RegisterAuthentication::attemptRegister();
             $response = array("status" => 200, 
-            "body" => json_encode($user), 
+            "body" => $userDto, 
             "message" => "Registro de usuario exitoso: usted sera redireccionado.");
         } catch (UserExistsException $e) {
             CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}", array("context" => "USER SIGNUP"));

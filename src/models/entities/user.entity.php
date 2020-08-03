@@ -61,17 +61,17 @@ class User implements JsonSerializable {
 
     public function jsonSerialize() {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'lastname' => $this->lastname,
-            'email' => $this->email,
-            'username' => $this->username,
-            'password' => $this->password,
-            'photo_content' => base64_encode($this->photo_content),
-            'photo_type' => $this->photo_type,
-            'followers' => $this->followers,
-            'followings' => $this->followings,
-            'messages' => $this->messages
+            "id" => "{$this->id}",
+            "name" => "{$this->name}",
+            "lastname" => "{$this->lastname}",
+            "email" => "{$this->email}",
+            "username" => "{$this->username}",
+            "password" => "{$this->password}",
+            "photo_content" => "{base64_encode($this->photo_content)}",
+            "photo_type" => "{$this->photo_type}",
+            "followers" => "{$this->followers}",
+            "followings" => "{$this->followings}",
+            "messages" => "{$this->message}"
         ];
     }
 

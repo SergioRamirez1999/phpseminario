@@ -6,9 +6,9 @@
     if(isset($_POST["username"]) && isset($_POST["password"])){
 
         try {
-            UsernamePasswordAuthentication::attemptAuthentication();
+            $userDto = UsernamePasswordAuthentication::attemptAuthentication();
             $response = array("status" => 200, 
-            "body" => "", 
+            "body" => $userDto,
             "message" => "Inicio de sesion exitoso: usted sera redireccionado.");
         } catch (UserNotFoundException $e) {
             CustomLogger::getLogger()->error($e->getFile().": {$e->getMessage()}", array("context" => "USER SIGNIN"));

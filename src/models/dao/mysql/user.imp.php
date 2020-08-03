@@ -2,7 +2,7 @@
 
 require_once ROOT_DIR."/models/dao/user.dao.php";
 
-require_once ROOT_DIR."/models/dao/sql/message.imp.php";
+require_once ROOT_DIR."/models/dao/mysql/message.imp.php";
 
 require_once ROOT_DIR."/models/dao/factory/connection.factory.php";
 

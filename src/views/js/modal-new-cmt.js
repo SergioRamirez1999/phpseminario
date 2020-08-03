@@ -39,9 +39,8 @@ let template =
                 <div class="menu-comment-left-buttons fx fx-ai-ctr" id="menu_comment_post">
                     <input type="file" name="post-image" id="upload-post-image-modal" style="display: none;">
                     <label for="upload-post-image-modal">
-                        <div class="icon-picture" style="cursor: pointer;"></div>
+                        <i class="far fa-image" style="cursor: pointer; padding: 5px; font-size:16px"></i>
                     </label>
-                    <div class="icon-smile" id="emojis-btn" style="cursor: pointer;"></div>
                 </div>
 
                 <div class="menu-comment-rigth-buttons fx fx-jc-sa fx-ai-ctr">

@@ -16,22 +16,28 @@
         <img src="views/img/logo-white.png" class="logo-web" alt="world logo">
     </a>
     <div class="sidebar-container fx fx-jc-ctr">
-        <nav class="navigator-container">
+        <nav class="navigator-container fx fx-column fx-jc-sa">
             <a href="http://localhost/phpseminario/src?page=home">
-                <div class="fx fx-jc-sa fx-ai-ctr">
-                    <div class="icon-sidebar icon-home"></div>
+                <div class="fx fx-ai-ctr">
+                    <span style="font-size: 29px">
+                        <i class="fas fa-home fa-xs"></i>
+                    </span>
                     <span class="option-title">Inicio</span>
                 </div>
             </a>
             <a href="http://localhost/phpseminario/src?page=profile&username=<?php echo $user->getUsername()?>&menu_opt=posts">
-                <div class="fx fx-jc-sa fx-ai-ctr">
-                    <div class="icon-sidebar icon icon-user"></div>
+                <div class="fx fx-ai-ctr">
+                    <span style="font-size: 29px">
+                        <i class="fas fa-user"></i>
+                    </span>
                     <span class="option-title">Perfil</span>
                 </div>
             </a>
             <a href="http://localhost/phpseminario/src?page=logout">
-                <div class="fx fx-jc-sa fx-ai-ctr">
-                    <div class="icon-sidebar icon icon-user"></div>
+                <div class="fx fx-ai-ctr">
+                    <span style="font-size: 29px">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </span>
                     <span class="option-title">Salir</span>
                 </div>
             </a>
