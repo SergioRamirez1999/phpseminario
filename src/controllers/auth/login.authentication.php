@@ -21,7 +21,7 @@ class UsernamePasswordAuthentication {
                     
                 $_SESSION["user_data"] = $user;
 
-                return new UserDto($user->getId(), $user->getName(), $user->getLastname(), $user->getEmail(), $user->getUsername());
+                return new UserDto($user);
 
             }else{
                 throw new UserBadCredentialsException("Credenciales invalidas.");

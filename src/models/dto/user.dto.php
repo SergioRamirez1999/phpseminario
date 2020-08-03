@@ -7,12 +7,12 @@ class UserDto implements JsonSerializable {
     private $email;
     private $username;
 
-    public function __construct($id, $name, $lastname, $email, $username){
-        $this->id = $id;
-        $this->name = $name;
-        $this->lastname = $lastname;
-        $this->email = $email;
-        $this->username = $username;
+    public function __construct($user){
+        $this->id = $user->getId();
+        $this->name = $user->getName();
+        $this->lastname = $user->getLastname();
+        $this->email = $user->getEmail();
+        $this->username = $user->getUsername();
     }
 
     public function jsonSerialize(){
@@ -24,7 +24,6 @@ class UserDto implements JsonSerializable {
             'username' => $this->getUsername()
         ];
     }
-
     
     public function getId(){
         return $this->id;

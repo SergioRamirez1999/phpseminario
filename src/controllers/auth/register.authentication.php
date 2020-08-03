@@ -53,7 +53,7 @@ class RegisterAuthentication {
 
                     $_SESSION["user_data"] = $user;
 
-                    return new UserDto($user->getId(), $user->getName(), $user->getLastname(), $user->getEmail(), $user->getUsername());
+                    return new UserDto($user);
                 }else {
                     throw new UserNotFoundException("El usuario [{$_POST["user-username"]}] no existe en la base de datos.");
                 }
