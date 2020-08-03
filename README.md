@@ -1,10 +1,10 @@
-#Seminario de lenguajes opcion PHP
+# Seminario de lenguajes opcion PHP
 
-###Dependencias
+### Dependencias
 PDO
 Monolog
 
-###INSTALACION
+### INSTALACION
 Requiere permisos de escritura, crea un archivo server.log para los logs en la raiz del proyecto
 1) composer install
 
